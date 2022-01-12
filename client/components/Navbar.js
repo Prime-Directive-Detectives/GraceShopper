@@ -148,25 +148,25 @@ const Navbar = () => {
 									</span>
 								</Link>
 								<Link
-									to="#"
+									to="/maleProducts"
 									className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
 								>
 									Men
 								</Link>
 								<Link
-									to="#"
+									to="/femaleProducts"
 									className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
 								>
 									Women
 								</Link>
 								<Link
-									to="#"
+									to="/accessories"
 									className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
 								>
 									Accessories
 								</Link>
 								<Link
-									to="#"
+									to="/allProducts"
 									className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
 								>
 									All Clothing
@@ -176,7 +176,6 @@ const Navbar = () => {
 								<button
 									className="py-4 px-1 relative border-2 border-transparent text-gray-900 rounded-full hover:text-red-400 focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out"
 									aria-label="Cart"
-									onClick={() => openCart()}
 								>
 									<svg
 										className="h-6 w-6"
