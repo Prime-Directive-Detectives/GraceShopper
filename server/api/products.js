@@ -38,5 +38,18 @@ router.get("/female", async (req, res, next) => {
     next(err);
   }
 });
+// GET ROUTE FOR ALL Accessories
+router.get("/accessories", async (req, res, next) => {
+  try {
+    const femaleProducts = await Product.findAll({
+      where: {
+        type: "Accessories",
+      },
+    });
+    res.json(femaleProducts);
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;

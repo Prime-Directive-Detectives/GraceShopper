@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -146,25 +145,25 @@ const Navbar = () => {
                   </span>
                 </Link>
                 <Link
-                  to="#"
+                  to="/maleProducts"
                   className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
                 >
                   Men
                 </Link>
                 <Link
-                  to="#"
+                  to="/femaleProducts"
                   className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
                 >
                   Women
                 </Link>
                 <Link
-                  to="#"
+                  to="/accessories"
                   className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
                 >
                   Accessories
                 </Link>
                 <Link
-                  to="#"
+                  to="/allProducts"
                   className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
                 >
                   All Clothing

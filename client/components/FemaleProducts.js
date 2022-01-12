@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getMaleProducts } from "../store/products";
+import { getFemaleProducts } from "../store/products";
 
-const MaleProducts = () => {
-  const { maleProducts } = useSelector((state) => {
-    return { maleProducts: state.products.maleProducts };
+const FemaleProducts = () => {
+  const { femaleProducts } = useSelector((state) => {
+    return { femaleProducts: state.products.femaleProducts };
   });
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMaleProducts());
+    dispatch(getFemaleProducts());
   }, []);
 
   return (
     <div>
-      {maleProducts.length === 0 ? (
+      {femaleProducts.length === 0 ? (
         <img src="https://upload.wikimedia.org/wikipedia/commons/5/54/Ajux_loader.gif" />
       ) : (
         <div className="mx-auto container grid grid-cols-3 gap-2 ">
-          {maleProducts.map((product) => {
+          {femaleProducts.map((product) => {
             return (
               <div className="w-full rounded border-2" key={Number(product.id)}>
                 <img className="w-35 h-35" src={product.imageUrl} />
@@ -38,4 +38,4 @@ const MaleProducts = () => {
   );
 };
 
-export default MaleProducts;
+export default FemaleProducts;

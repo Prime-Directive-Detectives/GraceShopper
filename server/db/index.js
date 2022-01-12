@@ -23,6 +23,7 @@ Product.belongsToMany(Cart, {
 
 Order.belongsTo(User);
 User.hasMany(Order);
+
 Order.belongsToMany(Product, {
   through: OrderItem,
 });
