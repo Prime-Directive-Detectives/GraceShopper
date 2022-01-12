@@ -13,58 +13,198 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   return (
-    <div>
-      <nav>
-        {isLoggedIn ? (
-          <div>
-            <div>
-              {/* The navbar will show these links after you log in */}
-              <Link to="/" onClick={() => dispatch(logout())}>
-                Sign Out
-              </Link>
-              <Link to="/">Wish List</Link>
-              <Link to="/login">Coupon</Link>
-            </div>
-            <div>
-              <Link to="/home">
-                <h1>Clothings R Us</h1>
-              </Link>
-              <Link to="#">Mens</Link>
-              <Link to="#">Womens</Link>
-              <Link to="#">Accessories</Link>
-              <Link to="#">All Clothing</Link>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div>
-              {/* The navbar will show these links before you log in */}
-              <Link to="/signup">Sign Up</Link>
-              <Link to="/">Sign In</Link>
-              <Link to="#">Wish List</Link>
-              <Link to="/login">Coupon</Link>
-            </div>
-            <div>
+    <nav className="bg-slate-200 shadow-lg">
+      {isLoggedIn ? (
+        <div className=" mx-auto px-4">
+          <div className="flex justify-end">
+            <div className="flex space-x-7">
               <div>
-                <Link to="/home">
-                  <h1 className="text-3xl font-bold underline ">
-                    Clothings R Us
-                  </h1>
+                <Link
+                  to="/home"
+                  className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
+                  onClick={() => dispatch(logout())}
+                >
+                  Sign out
                 </Link>
-                <Link to="#">Mens</Link>
-                <Link to="#">Womens</Link>
-                <Link to="#">Accessories</Link>
-                <Link to="#">All Clothing</Link>
-              </div>
-              <div>
-                <button>Cart</button>
+                <Link
+                  to="#"
+                  className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  Wish List
+                </Link>
+                <Link
+                  to="#"
+                  className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  Coupon
+                </Link>
               </div>
             </div>
           </div>
-        )}
-      </nav>
-      <hr />
-    </div>
+
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="flex justify-between">
+              <div className="flex space-x-7">
+                <div>
+                  <a href="/home" className="flex items-center py-4 px-2">
+                    {/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
+                    <span className="font-semibold text-red-500 text-lg">
+                      Clothings R Us
+                    </span>
+                  </a>
+                </div>
+                <div className="hidden md:flex items-center space-x-1">
+                  <Link
+                    to="#"
+                    className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                  >
+                    Men
+                  </Link>
+                  <Link
+                    to="#"
+                    className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                  >
+                    Women
+                  </Link>
+                  <Link
+                    to="#"
+                    className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                  >
+                    Accessories
+                  </Link>
+                  <Link
+                    to="#"
+                    className="py-4 px-2 text-gray-900 font-semibold hover:text-green-500 transition duration-300"
+                  >
+                    All Clothing
+                  </Link>
+                </div>
+              </div>
+              <div className="hidden md:flex items-center ">
+                <button
+                  class="py-4 px-1 relative border-2 border-transparent text-gray-900 rounded-full hover:text-red-400 focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out"
+                  aria-label="Cart"
+                >
+                  <svg
+                    class="h-6 w-6"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                  </svg>
+                  <span class="absolute inset-0 object-right-top -mr-6">
+                    <div class="inline-flex items-center px-1.5 py-0.5 border-2 border-white rounded-full text-xs font-semibold leading-4 bg-red-500 text-white">
+                      6
+                    </div>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className=" mx-auto px-4">
+          <div className="flex justify-end">
+            <div className="flex space-x-7">
+              <div>
+                <Link
+                  to="/login"
+                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  Sign Up
+                </Link>
+                <Link
+                  to="#"
+                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  Wish List
+                </Link>
+                <Link
+                  to="#"
+                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  Coupon
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="flex justify-between">
+              <div className="flex space-x-7">
+                <div>
+                  <a href="/home" className="flex items-center py-4 px-2">
+                    {/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
+                    <span className="font-semibold text-red-500 text-lg">
+                      Clothings R Us
+                    </span>
+                  </a>
+                </div>
+                <div className="hidden md:flex items-center space-x-1">
+                  <Link
+                    to="#"
+                    className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                  >
+                    Men
+                  </Link>
+                  <Link
+                    to="#"
+                    className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                  >
+                    Women
+                  </Link>
+                  <Link
+                    to="#"
+                    className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                  >
+                    Accessories
+                  </Link>
+                  <Link
+                    to="#"
+                    className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                  >
+                    All Clothing
+                  </Link>
+                </div>
+              </div>
+              <div className="ml-4">
+                <button
+                  class="py-4 px-1 relative border-2 border-transparent text-gray-900 rounded-full hover:text-red-400 focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out"
+                  aria-label="Cart"
+                >
+                  <svg
+                    class="h-6 w-6"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                  </svg>
+                  <span class="absolute inset-0 object-right-top -mr-6">
+                    <div class="inline-flex items-center px-1.5 py-0.5 border-2 border-white rounded-full text-xs font-semibold leading-4 bg-red-500 text-white">
+                      6
+                    </div>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </nav>
   );
 };
 
