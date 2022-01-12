@@ -44,43 +44,39 @@ const Navbar = () => {
 
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex justify-between">
-              <div className="flex space-x-7">
-                <div>
-                  <a href="/home" className="flex items-center py-4 px-2">
-                    {/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
-                    <span className="font-semibold text-red-500 text-lg">
-                      Clothings R Us
-                    </span>
-                  </a>
-                </div>
-                <div className="hidden md:flex items-center space-x-1">
-                  <Link
-                    to="#"
-                    className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
-                  >
-                    Men
-                  </Link>
-                  <Link
-                    to="#"
-                    className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
-                  >
-                    Women
-                  </Link>
-                  <Link
-                    to="#"
-                    className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
-                  >
-                    Accessories
-                  </Link>
-                  <Link
-                    to="#"
-                    className="py-4 px-2 text-gray-900 font-semibold hover:text-green-500 transition duration-300"
-                  >
-                    All Clothing
-                  </Link>
-                </div>
+              <div className="hidden md:flex items-center space-x-1">
+                <Link to="/home" className="flex items-center py-4 px-2">
+                  {/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
+                  <span className="font-bold text-red-500 text-lg">
+                    Clothings R Us
+                  </span>
+                </Link>
+                <Link
+                  to="#"
+                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  Men
+                </Link>
+                <Link
+                  to="#"
+                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  Women
+                </Link>
+                <Link
+                  to="#"
+                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  Accessories
+                </Link>
+                <Link
+                  to="#"
+                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  All Clothing
+                </Link>
               </div>
-              <div className="hidden md:flex items-center ">
+              <div>
                 <button
                   class="py-4 px-1 relative border-2 border-transparent text-gray-900 rounded-full hover:text-red-400 focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out"
                   aria-label="Cart"
@@ -141,43 +137,39 @@ const Navbar = () => {
 
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex justify-between">
-              <div className="flex space-x-7">
-                <div>
-                  <a href="/home" className="flex items-center py-4 px-2">
-                    {/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
-                    <span className="font-semibold text-red-500 text-lg">
-                      Clothings R Us
-                    </span>
-                  </a>
-                </div>
-                <div className="hidden md:flex items-center space-x-1">
-                  <Link
-                    to="#"
-                    className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
-                  >
-                    Men
-                  </Link>
-                  <Link
-                    to="#"
-                    className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
-                  >
-                    Women
-                  </Link>
-                  <Link
-                    to="#"
-                    className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
-                  >
-                    Accessories
-                  </Link>
-                  <Link
-                    to="#"
-                    className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
-                  >
-                    All Clothing
-                  </Link>
-                </div>
+              <div className="hidden md:flex items-center space-x-1">
+                <Link to="/home" className="flex items-center py-4 px-2">
+                  {/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
+                  <span className="font-bold text-red-500 text-lg">
+                    Clothings R Us
+                  </span>
+                </Link>
+                <Link
+                  to="#"
+                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  Men
+                </Link>
+                <Link
+                  to="#"
+                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  Women
+                </Link>
+                <Link
+                  to="#"
+                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  Accessories
+                </Link>
+                <Link
+                  to="#"
+                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  All Clothing
+                </Link>
               </div>
-              <div className="ml-4">
+              <div>
                 <button
                   class="py-4 px-1 relative border-2 border-transparent text-gray-900 rounded-full hover:text-red-400 focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out"
                   aria-label="Cart"
