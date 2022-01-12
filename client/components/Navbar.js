@@ -46,17 +46,16 @@
 
 // export default connect(mapState, mapDispatch)(Navbar)
 
-
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../store';
+import React from "react";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store";
 
 const Navbar = () => {
-  const { isLoggedIn } = useSelector(state => {
+  const { isLoggedIn } = useSelector((state) => {
     return {
-      isLoggedIn: !!state.auth.id
-    }
+      isLoggedIn: !!state.auth.id,
+    };
   });
 
   const dispatch = useDispatch();
@@ -83,7 +82,7 @@ const Navbar = () => {
       </nav>
       <hr />
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

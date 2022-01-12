@@ -9,7 +9,7 @@ const TOKEN = 'token'
 const SET_AUTH = 'SET_AUTH'
 
 /**
- * ACTION CREATORS
+ * ACTION TYPES
  */
 const setAuth = auth => ({type: SET_AUTH, auth})
 
