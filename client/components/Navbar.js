@@ -27,6 +27,12 @@ const Navbar = () => {
                   Sign out
                 </Link>
                 <Link
+                  to="/addProduct"
+                  className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  Add Product
+                </Link>
+                <Link
                   to="#"
                   className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
                 >
@@ -85,8 +91,8 @@ const Navbar = () => {
                     className="h-6 w-6"
                     fill="none"
                     strokeLinecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                   >
