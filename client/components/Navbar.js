@@ -84,7 +84,7 @@ const Navbar = () => {
                   <svg
                     className="h-6 w-6"
                     fill="none"
-                    stroke-linecap="round"
+                    strokeLinecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
                     viewBox="0 0 24 24"
