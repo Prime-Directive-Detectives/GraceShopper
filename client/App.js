@@ -1,15 +1,17 @@
-import React from 'react'
+import React from "react";
 
-import Navbar from './components/Navbar'
-import Routes from './Routes'
+import Navbar from "./components/Navbar";
+import Routes from "./Routes";
+import ShoppingCart from "./components/ShoppingCart";
 
 const App = () => {
-  return (
-    <div>
-      <Navbar />
-      <Routes />
-    </div>
-  )
-}
+	return (
+		<div className={`bg-sky-600 hover:bg-sky-700`}>
+			<Navbar />
+			<ShoppingCart />
+			<Routes />
+		</div>
+	);
+};
 
-export default App
+export default App;

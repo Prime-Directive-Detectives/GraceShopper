@@ -1,31 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "../store/cart";
+import { useGlobalContext } from "../context";
 
 function ShoppingCart() {
-	const [cartId, setCartId] = useState(null);
-
-	const { cart } = useSelector((state) => {
-		return {
-			cart: state.cart,
-		};
-	});
-
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		const fetchId = async () => {
-			const id = await dispatch(fetchCart(2));
-			console.log("👋  id ------>", id);
-			setCartId(res);
-		};
-		fetchId();
-		console.log("👋  ------>", cartId);
-	}, []);
+	const { isCartOpen, closeCart } = useGlobalContext();
 
 	return (
-		<aside className={`cart`}>
-			<h1>{cartId}</h1>
+		<aside className="">
+			<h1>Hello</h1>
+			<button onClick={() => closeCart()}>Close Cart</button>
 		</aside>
 	);
 }
