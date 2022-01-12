@@ -30,7 +30,10 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
     "pg": "^8.5.1",
-    "sequelize": "^6.3.5"
+
+    "postcss-loader": "^6.2.1",
+    "sequelize": "^6.3.5",
+    "style-loader": "^3.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
@@ -40,6 +43,7 @@
     "axios-mock-adapter": "^1.16.0",
     "babel-loader": "^8.2.2",
     "chai": "^4.2.0",
+    "css-loader": "^6.5.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "esm": "^3.2.25",
