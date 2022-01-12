@@ -25,10 +25,10 @@ router.get("/:id", async (req, res, next) => {
 //get the cartId by userId
 router.get("/user/:userId", async (req, res, next) => {
 	try {
-		const userCart = await Cart.findAll({
+		const userCart = await Cart.findOne({
 			include: User,
 			where: {
-				id: req.params.userId,
+				userId: req.params.userId,
 			},
 		});
 		res.json(userCart);
@@ -36,39 +36,6 @@ router.get("/user/:userId", async (req, res, next) => {
 		next(err);
 	}
 });
-
-// router.get("/:id/products", async (req, res, next) => {
-// 	try {
-// 		const data = await Product.findAll({
-// 			include: [
-// 				{
-// 					model: Cart,
-// 					through: {
-// 						where: {
-// 							cartId: req.params.id,
-// 						},
-// 					},
-// 				},
-// 			],
-// 		});
-// 		res.json(data);
-// 	} catch (error) {
-// 		next(error);
-// 	}
-// });
-
-// router.get("/:id/products", async (req, res, next) => {
-// 	try {
-// 		const data = await Product.findAll({
-// 			through: {
-// 				cartId: req.params.id,
-// 			},
-// 		});
-// 		res.json(data);
-// 	} catch (error) {
-// 		next(error);
-// 	}
-// });
 
 // get all products in one cart by cartId
 router.get("/:id/products", async (req, res, next) => {
