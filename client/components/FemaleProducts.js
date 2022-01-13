@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getFemaleProducts } from "../store/products";
-
+import { Link } from "react-router-dom";
 const FemaleProducts = () => {
   const { femaleProducts } = useSelector((state) => {
     return { femaleProducts: state.products.femaleProducts };
@@ -21,15 +21,17 @@ const FemaleProducts = () => {
         <div className="mx-auto container grid grid-cols-3 gap-2 ">
           {femaleProducts.map((product) => {
             return (
-              <div className="w-full rounded border-2" key={Number(product.id)}>
-                <img className="w-35 h-35" src={product.imageUrl} />
-                <b>{product.name}</b>
-                <br />
-                <b>Price: $</b> {product.price}
-                <br />
-                <b>Description: </b>
-                {product.description}
-              </div>
+              <Link key={product.id} to={`/allProducts/${product.id}`}>
+                <div className="w-full rounded border-2">
+                  <img className="w-35 h-35" src={product.imageUrl} />
+                  <b>{product.name}</b>
+                  <br />
+                  <b>Price: $</b> {product.price}
+                  <br />
+                  <b>Description: </b>
+                  {product.description}
+                </div>
+              </Link>
             );
           })}
         </div>

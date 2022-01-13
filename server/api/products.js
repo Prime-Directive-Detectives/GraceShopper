@@ -51,5 +51,14 @@ router.get("/accessories", async (req, res, next) => {
     next(err);
   }
 });
+// GET ROUTE FOR SINGLE PRODUCT BY ID
+router.get("/:id", async (req, res, next) => {
+  try {
+    const singleProduct = await Product.findByPk(req.params.id);
+    res.json(singleProduct);
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;
