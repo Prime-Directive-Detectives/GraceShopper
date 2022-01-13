@@ -4,9 +4,8 @@ const products = require("./productsData");
 
 const {
   db,
-  models: { User },
+  models: { User, Product, Order, OrderItem },
 } = require("../server/db");
-const Product = require("../server/db/models/Product");
 
 /**
  * seed - this function clears the database, updates tables to
@@ -40,17 +39,81 @@ async function seed() {
   ]);
 
   await Promise.all(
-    products.map((product) =>
-      Product.create({
+    users.map((user) => {
+      return Order.create({
+        userId: user.id,
+      });
+    })
+  );
+
+  await Promise.all(
+    products.map((product) => {
+      return Product.create({
         name: product.name,
         price: product.price,
         type: product.type,
         gender: product.gender,
+        color: product.color,
+        imageUrl: product.imageUrl,
         stock: product.stock,
         description: product.description,
-      })
-    )
+      });
+    })
   );
+
+  await Promise.all([
+    OrderItem.create({
+      quantity: 2,
+      orderId: 2,
+      productId: 1,
+    }),
+    OrderItem.create({
+      quantity: 1,
+      orderId: 2,
+      productId: 3,
+    }),
+    OrderItem.create({
+      quantity: 3,
+      orderId: 2,
+      productId: 5,
+    }),
+    OrderItem.create({
+      quantity: 1,
+      orderId: 2,
+      productId: 7,
+    }),
+    OrderItem.create({
+      quantity: 1,
+      orderId: 2,
+      productId: 9,
+    }),
+    OrderItem.create({
+      quantity: 1,
+      orderId: 1,
+      productId: 12,
+    }),
+    OrderItem.create({
+      quantity: 1,
+      orderId: 1,
+      productId: 16,
+    }),
+    OrderItem.create({
+      quantity: 1,
+      orderId: 1,
+      productId: 14,
+    }),
+    OrderItem.create({
+      quantity: 1,
+      orderId: 1,
+      productId: 18,
+    }),
+    OrderItem.create({
+      quantity: 1,
+      orderId: 1,
+      productId: 20,
+    }),
+  ]);
+
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
   // return {

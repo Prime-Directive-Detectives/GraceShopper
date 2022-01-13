@@ -20,6 +20,7 @@ router.use("*", async (req, res, next) => {
 });
 
 router.use("/users", require("./users"));
+router.use("/order", require("./order.js"));
 router.use("/allProducts", require("./products"));
 router.use("/admin", adminCheck, require("./admin"));
 

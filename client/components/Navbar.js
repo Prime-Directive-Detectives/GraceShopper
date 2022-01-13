@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store";
+import { useGlobalContext } from "../context";
 
 const Navbar = () => {
   const { isLoggedIn, adminStatus, username } = useSelector((state) => {
@@ -13,6 +14,8 @@ const Navbar = () => {
   });
 
   const dispatch = useDispatch();
+
+  const { openCart } = useGlobalContext();
 
   return (
     <nav className="bg-slate-200 shadow-lg">
@@ -96,6 +99,7 @@ const Navbar = () => {
                 <button
                   className="py-4 px-1 relative border-2 border-transparent text-gray-900 rounded-full hover:text-red-400 focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out"
                   aria-label="Cart"
+                  onClick={() => openCart()}
                 >
                   <svg
                     className="h-6 w-6"
@@ -189,6 +193,7 @@ const Navbar = () => {
                 <button
                   className="py-4 px-1 relative border-2 border-transparent text-gray-900 rounded-full hover:text-red-400 focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out"
                   aria-label="Cart"
+                  onClick={() => openCart()}
                 >
                   <svg
                     className="h-6 w-6"

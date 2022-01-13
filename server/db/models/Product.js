@@ -8,10 +8,13 @@ const Product = db.define("product", {
     allowNull: false,
   },
   price: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
   },
   type: {
     type: Sequelize.ENUM("Shoes", "Clothing", "Accessories"),
+  },
+  color: {
+    type: Sequelize.STRING,
   },
   gender: {
     type: Sequelize.ENUM("Male", "Female"),
@@ -20,9 +23,6 @@ const Product = db.define("product", {
     type: Sequelize.STRING,
     defaultValue:
       "https://skotfashion.com/wp-content/uploads/2018/02/placeholder.jpg",
-    validate: {
-      isUrl: true,
-    },
   },
   stock: {
     type: Sequelize.INTEGER,
