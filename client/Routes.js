@@ -9,6 +9,8 @@ import AllProducts from "./components/AllProducts";
 import MaleProducts from "./components/MaleProducts";
 import FemaleProducts from "./components/FemaleProducts";
 import Accessories from "./components/Accessories";
+import SingleProduct from "./components/SingleProduct";
+import FeaturedItem from "./components/FeaturedItem";
 
 const Routes = () => {
   const { isLoggedIn } = useSelector((state) => {
@@ -25,18 +27,18 @@ const Routes = () => {
 
   return (
     <div>
-      <Route path="/allProducts" component={AllProducts} />
-      <Route path="/maleProducts" component={MaleProducts} />
-      <Route path="/femaleProducts" component={FemaleProducts} />
-      <Route path="/accessories" component={Accessories} />
+      <Route exact path="/allProducts" component={AllProducts} />
+      <Route exact path="/maleProducts" component={MaleProducts} />
+      <Route exact path="/femaleProducts" component={FemaleProducts} />
+      <Route exact path="/accessories" component={Accessories} />
+      <Route exact path="/" component={FeaturedItem} />
+      <Route path="/allProducts/:productId" component={SingleProduct} />
       {isLoggedIn ? (
         <Switch>
           <Route path="/home" component={Home} />
-          <Redirect to="/home" />
         </Switch>
       ) : (
         <Switch>
-          <Redirect exact from="/" to="/login" />
           <Route path="/login">
             <AuthForm formName="login" />{" "}
           </Route>
