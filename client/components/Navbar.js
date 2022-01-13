@@ -176,6 +176,7 @@ const Navbar = () => {
 								<button
 									className="py-4 px-1 relative border-2 border-transparent text-gray-900 rounded-full hover:text-red-400 focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out"
 									aria-label="Cart"
+									onClick={() => openCart()}
 								>
 									<svg
 										className="h-6 w-6"

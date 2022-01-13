@@ -47,9 +47,6 @@ router.get("/:id/products", async (req, res, next) => {
 					where: {
 						id: req.params.id,
 					},
-					through: {
-						attributes: [],
-					},
 				},
 			],
 		});
