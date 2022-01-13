@@ -55,3 +55,18 @@ router.get("/:id/products", async (req, res, next) => {
 		next(error);
 	}
 });
+
+router.delete("/:cartId/:productId", async (req, res, next) => {
+	try {
+		const deletedProduct = await CartItem.findOne({
+			where: {
+				cartId: req.params.cartId,
+				productId: req.params.productId,
+			},
+		});
+		deletedProduct.destroy();
+		res.json(deletedProduct);
+	} catch (err) {
+		next(err);
+	}
+});
