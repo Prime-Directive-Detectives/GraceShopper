@@ -14,13 +14,6 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
-  try {
-    res.json(await Product.findByPk(req.params.id));
-  } catch (error) {
-    next(error);
-  }
-});
 // GET ROUTE FOR ALL MALE PRODUCTS
 router.get("/male", async (req, res, next) => {
   try {

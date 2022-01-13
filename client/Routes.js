@@ -35,7 +35,6 @@ const Routes = () => {
       {isLoggedIn ? (
         <Switch>
           <Route path="/home" component={Home} />
-          {/* <Redirect to="/home" /> */}
           {adminStatus && <Route path="/addProduct" component={AddProduct} />}
           {adminStatus && <Route path="/editProduct" component={EditProduct} />}
         </Switch>

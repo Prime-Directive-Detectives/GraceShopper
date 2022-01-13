@@ -109,7 +109,7 @@ export const addProductThunk = (product) => {
         dispatch(addProduct(data));
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error at addProductThunk", error);
     }
   };
 };
@@ -131,7 +131,7 @@ export const editProductThunk = (id, product) => {
         dispatch(editProduct(data));
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error at editProductThunk", error);
     }
   };
 };
@@ -152,7 +152,7 @@ export const deleteProductThunk = (product) => {
         dispatch(deleteProduct(data));
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error at deleteProductThunk", error);
     }
   };
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllProducts, deleteProductThunk } from "../store/products";
+import { getAllProducts } from "../store/products";
 import { Link } from "react-router-dom";
 
 const AllProducts = () => {
@@ -15,10 +15,6 @@ const AllProducts = () => {
   useEffect(() => {
     dispatch(getAllProducts());
   }, []);
-
-  const onClickDelete = (id) => {
-    dispatch(deleteProductThunk(id));
-  };
 
   return (
     <div>
@@ -40,21 +36,6 @@ const AllProducts = () => {
                 <br />
                 <b>Description: </b>
                 {product.description}
-                <Link to="/editProduct">
-                  <button
-                    className="group relative w-30  flex justify-center mt-4 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                    type="button"
-                  >
-                    Edit Product
-                  </button>
-                </Link>
-                <button
-                  className="group relative w-30 flex justify-center mt-4 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                  onClick={() => onClickDelete(product.id)}
-                  type="button"
-                >
-                  Delete Product
-                </button>
               </div>
             );
           })}

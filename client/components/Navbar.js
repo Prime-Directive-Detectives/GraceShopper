@@ -4,10 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store";
 
 const Navbar = () => {
-  const { isLoggedIn, adminStatus } = useSelector((state) => {
+  const { isLoggedIn, adminStatus, username } = useSelector((state) => {
     return {
       isLoggedIn: !!state.auth.id,
       adminStatus: state.auth.adminStatus,
+      username: state.auth.username,
     };
   });
 
@@ -20,6 +21,12 @@ const Navbar = () => {
           <div className="flex justify-end">
             <div className="flex space-x-7">
               <div>
+                <Link
+                  to="#"
+                  className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
+                >
+                  {username}
+                </Link>
                 <Link
                   to="/home"
                   className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
