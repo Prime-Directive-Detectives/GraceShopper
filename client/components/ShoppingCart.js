@@ -1,22 +1,24 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCart, fetchCartIdAndProducts } from "../store/cart";
+import { fetchCartIdAndProducts, deleteCartProduct } from "../store/cart";
 import { useGlobalContext } from "../context";
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 
 function ShoppingCart() {
-	const { isCartOpen, closeCart } = useGlobalContext();
+	const { isCartOpen, closeCart, userId } = useGlobalContext();
 	const dispatch = useDispatch();
-	const { cart } = useSelector((state) => {
+	const { cart, user, isLoggedIn } = useSelector((state) => {
 		return {
 			cart: state.cart,
+			user: state.auth,
+			isLoggedIn: !!state.auth.id,
 		};
 	});
-
+	const cartProducts = cart.product;
 	useEffect(() => {
-		dispatch(fetchCartIdAndProducts(2));
-	}, []);
+		user.id && dispatch(fetchCartIdAndProducts(user.id));
+	}, [user, isLoggedIn, cartProducts]);
 
 	return (
 		<Transition.Root show={isCartOpen} as={Fragment}>
@@ -73,63 +75,76 @@ function ShoppingCart() {
 													role="list"
 													className="-my-6 divide-y divide-gray-200"
 												>
-													{cart.products.map((product) => (
-														<li key={product.id} className="py-6 flex">
-															<div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
-																<img
-																	src={product.imageUrl}
-																	alt={product.name}
-																	className="w-full h-full object-center object-cover"
-																/>
-															</div>
-
-															<div className="ml-4 flex-1 flex flex-col">
-																<div>
-																	<div className="flex justify-between text-base font-medium text-gray-900">
-																		<h3>
-																			<a href={product.href}>{product.name}</a>
-																		</h3>
-																		<p className="ml-4">${product.price}</p>
-																	</div>
-																	<p className="mt-1 text-sm text-gray-500">
-																		*product color*
-																	</p>
-																	<p className="mt-1 text-sm text-gray-500">
-																		*product size*
-																	</p>
+													{isLoggedIn &&
+														cart.products.map((product) => (
+															<li key={product.id} className="py-6 flex">
+																<div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
+																	<img
+																		src={product.imageUrl}
+																		alt={product.name}
+																		className="w-full h-full object-center object-cover"
+																	/>
 																</div>
-																<div className="flex-1 flex items-end justify-between text-sm">
-																	<p className="text-gray-500">
-																		Qty
-																		<select
-																			value={product.carts[0].cartItem.quantity}
-																			onChange={(e) =>
-																				console.log(
-																					`change qty value to ${e.target.value}`
-																				)
-																			}
-																		>
-																			<option value="0">0</option>
-																			<option value="1">1</option>
-																			<option value="2">2</option>
-																			<option value="3">3</option>
-																			<option value="4">4</option>
-																			<option value="5">5</option>
-																		</select>
-																	</p>
 
-																	<div className="flex">
-																		<button
-																			type="button"
-																			className="font-medium text-indigo-600 hover:text-indigo-500"
-																		>
-																			Remove
-																		</button>
+																<div className="ml-4 flex-1 flex flex-col">
+																	<div>
+																		<div className="flex justify-between text-base font-medium text-gray-900">
+																			<h3>
+																				<a href={product.href}>
+																					{product.name}
+																				</a>
+																			</h3>
+																			<p className="ml-4">${product.price}</p>
+																		</div>
+																		<p className="mt-1 text-sm text-gray-500">
+																			*product color*
+																		</p>
+																		<p className="mt-1 text-sm text-gray-500">
+																			*product size*
+																		</p>
+																	</div>
+																	<div className="flex-1 flex items-end justify-between text-sm">
+																		<p className="text-gray-500">
+																			Qty
+																			<select
+																				value={
+																					product.carts[0].cartItem.quantity
+																				}
+																				onChange={(e) =>
+																					console.log(
+																						`change qty value to ${e.target.value}`
+																					)
+																				}
+																			>
+																				<option value="0">0</option>
+																				<option value="1">1</option>
+																				<option value="2">2</option>
+																				<option value="3">3</option>
+																				<option value="4">4</option>
+																				<option value="5">5</option>
+																			</select>
+																		</p>
+
+																		<div className="flex">
+																			<button
+																				type="button"
+																				className="font-medium text-indigo-600 hover:text-indigo-500"
+																				onClick={() =>
+																					dispatch(
+																						deleteCartProduct(
+																							cart.cartId,
+																							product.id
+																						)
+																					)
+																				}
+																			>
+																				Remove
+																			</button>
+																		</div>
 																	</div>
 																</div>
-															</div>
-														</li>
-													))}
+															</li>
+														))}
 												</ul>
 											</div>
 										</div>
