@@ -7,7 +7,6 @@ const EditProduct = () => {
   let history = useHistory();
 
   const { allProducts } = useSelector((state) => {
-    console.log(state);
     return {
       allProducts: state.products.allProducts,
     };

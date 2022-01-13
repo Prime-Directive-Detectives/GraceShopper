@@ -117,17 +117,21 @@ export const addProductThunk = (product) => {
 export const editProductThunk = (id, product) => {
   const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
-    if (token) {
-      const { data } = await axios.put(
-        `/api/admin/allProducts/${id}`,
-        product,
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
-      dispatch(editProduct(data));
+    try {
+      if (token) {
+        const { data } = await axios.put(
+          `/api/admin/allProducts/${id}`,
+          product,
+          {
+            headers: {
+              authorization: token,
+            },
+          }
+        );
+        dispatch(editProduct(data));
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 };
@@ -135,13 +139,20 @@ export const editProductThunk = (id, product) => {
 export const deleteProductThunk = (product) => {
   const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
-    if (token) {
-      const { data } = await axios.delete(`/api/admin/allProducts/${product}`, {
-        headers: {
-          authorization: token,
-        },
-      });
-      dispatch(deleteProduct(data));
+    try {
+      if (token) {
+        const { data } = await axios.delete(
+          `/api/admin/allProducts/${product}`,
+          {
+            headers: {
+              authorization: token,
+            },
+          }
+        );
+        dispatch(deleteProduct(data));
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 };

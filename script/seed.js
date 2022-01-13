@@ -46,7 +46,6 @@ async function seed() {
         price: product.price,
         type: product.type,
         gender: product.gender,
-        imageUrl: product.imageUrl,
         stock: product.stock,
         description: product.description,
       })
