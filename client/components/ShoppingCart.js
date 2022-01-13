@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCartIdAndProducts, deleteCartProduct } from "../store/cart";
+import { fetchOrderIdAndProducts, deleteOrderProduct } from "../store/order.js";
 import { useGlobalContext } from "../context";
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
@@ -8,17 +8,18 @@ import { XIcon } from "@heroicons/react/outline";
 function ShoppingCart() {
 	const { isCartOpen, closeCart } = useGlobalContext();
 	const dispatch = useDispatch();
-	const { cart, user, isLoggedIn } = useSelector((state) => {
+	const { order, user, isLoggedIn } = useSelector((state) => {
 		return {
-			cart: state.cart,
+			order: state.order,
 			user: state.auth,
 			isLoggedIn: !!state.auth.id,
 		};
 	});
-	const cartProducts = cart.product;
+	const cartProducts = order.product;
 
+	console.log("👋  ------>", order.products);
 	useEffect(() => {
-		user.id && dispatch(fetchCartIdAndProducts(user.id));
+		user.id && dispatch(fetchOrderIdAndProducts(user.id));
 	}, [user, isLoggedIn, cartProducts]);
 
 	return (
@@ -77,7 +78,7 @@ function ShoppingCart() {
 													className="-my-6 divide-y divide-gray-200"
 												>
 													{isLoggedIn &&
-														cart.products.map((product) => (
+														order.products.map((product) => (
 															<li key={product.id} className="py-6 flex">
 																<div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
 																	<img
@@ -95,7 +96,9 @@ function ShoppingCart() {
 																					{product.name}
 																				</a>
 																			</h3>
-																			<p className="ml-4">${product.price}</p>
+																			<p className="ml-4">
+																				${product.price / 100}
+																			</p>
 																		</div>
 																		<p className="mt-1 text-sm text-gray-500">
 																			*product color*
@@ -109,7 +112,7 @@ function ShoppingCart() {
 																			Qty
 																			<select
 																				value={
-																					product.carts[0].cartItem.quantity
+																					product.orders[0].orderItem.quantity
 																				}
 																				onChange={(e) =>
 																					console.log(
@@ -131,8 +134,8 @@ function ShoppingCart() {
 																				className="font-medium text-indigo-600 hover:text-indigo-500"
 																				onClick={() =>
 																					dispatch(
-																						deleteCartProduct(
-																							cart.cartId,
+																						deleteOrderProduct(
+																							order.orderId,
 																							product.id
 																						)
 																					)

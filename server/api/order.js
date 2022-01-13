@@ -1,13 +1,17 @@
 const router = require("express").Router();
 const {
-	models: { Cart, Product, CartItem, User },
-} = require("../db/");
+	models: { Order, Product, OrderItem, User },
+} = require("../db");
 module.exports = router;
 
 router.get("/", async (req, res, next) => {
 	try {
-		const allCarts = await Cart.findAll();
-		res.json(allCarts);
+		const allOrdersNotComplete = await Order.findAll({
+			where: {
+				isComplete: false,
+			},
+		});
+		res.json(allOrdersNotComplete);
 	} catch (err) {
 		next(err);
 	}
@@ -15,35 +19,36 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
 	try {
-		const cartById = await Cart.findByPk(req.params.id);
-		res.json(cartById);
+		const orderById = await Order.findByPk(req.params.id);
+		res.json(orderById);
 	} catch (err) {
 		next(err);
 	}
 });
 
-//get the cartId by userId
+//get the orderId by userId
 router.get("/user/:userId", async (req, res, next) => {
 	try {
-		const userCart = await Cart.findOne({
+		const userOrder = await Order.findOne({
 			include: User,
 			where: {
 				userId: req.params.userId,
+				isComplete: false,
 			},
 		});
-		res.json(userCart);
+		res.json(userOrder);
 	} catch (err) {
 		next(err);
 	}
 });
 
-// get all products in one cart by cartId
+// get all products in one cart by orderId
 router.get("/:id/products", async (req, res, next) => {
 	try {
 		const data = await Product.findAll({
 			include: [
 				{
-					model: Cart,
+					model: Order,
 					where: {
 						id: req.params.id,
 					},
@@ -56,11 +61,11 @@ router.get("/:id/products", async (req, res, next) => {
 	}
 });
 
-router.delete("/:cartId/:productId", async (req, res, next) => {
+router.delete("/:orderId/:productId", async (req, res, next) => {
 	try {
-		const deletedProduct = await CartItem.findOne({
+		const deletedProduct = await OrderItem.findOne({
 			where: {
-				cartId: req.params.cartId,
+				orderId: req.params.orderId,
 				productId: req.params.productId,
 			},
 		});

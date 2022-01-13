@@ -4,7 +4,7 @@ const products = require("./productsData");
 
 const {
 	db,
-	models: { User, Product, Cart, CartItem },
+	models: { User, Product, Order, OrderItem },
 } = require("../server/db");
 
 /**
@@ -33,7 +33,7 @@ async function seed() {
 
 	await Promise.all(
 		users.map((user) => {
-			return Cart.create({
+			return Order.create({
 				userId: user.id,
 			});
 		})
@@ -46,6 +46,7 @@ async function seed() {
 				price: product.price,
 				type: product.type,
 				gender: product.gender,
+				color: product.color,
 				imageUrl: product.imageUrl,
 				stock: product.stock,
 				description: product.description,
@@ -54,25 +55,55 @@ async function seed() {
 	);
 
 	await Promise.all([
-		CartItem.create({
+		OrderItem.create({
 			quantity: 2,
-			cartId: 1,
-			productId: 13,
+			orderId: 2,
+			productId: 1,
 		}),
-		CartItem.create({
+		OrderItem.create({
 			quantity: 1,
-			cartId: 2,
+			orderId: 2,
+			productId: 3,
+		}),
+		OrderItem.create({
+			quantity: 3,
+			orderId: 2,
 			productId: 5,
 		}),
-		CartItem.create({
-			quantity: 4,
-			cartId: 1,
-			productId: 15,
-		}),
-		CartItem.create({
+		OrderItem.create({
 			quantity: 1,
-			cartId: 2,
-			productId: 3,
+			orderId: 2,
+			productId: 7,
+		}),
+		OrderItem.create({
+			quantity: 1,
+			orderId: 2,
+			productId: 9,
+		}),
+		OrderItem.create({
+			quantity: 1,
+			orderId: 1,
+			productId: 12,
+		}),
+		OrderItem.create({
+			quantity: 1,
+			orderId: 1,
+			productId: 16,
+		}),
+		OrderItem.create({
+			quantity: 1,
+			orderId: 1,
+			productId: 14,
+		}),
+		OrderItem.create({
+			quantity: 1,
+			orderId: 1,
+			productId: 18,
+		}),
+		OrderItem.create({
+			quantity: 1,
+			orderId: 1,
+			productId: 20,
 		}),
 	]);
 
