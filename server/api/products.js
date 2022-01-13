@@ -7,11 +7,13 @@ const {
 router.get("/", async (req, res, next) => {
   try {
     const products = await Product.findAll();
+
     res.json(products);
   } catch (err) {
     next(err);
   }
 });
+
 // GET ROUTE FOR ALL MALE PRODUCTS
 router.get("/male", async (req, res, next) => {
   try {

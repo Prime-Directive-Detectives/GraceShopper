@@ -9,13 +9,15 @@ import AllProducts from "./components/AllProducts";
 import MaleProducts from "./components/MaleProducts";
 import FemaleProducts from "./components/FemaleProducts";
 import Accessories from "./components/Accessories";
+import AddProduct from "./components/AddProduct";
+import EditProduct from "./components/EditProduct";
 import SingleProduct from "./components/SingleProduct";
-import FeaturedItem from "./components/FeaturedItem";
 
 const Routes = () => {
-  const { isLoggedIn } = useSelector((state) => {
+  const { isLoggedIn, adminStatus } = useSelector((state) => {
     return {
       isLoggedIn: !!state.auth.id,
+      adminStatus: state.auth.adminStatus,
     };
   });
 
@@ -31,11 +33,12 @@ const Routes = () => {
       <Route exact path="/maleProducts" component={MaleProducts} />
       <Route exact path="/femaleProducts" component={FemaleProducts} />
       <Route exact path="/accessories" component={Accessories} />
-      <Route exact path="/" component={FeaturedItem} />
       <Route path="/allProducts/:productId" component={SingleProduct} />
       {isLoggedIn ? (
         <Switch>
           <Route path="/home" component={Home} />
+          {adminStatus && <Route path="/addProduct" component={AddProduct} />}
+          {adminStatus && <Route path="/editProduct" component={EditProduct} />}
         </Switch>
       ) : (
         <Switch>

@@ -13,7 +13,7 @@ const SingleProduct = () => {
     return { allProducts: state.products.allProducts };
   });
   const location = useLocation();
-  const id = location.pathname.slice(-1);
+  const id = location.pathname.slice(-2);
 
   const dispatch = useDispatch();
 
@@ -24,7 +24,6 @@ const SingleProduct = () => {
   let similarProducts = allProducts.filter(
     (product) => product.type === singleProduct.type
   );
-  console.log("similarProducts", similarProducts);
 
   return (
     <div className="container mx-auto px-6">
