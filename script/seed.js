@@ -30,6 +30,13 @@ async function seed() {
       firstName: "Murphy",
       lastName: "Sod",
     }),
+    User.create({
+      username: "zehn",
+      password: "123",
+      firstName: "Brandon",
+      lastName: "Cohen",
+      adminStatus: true,
+    }),
   ]);
 
   await Promise.all(

@@ -20,6 +20,9 @@ const Product = db.define("product", {
     type: Sequelize.STRING,
     defaultValue:
       "https://skotfashion.com/wp-content/uploads/2018/02/placeholder.jpg",
+    validate: {
+      isUrl: true,
+    },
   },
   stock: {
     type: Sequelize.INTEGER,
@@ -28,7 +31,7 @@ const Product = db.define("product", {
     },
   },
   description: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     allowNull: false,
   },
 });

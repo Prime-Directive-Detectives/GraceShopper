@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authenticate } from "../store";
@@ -27,6 +26,9 @@ const AuthForm = ({ formName }) => {
   return (
     <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-red-600">
+          Account
+        </h2>
         <form
           className="mt-8 space-y-6"
           onSubmit={handleSubmit}
@@ -34,25 +36,23 @@ const AuthForm = ({ formName }) => {
         >
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="username">
-                <small>Username</small>
-              </label>
+              <label htmlFor="username"></label>
               <input
                 onChange={(e) => setUsername(e.target.value)}
                 name="username"
                 type="text"
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
+                placeholder="Username"
               />
             </div>
             <div>
-              <label htmlFor="password">
-                <small>Password</small>
-              </label>
+              <label htmlFor="password"></label>
               <input
                 onChange={(e) => setPassword(e.target.value)}
                 name="password"
                 type="password"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
+                placeholder="Password"
               />
             </div>
             <div>

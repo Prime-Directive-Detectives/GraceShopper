@@ -24,10 +24,9 @@ const User = db.define("user", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-
-  status: {
-    type: Sequelize.ENUM("Customer", "Admin"),
-    defaultValue: "Customer",
+  adminStatus: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
   },
 });
 

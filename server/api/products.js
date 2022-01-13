@@ -7,6 +7,7 @@ const {
 router.get("/", async (req, res, next) => {
   try {
     const products = await Product.findAll();
+
     res.json(products);
   } catch (err) {
     next(err);
