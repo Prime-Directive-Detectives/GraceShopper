@@ -6,7 +6,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 
 function ShoppingCart() {
-	const { isCartOpen, closeCart, userId } = useGlobalContext();
+	const { isCartOpen, closeCart } = useGlobalContext();
 	const dispatch = useDispatch();
 	const { cart, user, isLoggedIn } = useSelector((state) => {
 		return {
@@ -16,6 +16,7 @@ function ShoppingCart() {
 		};
 	});
 	const cartProducts = cart.product;
+
 	useEffect(() => {
 		user.id && dispatch(fetchCartIdAndProducts(user.id));
 	}, [user, isLoggedIn, cartProducts]);
@@ -116,7 +117,6 @@ function ShoppingCart() {
 																					)
 																				}
 																			>
-																				<option value="0">0</option>
 																				<option value="1">1</option>
 																				<option value="2">2</option>
 																				<option value="3">3</option>
