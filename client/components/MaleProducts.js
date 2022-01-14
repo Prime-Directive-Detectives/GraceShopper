@@ -27,10 +27,8 @@ const MaleProducts = () => {
                   <img className="w-35 h-35" src={product.imageUrl} />
                   <b>{product.name}</b>
                   <br />
-                  <b>Price: $</b> {product.price}
+                  <b>Price: $</b> {(product.price / 100).toFixed(2)}
                   <br />
-                  <b>Description: </b>
-                  {product.description}
                 </div>
               </Link>
             );

@@ -3,27 +3,38 @@ import { useSelector, useDispatch } from "react-redux";
 import { getSingleProduct } from "../store/singleProduct";
 import { useLocation } from "react-router-dom";
 import { getAllProducts } from "../store/products";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const SingleProduct = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage, setProductsPerPage] = useState(4);
+
   const { singleProduct } = useSelector((state) => {
     return { singleProduct: state.singleProduct.singleProduct };
   });
   const { allProducts } = useSelector((state) => {
     return { allProducts: state.products.allProducts };
   });
-  const location = useLocation();
-  const id = location.pathname.slice(-2);
+
+  const { id } = useParams();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSingleProduct(id));
+    dispatch(getSingleProduct(Number(id)));
     dispatch(getAllProducts());
   }, []);
   let similarProducts = allProducts.filter(
     (product) => product.type === singleProduct.type
   );
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const someSimilarProducts = similarProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  console.log("someSimilarProducts", someSimilarProducts);
 
   return (
     <div className="container mx-auto px-6">
@@ -42,7 +53,9 @@ const SingleProduct = () => {
               <h3 className="text-gray-700 uppercase text-lg">
                 {singleProduct.name}
               </h3>
-              <span className="text-gray-500 mt-3">${singleProduct.price}</span>
+              <span className="text-gray-500 mt-3">
+                ${(singleProduct.price / 100).toFixed(2)}
+              </span>
               <br />
               <hr className="my-3"></hr>
               <div className="mt-2">
@@ -91,14 +104,14 @@ const SingleProduct = () => {
             </div>
           </div>
           <div className="mt-2">
-            <h3 className="text-gray-600 text-2xl font-medium">
+            <h3 className="text-gray-600 text-2xl font-medium text-center mt-3">
               Similar Products
             </h3>
-            {!similarProducts.length === 0 ? (
+            {!someSimilarProducts.length === 0 ? (
               <div>Loading...</div>
             ) : (
-              <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-                {similarProducts.map((product) => {
+              <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-3">
+                {someSimilarProducts.map((product) => {
                   return (
                     <Link key={product.id} to={`/allProducts/${product.id}`}>
                       <div className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
@@ -126,7 +139,7 @@ const SingleProduct = () => {
                             {product.name}
                           </h3>
                           <span className="text-gray-500 mt-2">
-                            ${product.price}
+                            ${(product.price / 100).toFixed(2)}
                           </span>
                         </div>
                       </div>
