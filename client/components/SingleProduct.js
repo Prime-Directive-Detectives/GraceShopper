@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getSingleProduct } from "../store/singleProduct";
 import { useLocation } from "react-router-dom";
-import { getAllProducts } from "../store/products";
+import { getAllProducts, deleteProductThunk } from "../store/products";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const SingleProduct = () => {
-  const { singleProduct } = useSelector((state) => {
-    return { singleProduct: state.singleProduct.singleProduct };
+  let history = useHistory();
+  const { singleProduct, adminStatus } = useSelector((state) => {
+    return {
+      singleProduct: state.singleProduct.singleProduct,
+      adminStatus: state.auth.adminStatus,
+    };
   });
   const { allProducts } = useSelector((state) => {
     return { allProducts: state.products.allProducts };
@@ -24,6 +29,11 @@ const SingleProduct = () => {
   let similarProducts = allProducts.filter(
     (product) => product.type === singleProduct.type
   );
+
+  const onClickDelete = (id) => {
+    dispatch(deleteProductThunk(id));
+    history.goBack();
+  };
 
   return (
     <div className="container mx-auto px-6">
@@ -87,6 +97,25 @@ const SingleProduct = () => {
                 <button className="px-8 py-2 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-400 focus:outline-none focus:bg-red-400">
                   Add to Wishlist
                 </button>
+                {adminStatus && (
+                  <Link to="/editProduct">
+                    <button
+                      className="px-8 py-2 bg-yellow-500 text-white text-sm font-medium rounded hover:bg-yellow-400 focus:outline-none focus:bg-yellow-400"
+                      type="button"
+                    >
+                      Edit Product
+                    </button>
+                  </Link>
+                )}
+                {adminStatus && (
+                  <button
+                    className="px-8 py-2 bg-orange-700 text-white text-sm font-medium rounded hover:bg-orange-400 focus:outline-none focus:bg-orange-400"
+                    onClick={() => onClickDelete(id)}
+                    type="button"
+                  >
+                    Delete Product
+                  </button>
+                )}
               </div>
             </div>
           </div>

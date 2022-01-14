@@ -128,6 +128,7 @@ export const editProductThunk = (id, product) => {
             },
           }
         );
+
         dispatch(editProduct(data));
       }
     } catch (error) {
@@ -178,22 +179,9 @@ export default function (state = initialState, action) {
     case ADD_PRODUCT:
       return { ...state, product: action.product };
     case EDIT_PRODUCT:
-      return {
-        allProducts: state.allProducts
-          ? [
-              ...state.allProducts.filter((product) => {
-                product.id !== action.product.id;
-              }),
-              action.product,
-            ]
-          : [],
-      };
+      return { ...state, product: action.product };
     case DELETE_PRODUCT:
-      return {
-        allProducts: state.allProducts.filter(
-          (product) => product.id !== action.product.id
-        ),
-      };
+      return { ...state, product: action.product };
     default:
       return state;
   }

@@ -38,7 +38,9 @@ const Routes = () => {
         <Switch>
           <Route path="/home" component={Home} />
           {adminStatus && <Route path="/addProduct" component={AddProduct} />}
-          {adminStatus && <Route path="/editProduct" component={EditProduct} />}
+          {adminStatus && (
+            <Route path="/editProduct/" component={EditProduct} />
+          )}
         </Switch>
       ) : (
         <Switch>
