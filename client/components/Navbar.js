@@ -45,6 +45,14 @@ const Navbar = () => {
                     Add Product
                   </Link>
                 )}
+                {adminStatus && (
+                  <Link
+                    to="/userList"
+                    className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
+                  >
+                    User List
+                  </Link>
+                )}
                 <Link
                   to="#"
                   className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
@@ -134,7 +142,7 @@ const Navbar = () => {
                   Login
                 </Link>
                 <Link
-                  to="/signup"
+                  to="/signUp"
                   className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
                 >
                   Sign Up

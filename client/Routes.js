@@ -12,6 +12,8 @@ import Accessories from "./components/Accessories";
 import AddProduct from "./components/AddProduct";
 import EditProduct from "./components/EditProduct";
 import SingleProduct from "./components/SingleProduct";
+import AddUser from "./components/AddUser";
+import UserList from "./components/UserList";
 
 const Routes = () => {
   const { isLoggedIn, adminStatus } = useSelector((state) => {
@@ -33,6 +35,8 @@ const Routes = () => {
       <Route exact path="/maleProducts" component={MaleProducts} />
       <Route exact path="/femaleProducts" component={FemaleProducts} />
       <Route exact path="/accessories" component={Accessories} />
+      <Route exact path="/signUp" component={AddUser} />
+      <Route exact path="/userList" component={UserList} />
       <Route path="/allProducts/:productId" component={SingleProduct} />
       {isLoggedIn ? (
         <Switch>
@@ -47,9 +51,9 @@ const Routes = () => {
           <Route path="/login">
             <AuthForm formName="login" />{" "}
           </Route>
-          <Route path="/signup">
+          {/* <Route path="/signup">
             <AuthForm formName="signup" />
-          </Route>
+          </Route> */}
         </Switch>
       )}
     </div>
