@@ -52,6 +52,9 @@ router.get("/:id/products", async (req, res, next) => {
 					where: {
 						id: req.params.id,
 					},
+					through: {
+						attributes: [],
+					},
 				},
 			],
 		});
@@ -71,6 +74,38 @@ router.delete("/:orderId/:productId", async (req, res, next) => {
 		});
 		deletedProduct.destroy();
 		res.json(deletedProduct);
+	} catch (err) {
+		next(err);
+	}
+});
+
+router.put("/:orderId/:productId", async (req, res, next) => {
+	try {
+		const toBeUpdated = await OrderItem.findOne({
+			where: {
+				orderId: req.params.orderId,
+				productId: req.params.productId,
+			},
+		});
+		const updatedProduct = await toBeUpdated.update({
+			...toBeUpdated,
+			quantity: req.body.quantity,
+		});
+		res.json(updatedProduct);
+	} catch (err) {
+		next(err);
+	}
+});
+
+//get all productId in a order by orderId
+router.get("/:orderId/productIds", async (req, res, next) => {
+	try {
+		const data = await OrderItem.findAll({
+			where: {
+				orderId: req.params.orderId,
+			},
+		});
+		res.json(data);
 	} catch (err) {
 		next(err);
 	}
