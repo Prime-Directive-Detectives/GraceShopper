@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getSingleProduct } from "../store/singleProduct";
-import { useLocation } from "react-router-dom";
 import { getAllProducts } from "../store/products";
 import { Link, useParams } from "react-router-dom";
 
-const SingleProduct = () => {
+const loadedProduct = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(4);
+  const [loadedProduct, setLoadedProduct] = useState({});
+  // console.log("loadedProduct", loadedProduct);
 
   const { singleProduct } = useSelector((state) => {
     return { singleProduct: state.singleProduct.singleProduct };
@@ -24,8 +25,13 @@ const SingleProduct = () => {
     dispatch(getSingleProduct(Number(id)));
     dispatch(getAllProducts());
   }, []);
+
+  useEffect(() => {
+    setLoadedProduct(singleProduct);
+  }, [singleProduct]);
+
   let similarProducts = allProducts.filter(
-    (product) => product.type === singleProduct.type
+    (product) => product.type === loadedProduct.type
   );
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -34,11 +40,10 @@ const SingleProduct = () => {
     indexOfFirstProduct,
     indexOfLastProduct
   );
-  console.log("someSimilarProducts", someSimilarProducts);
 
   return (
     <div className="container mx-auto px-6">
-      {!singleProduct ? (
+      {!loadedProduct ? (
         <img src="https://upload.wikimedia.org/wikipedia/commons/5/54/Ajux_loader.gif" />
       ) : (
         <div className="my-8">
@@ -46,15 +51,15 @@ const SingleProduct = () => {
             <div className="w-full h-64 md:w-1/2 lg:h-96">
               <img
                 className="h-full w-full rounded-md object-cover max-w-lg mx-auto"
-                src={singleProduct.imageUrl}
+                src={loadedProduct.imageUrl}
               />
             </div>
             <div className="w-full max-w-lg mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2  content-center items-center">
               <h3 className="text-gray-700 uppercase text-lg">
-                {singleProduct.name}
+                {loadedProduct.name}
               </h3>
               <span className="text-gray-500 mt-3">
-                ${(singleProduct.price / 100).toFixed(2)}
+                ${(loadedProduct.price / 100).toFixed(2)}
               </span>
               <br />
               <hr className="my-3"></hr>
@@ -92,7 +97,7 @@ const SingleProduct = () => {
                 </div>
               </div>
               <br />
-              <h6 className="text-gray-700  ">{singleProduct.description}</h6>
+              <h6 className="text-gray-700  ">{loadedProduct.description}</h6>
               <div className="flex items-center mt-6 space-x-3">
                 <button className="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
                   Add to Cart
@@ -113,14 +118,19 @@ const SingleProduct = () => {
               <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-3">
                 {someSimilarProducts.map((product) => {
                   return (
-                    <Link key={product.id} to={`/allProducts/${product.id}`}>
+                    <div
+                      onClick={() => {
+                        setLoadedProduct(product);
+                      }}
+                      key={product.id}
+                    >
                       <div className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
                         <div className="flex-wrap">
                           <img
                             className="flex items-end justify-end h-56 w-full bg-cover"
                             src={product.imageUrl}
                           />
-                          <button className="p-2 rounded-full bg-indigo-600 text-white mx-5 -mb-15 hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
+                          {/* <button className="p-2 rounded-full bg-indigo-600 text-white mx-5 -mb-15 hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
                             <svg
                               className="h-5 w-5"
                               fill="none"
@@ -132,7 +142,7 @@ const SingleProduct = () => {
                             >
                               <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                             </svg>
-                          </button>
+                          </button> */}
                         </div>
                         <div className="px-5 py-3">
                           <h3 className="text-gray-700 uppercase">
@@ -143,7 +153,7 @@ const SingleProduct = () => {
                           </span>
                         </div>
                       </div>
-                    </Link>
+                    </div>
                   );
                 })}
               </div>
@@ -155,4 +165,4 @@ const SingleProduct = () => {
   );
 };
 
-export default SingleProduct;
+export default loadedProduct;
