@@ -4,6 +4,7 @@ const UserRow = (props) => {
   const user = props.user;
 
   const [state, setState] = useState(user);
+  // ...
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -50,12 +51,11 @@ const UserRow = (props) => {
           className="bg-transparent"
         />
       </td>
-      <td className="p-3 px-5">
-        <select className="bg-transparent">
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
-      </td>
+      {state.adminStatus ? (
+        <td className="p-3 px-5">Admin</td>
+      ) : (
+        <td className="p-3 px-5">User</td>
+      )}
       <td className="p-3 px-5 flex justify-end">
         {user !== state && (
           <button
