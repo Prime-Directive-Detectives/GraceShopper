@@ -1,5 +1,6 @@
 import axios from "axios";
 
+const TOKEN = "token";
 const ADD_USER = "ADD_USER";
 
 const addUser = (user) => {

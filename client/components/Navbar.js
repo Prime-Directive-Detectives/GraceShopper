@@ -26,7 +26,7 @@ const Navbar = () => {
               <div>
                 <Link
                   to="#"
-                  className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
+                  className="py-4 px-2 text-red-500 font-semibold hover:text-red-600 transition duration-300"
                 >
                   {username}
                 </Link>
@@ -142,7 +142,7 @@ const Navbar = () => {
                   Login
                 </Link>
                 <Link
-                  to="/signUp"
+                  to="/signup"
                   className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
                 >
                   Sign Up

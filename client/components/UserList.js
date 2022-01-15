@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllUsersThunk } from "../store/users";
-import { Link } from "react-router-dom";
+import { editUserThunk, getAllUsersThunk } from "../store/users";
+import { deleteUserThunk } from "../store/users";
 import UserRow from "./UserRow";
 
 const UserList = () => {
@@ -9,13 +9,19 @@ const UserList = () => {
     return { users: state.users.users };
   });
 
-  // Bring in actions from store
   const dispatch = useDispatch();
 
-  //dispatch from getUsers Thunk
   useEffect(() => {
     dispatch(getAllUsersThunk());
   }, []);
+
+  const onClickEdit = (id, user) => {
+    dispatch(editUserThunk(id, user));
+  };
+
+  const onClickDelete = (id) => {
+    dispatch(deleteUserThunk(id));
+  };
 
   return (
     <div>
@@ -30,14 +36,21 @@ const UserList = () => {
             <table className="text-md bg-white shadow-md rounded mb-4">
               <tbody>
                 <tr className="border-b">
-                  <th className="text-left p-3 px-5">Name</th>
+                  <th className="text-left p-3 px-5">Username</th>
+                  <th className="text-left p-3 px-5">Email</th>
                   <th className="text-left p-3 px-5">First Name</th>
                   <th className="text-left p-3 px-5">Last Name</th>
                   <th className="text-left p-3 px-5">Role</th>
-                  <th></th>
                 </tr>
                 {users.map((user) => {
-                  return <UserRow user={user} key={user.id} />;
+                  return (
+                    <UserRow
+                      user={user}
+                      key={user.id}
+                      onClickDelete={onClickDelete}
+                      onClickEdit={onClickEdit}
+                    />
+                  );
                 })}
               </tbody>
             </table>

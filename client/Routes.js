@@ -35,8 +35,7 @@ const Routes = () => {
       <Route exact path="/maleProducts" component={MaleProducts} />
       <Route exact path="/femaleProducts" component={FemaleProducts} />
       <Route exact path="/accessories" component={Accessories} />
-      <Route exact path="/signUp" component={AddUser} />
-      <Route exact path="/userList" component={UserList} />
+      <Route exact path="/signup" component={AddUser} />
       <Route path="/allProducts/:productId" component={SingleProduct} />
       {isLoggedIn ? (
         <Switch>
@@ -45,6 +44,7 @@ const Routes = () => {
           {adminStatus && (
             <Route path="/editProduct/" component={EditProduct} />
           )}
+          {adminStatus && <Route exact path="/userList" component={UserList} />}
         </Switch>
       ) : (
         <Switch>

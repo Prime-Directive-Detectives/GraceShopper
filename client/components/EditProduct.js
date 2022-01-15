@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editProductThunk } from "../store/products";
-// import { getSingleProduct } from "../store/singleProduct";
 import { useHistory } from "react-router-dom";
 
 const EditProduct = () => {
@@ -14,9 +13,6 @@ const EditProduct = () => {
   });
 
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(getSingleProduct(singleProduct.id));
-  // });
 
   const [state, setState] = useState(singleProduct);
 
