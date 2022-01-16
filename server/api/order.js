@@ -26,7 +26,7 @@ router.get("/:id", async (req, res, next) => {
 	}
 });
 
-//get the orderId by userId
+//get orderId by userId
 router.get("/user/:userId", async (req, res, next) => {
 	try {
 		const userOrder = await Order.findOne({
@@ -42,7 +42,7 @@ router.get("/user/:userId", async (req, res, next) => {
 	}
 });
 
-// get all products in one cart by orderId
+// get all products in a order by orderId
 router.get("/:id/products", async (req, res, next) => {
 	try {
 		const data = await Product.findAll({
@@ -64,6 +64,7 @@ router.get("/:id/products", async (req, res, next) => {
 	}
 });
 
+// delete product in order by orderId and productId
 router.delete("/:orderId/:productId", async (req, res, next) => {
 	try {
 		const deletedProduct = await OrderItem.findOne({
@@ -79,6 +80,7 @@ router.delete("/:orderId/:productId", async (req, res, next) => {
 	}
 });
 
+// update product qty by orderId and productId
 router.put("/:orderId/:productId", async (req, res, next) => {
 	try {
 		const toBeUpdated = await OrderItem.findOne({
@@ -97,15 +99,59 @@ router.put("/:orderId/:productId", async (req, res, next) => {
 	}
 });
 
-//get all productId in a order by orderId
+//get all productIds with qty in a order by orderId
 router.get("/:orderId/productIds", async (req, res, next) => {
 	try {
-		const data = await OrderItem.findAll({
+		const allProducts = await OrderItem.findAll({
 			where: {
 				orderId: req.params.orderId,
 			},
 		});
-		res.json(data);
+		res.json(allProducts);
+	} catch (err) {
+		next(err);
+	}
+});
+
+// get product by orderId and productId
+router.get("/:orderId/:productId", async (req, res, next) => {
+	try {
+		const product = await OrderItem.findOne({
+			where: {
+				orderId: req.params.orderId,
+				productId: req.params.productId,
+			},
+		});
+		res.json(product);
+	} catch (err) {
+		next(err);
+	}
+});
+
+//find or create order by userId
+router.get("/user/:userId/foc", async (req, res, next) => {
+	try {
+		const [order] = await Order.findOrCreate({
+			include: User,
+			where: {
+				userId: req.params.userId,
+				isComplete: false,
+			},
+		});
+		res.json(order);
+	} catch (err) {
+		next(err);
+	}
+});
+
+//add product to order by orderId and productId
+router.post("/:orderId/:productId", async (req, res, next) => {
+	try {
+		const newProduct = await OrderItem.create({
+			orderId: req.params.orderId,
+			productId: req.params.productId,
+		});
+		res.status(201).json(newProduct);
 	} catch (err) {
 		next(err);
 	}

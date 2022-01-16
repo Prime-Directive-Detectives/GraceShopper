@@ -14,44 +14,44 @@ import EditProduct from "./components/EditProduct";
 import SingleProduct from "./components/SingleProduct";
 
 const Routes = () => {
-  const { isLoggedIn, adminStatus } = useSelector((state) => {
-    return {
-      isLoggedIn: !!state.auth.id,
-      adminStatus: state.auth.adminStatus,
-    };
-  });
+	const { isLoggedIn, adminStatus } = useSelector((state) => {
+		return {
+			isLoggedIn: !!state.auth.id,
+			adminStatus: state.auth.adminStatus,
+		};
+	});
 
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(me());
-  }, []);
+	useEffect(() => {
+		dispatch(me());
+	}, []);
 
-  return (
-    <div>
-      <Route exact path="/allProducts" component={AllProducts} />
-      <Route exact path="/maleProducts" component={MaleProducts} />
-      <Route exact path="/femaleProducts" component={FemaleProducts} />
-      <Route exact path="/accessories" component={Accessories} />
-      <Route path="/allProducts/:productId" component={SingleProduct} />
-      {isLoggedIn ? (
-        <Switch>
-          <Route path="/home" component={Home} />
-          {adminStatus && <Route path="/addProduct" component={AddProduct} />}
-          {adminStatus && <Route path="/editProduct" component={EditProduct} />}
-        </Switch>
-      ) : (
-        <Switch>
-          <Route path="/login">
-            <AuthForm formName="login" />{" "}
-          </Route>
-          <Route path="/signup">
-            <AuthForm formName="signup" />
-          </Route>
-        </Switch>
-      )}
-    </div>
-  );
+	return (
+		<div>
+			<Route exact path="/allProducts" component={AllProducts} />
+			<Route exact path="/maleProducts" component={MaleProducts} />
+			<Route exact path="/femaleProducts" component={FemaleProducts} />
+			<Route exact path="/accessories" component={Accessories} />
+			<Route path="/allProducts/:id" component={SingleProduct} />
+			{isLoggedIn ? (
+				<Switch>
+					<Route path="/home" component={Home} />
+					{adminStatus && <Route path="/addProduct" component={AddProduct} />}
+					{adminStatus && <Route path="/editProduct" component={EditProduct} />}
+				</Switch>
+			) : (
+				<Switch>
+					<Route path="/login">
+						<AuthForm formName="login" />{" "}
+					</Route>
+					<Route path="/signup">
+						<AuthForm formName="signup" />
+					</Route>
+				</Switch>
+			)}
+		</div>
+	);
 };
 
 export default Routes;

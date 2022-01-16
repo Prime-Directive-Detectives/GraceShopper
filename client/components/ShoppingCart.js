@@ -1,10 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	fetchOrderIdAndProducts,
-	deleteOrderProduct,
-	updateCartProductQty,
-} from "../store/order.js";
+import { fetchOrderIdAndProducts, deleteOrderProduct, updateOrderProductQty } from "../store/order.js";
 import { useGlobalContext } from "../context";
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
@@ -34,9 +30,7 @@ function ShoppingCart() {
 
 	useEffect(() => {
 		const cartTotal = order.products.reduce((total, product) => {
-			const qty = order.quantity.find(
-				(item) => item.productId === product.id
-			)?.quantity;
+			const qty = order.quantity.find((item) => item.productId === product.id)?.quantity;
 			return (total += product.price * qty);
 		}, 0);
 		setCartTotal(cartTotal);
@@ -44,11 +38,7 @@ function ShoppingCart() {
 
 	return (
 		<Transition.Root show={isCartOpen} as={Fragment}>
-			<Dialog
-				as="div"
-				className="fixed inset-0 overflow-hidden"
-				onClose={closeCart}
-			>
+			<Dialog as="div" className="fixed inset-0 overflow-hidden" onClose={closeCart}>
 				<div className="absolute inset-0 overflow-hidden">
 					<Transition.Child
 						as={Fragment}
@@ -76,9 +66,7 @@ function ShoppingCart() {
 								<div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
 									<div className="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
 										<div className="flex items-start justify-between">
-											<Dialog.Title className="text-lg font-medium text-gray-900">
-												Shopping cart
-											</Dialog.Title>
+											<Dialog.Title className="text-lg font-medium text-gray-900">Shopping cart</Dialog.Title>
 											<div className="ml-3 h-7 flex items-center">
 												<button
 													type="button"
@@ -93,10 +81,7 @@ function ShoppingCart() {
 
 										<div className="mt-8">
 											<div className="flow-root">
-												<ul
-													role="list"
-													className="-my-6 divide-y divide-gray-200"
-												>
+												<ul role="list" className="-my-6 divide-y divide-gray-200">
 													{isLoggedIn &&
 														order.products.map((product) => (
 															<li key={product.id} className="py-6 flex">
@@ -112,35 +97,20 @@ function ShoppingCart() {
 																	<div>
 																		<div className="flex justify-between text-base font-medium text-gray-900">
 																			<h3>
-																				<a href={product.href}>
-																					{product.name}
-																				</a>
+																				<a href={product.href}>{product.name}</a>
 																			</h3>
-																			<p className="ml-4">
-																				${product.price / 100}
-																			</p>
+																			<p className="ml-4">${product.price / 100}</p>
 																		</div>
-																		<p className="mt-1 text-sm text-gray-500">
-																			{product.color}
-																		</p>
+																		<p className="mt-1 text-sm text-gray-500">{product.color}</p>
 																	</div>
 																	<div className="flex-1 flex items-end justify-between text-sm">
 																		<p className="text-gray-500">
 																			Qty
 																			<select
-																				value={
-																					order.quantity.find(
-																						(item) =>
-																							item.productId === product.id
-																					)?.quantity
-																				}
+																				value={order.quantity.find((item) => item.productId === product.id)?.quantity}
 																				onChange={(e) =>
 																					dispatch(
-																						updateCartProductQty(
-																							order.orderId,
-																							product.id,
-																							Number(e.target.value)
-																						)
+																						updateOrderProductQty(order.orderId, product.id, Number(e.target.value))
 																					)
 																				}
 																			>
@@ -149,6 +119,11 @@ function ShoppingCart() {
 																				<option value="3">3</option>
 																				<option value="4">4</option>
 																				<option value="5">5</option>
+																				<option value="6">6</option>
+																				<option value="7">7</option>
+																				<option value="8">8</option>
+																				<option value="9">9</option>
+																				<option value="10">10</option>
 																			</select>
 																		</p>
 
@@ -156,14 +131,7 @@ function ShoppingCart() {
 																			<button
 																				type="button"
 																				className="font-medium text-indigo-600 hover:text-indigo-500"
-																				onClick={() =>
-																					dispatch(
-																						deleteOrderProduct(
-																							order.orderId,
-																							product.id
-																						)
-																					)
-																				}
+																				onClick={() => dispatch(deleteOrderProduct(order.orderId, product.id))}
 																			>
 																				Remove
 																			</button>
@@ -182,9 +150,7 @@ function ShoppingCart() {
 											<p>Subtotal</p>
 											<p>${(cartTotal / 100).toFixed(2)}</p>
 										</div>
-										<p className="mt-0.5 text-sm text-gray-500">
-											Shipping and taxes calculated at checkout.
-										</p>
+										<p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
 										<div className="mt-6">
 											<a
 												href="#"

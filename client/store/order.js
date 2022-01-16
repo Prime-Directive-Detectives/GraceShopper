@@ -3,36 +3,38 @@ import axios from "axios";
 const GOT_ORDERID_PRODUCTS = "GOT_ORDERID_PRODUCTS";
 const DELETE_ORDER_PRODUCT = "DELETE_ORDER_PRODUCT";
 const UPDATE_ORDER_PRODUCT_QTY = "UPDATE_ORDER_PRODUCT_QTY";
+const ADD_TO_CART = "ADD_TO_CART";
 
 const gotOrderIdAndProducts = (data) => ({
 	type: GOT_ORDERID_PRODUCTS,
 	data,
 });
 
-const _deleteOrderProduct = (deletedProduct) => ({
+const _deleteOrderProduct = (data) => ({
 	type: DELETE_ORDER_PRODUCT,
-	deletedProduct,
+	data,
 });
 
-const _updateOrderProductQty = (updatedProduct) => ({
+const _updateOrderProductQty = (updatedQty) => ({
 	type: UPDATE_ORDER_PRODUCT_QTY,
-	updatedProduct,
+	updatedQty,
 });
 
-// fetch orderid and all products in that order
+const _addToCart = (data) => ({
+	type: ADD_TO_CART,
+	data,
+});
+
 export const fetchOrderIdAndProducts = (userId) => {
 	return async (dispatch) => {
 		try {
-			let orderId = await axios.get(`/api/order/user/${userId}`);
-			orderId = orderId.data.id;
-			let products = await axios.get(`/api/order/${orderId}/products`);
-			products = products.data;
-			let quantity = await axios.get(`api/order/${orderId}/productIds`);
-			quantity = quantity.data;
-			const data = { orderId, products, quantity };
+			let { data: order } = await axios.get(`/api/order/user/${userId}`);
+			let { data: products } = await axios.get(`/api/order/${order.id}/products`);
+			let { data: quantity } = await axios.get(`/api/order/${order.id}/productIds`);
+			const data = { orderId: order.id, products, quantity };
 			dispatch(gotOrderIdAndProducts(data));
-		} catch (error) {
-			console.log("Error from fetchOrder thunk", error);
+		} catch (err) {
+			console.log("Error from fetchOrderIdAndProducts thunk(no order for this user)", err);
 		}
 	};
 };
@@ -40,7 +42,10 @@ export const fetchOrderIdAndProducts = (userId) => {
 export const deleteOrderProduct = (orderId, productId) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.delete(`/api/order/${orderId}/${productId}`);
+			await axios.delete(`/api/order/${orderId}/${productId}`);
+			const { data: quantity } = await axios.get(`/api/order/${orderId}/productIds`);
+			const { data: products } = await axios.get(`/api/order/${orderId}/products`);
+			const data = { quantity, products };
 			dispatch(_deleteOrderProduct(data));
 		} catch (err) {
 			console.log("Error from deleteOrderProduct thunk", err);
@@ -48,15 +53,38 @@ export const deleteOrderProduct = (orderId, productId) => {
 	};
 };
 
-export const updateCartProductQty = (orderId, productId, quantity) => {
+export const updateOrderProductQty = (orderId, productId, quantity) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.put(`/api/order/${orderId}/${productId}`, {
+			await axios.put(`/api/order/${orderId}/${productId}`, {
 				quantity,
 			});
-			dispatch(_updateOrderProductQty(data));
+			const { data: updatedQty } = await axios.get(`/api/order/${orderId}/productIds`);
+			dispatch(_updateOrderProductQty(updatedQty));
 		} catch (err) {
-			console.log("Error from updateCartProductQty thunk", err);
+			console.log("Error from updateOrderProductQty thunk", err);
+		}
+	};
+};
+
+export const addToCart = (userId, productId) => {
+	return async (dispatch) => {
+		try {
+			let { data: order } = await axios.get(`/api/order/user/${userId}/foc`);
+			let { data: product } = await axios.get(`/api/order/${order.id}/${productId}`);
+			if (!product) {
+				await axios.post(`/api/order/${order.id}/${productId}`);
+			} else {
+				await axios.put(`/api/order/${order.id}/${productId}`, {
+					quantity: product.quantity + 1,
+				});
+			}
+			let { data: products } = await axios.get(`/api/order/${order.id}/products`);
+			let { data: quantity } = await axios.get(`/api/order/${order.id}/productIds`);
+			const data = { orderId: order.id, products, quantity };
+			dispatch(_addToCart(data));
+		} catch (err) {
+			console.log("Error from addToCart thunk", err);
 		}
 	};
 };
@@ -69,22 +97,14 @@ export default function orderReducer(state = initialState, action) {
 			return action.data;
 
 		case DELETE_ORDER_PRODUCT:
-			const updatedProducts = state.products.filter(
-				(product) => product.id !== action.deletedProduct.productId
-			);
-			const updatedQuantity = state.quantity.filter(
-				(product) => product.id !== action.deletedProduct.productId
-			);
-			return { ...state, products: updatedProducts, quantity: updatedQuantity };
+			const { quantity, products } = action.data;
+			return { ...state, products, quantity };
 
 		case UPDATE_ORDER_PRODUCT_QTY:
-			const newQty = state.quantity.map((product) => {
-				if (product.productId === action.updatedProduct.productId) {
-					return { ...product, quantity: action.updatedProduct.quantity };
-				}
-				return product;
-			});
-			return { ...state, quantity: newQty };
+			return { ...state, quantity: action.updatedQty };
+
+		case ADD_TO_CART:
+			return action.data;
 
 		default:
 			return state;
