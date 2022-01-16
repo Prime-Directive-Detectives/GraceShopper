@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import AuthForm from "./components/AuthForm";
 import Home from "./components/Home";
-
 import { me } from "./store";
 import { useSelector, useDispatch } from "react-redux";
 import AllProducts from "./components/AllProducts";
@@ -12,11 +11,9 @@ import Accessories from "./components/Accessories";
 import AddProduct from "./components/AddProduct";
 import EditProduct from "./components/EditProduct";
 import SingleProduct from "./components/SingleProduct";
-import AddUser from "./components/AddUser";
 import UserList from "./components/UserList";
 import Checkout from "./components/Checkout";
 import AddUser from "./components/AddUser";
-import UserList from "./components/UserList";
 
 const Routes = () => {
   const { isLoggedIn, adminStatus } = useSelector((state) => {

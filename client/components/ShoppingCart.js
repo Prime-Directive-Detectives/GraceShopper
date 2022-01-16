@@ -8,6 +8,7 @@ import {
 import { useGlobalContext } from "../context";
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 
 function ShoppingCart() {
   const { isCartOpen, closeCart, _setCartQty } = useGlobalContext();
@@ -22,7 +23,7 @@ function ShoppingCart() {
   });
 
   useEffect(() => {
-    user.id && dispatch(fetchOrderIdAndProducts(user.id));
+    user.id && !order.isComplete && dispatch(fetchOrderIdAndProducts(user.id));
   }, [user.id, isLoggedIn]);
 
   useEffect(() => {
@@ -186,12 +187,12 @@ function ShoppingCart() {
                       Shipping and taxes calculated at checkout.
                     </p>
                     <div className="mt-6">
-                      <a
-                        href="#"
+                      <Link
+                        to="/checkout"
                         className="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                       >
                         Checkout
-                      </a>
+                      </Link>
                     </div>
                     <div className="mt-6 flex justify-center text-sm text-center text-gray-500">
                       <p>

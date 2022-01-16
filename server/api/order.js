@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const _ = require("lodash");
 const {
   models: { Order, Product, OrderItem, User },
 } = require("../db");
@@ -111,10 +112,20 @@ router.get("/:orderId/productIds", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/add", async (req, res, next) => {
   try {
-    const data = await Order.create(req.body, {
-      include: [{ model: Product }, { model: User }],
+    const body = _.pick(req.body, [
+      "email",
+      "address",
+      "city",
+      "state",
+      "zip",
+      "cost",
+    ]);
+    const data = await Order.create({
+      ...body,
+      userId: req.user.id,
+      isComplete: true,
     });
     res.json(data);
   } catch (err) {

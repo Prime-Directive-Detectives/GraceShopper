@@ -33,6 +33,7 @@
     "history": "^4.9.0",
     "html-webpack-plugin": "^5.5.0",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "morgan": "^1.9.1",
     "pg": "^8.5.1",
     "postcss-loader": "^6.2.1",

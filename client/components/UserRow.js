@@ -1,16 +1,26 @@
 import React, { useState } from "react";
+import { useCallback } from "react";
 
 const UserRow = (props) => {
   const user = props.user;
 
+  const [edit, setEdit] = useState(false);
   const [state, setState] = useState(user);
   // ...
 
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    setState((state) => ({ ...state, [name]: value }));
+    if (edit) {
+      setState((state) => ({ ...state, [name]: value }));
+    }
   };
+
+  const onClickChange = useCallback(() => {
+    setEdit(!edit), [edit, setEdit];
+  });
+
+  console.log(edit);
 
   return (
     <tr className="border-b hover:bg-blue-100 bg-gray-100">
@@ -57,13 +67,21 @@ const UserRow = (props) => {
         <td className="p-3 px-5">User</td>
       )}
       <td className="p-3 px-5 flex justify-end">
-        {user !== state && (
+        {edit ? (
           <button
             type="button"
             onClick={() => props.onClickEdit(user.id, state)}
             className="mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
           >
             Save
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={onClickChange}
+            className="mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+          >
+            Edit
           </button>
         )}
         <button

@@ -92,7 +92,7 @@ export const addOrderThunk = (order) => {
   return async (dispatch) => {
     try {
       if (token) {
-        const { data } = await axios.post("/api/order", order, {
+        const { data } = await axios.post("/api/order/add", order, {
           headers: {
             authorization: token,
           },
@@ -129,6 +129,9 @@ export default function orderReducer(state = initialState, action) {
         return product;
       });
       return { ...state, quantity: newQty };
+
+    case ADD_ORDER:
+      return { ...state, order: action.order };
 
     default:
       return state;
