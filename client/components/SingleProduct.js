@@ -8,7 +8,6 @@ const loadedProduct = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(4);
   const [loadedProduct, setLoadedProduct] = useState({});
-  // console.log("loadedProduct", loadedProduct);
 
   const { singleProduct } = useSelector((state) => {
     return { singleProduct: state.singleProduct.singleProduct };
@@ -22,7 +21,7 @@ const loadedProduct = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSingleProduct(Number(id)));
+    dispatch(getSingleProduct(id));
     dispatch(getAllProducts());
   }, []);
 
@@ -40,6 +39,8 @@ const loadedProduct = () => {
     indexOfFirstProduct,
     indexOfLastProduct
   );
+
+  console.log("singleProduct.id", singleProduct.id);
 
   return (
     <div className="container mx-auto px-6">
@@ -119,39 +120,46 @@ const loadedProduct = () => {
                 {someSimilarProducts.map((product) => {
                   return (
                     <div
-                      onClick={() => {
-                        setLoadedProduct(product);
-                      }}
                       key={product.id}
+                      className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden flex-col w-80 h-80 justify-evenly"
                     >
-                      <div className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                        <div className="flex-wrap">
+                      <div
+                        className="h-64"
+                        onClick={() => {
+                          setLoadedProduct(product);
+                        }}
+                      >
+                        <div className="mx-auto">
+                          {/* <div className="flex-wrap "> */}
                           <img
-                            className="flex items-end justify-end h-56 w-full bg-cover"
+                            className="flex items-end h-full w-full object-cover h-48 "
                             src={product.imageUrl}
                           />
-                          {/* <button className="p-2 rounded-full bg-indigo-600 text-white mx-5 -mb-15 hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
-                            <svg
-                              className="h-5 w-5"
-                              fill="none"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                            </svg>
-                          </button> */}
-                        </div>
-                        <div className="px-5 py-3">
-                          <h3 className="text-gray-700 uppercase">
+                          {/* </div> */}
+                          {/* <div className="px-5 py-3"> */}
+                          <h3 className="text-gray-700 uppercase mt-3">
                             {product.name}
                           </h3>
                           <span className="text-gray-500 mt-2">
                             ${(product.price / 100).toFixed(2)}
                           </span>
+                          {/* </div> */}
                         </div>
+                      </div>
+                      <div className="flex justify-end">
+                        <button className="p-2 rounded-full bg-indigo-600 text-white  hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500 mr-4 mb-4 relative">
+                          <svg
+                            className="h-5 w-5"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                          </svg>
+                        </button>
                       </div>
                     </div>
                   );
