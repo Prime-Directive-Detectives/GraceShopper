@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useCallback } from "react";
+import { editUserThunk } from "../store/users";
+import { deleteUserThunk } from "../store/users";
 
 const UserRow = (props) => {
   const user = props.user;
 
   const [edit, setEdit] = useState(false);
   const [state, setState] = useState(user);
-  // ...
+
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -20,7 +24,14 @@ const UserRow = (props) => {
     setEdit(!edit), [edit, setEdit];
   });
 
-  console.log(edit);
+  const onClickEdit = (id, user) => {
+    dispatch(editUserThunk(id, user));
+    setEdit(!edit);
+  };
+
+  const onClickDelete = (id) => {
+    dispatch(deleteUserThunk(id));
+  };
 
   return (
     <tr className="border-b hover:bg-blue-100 bg-gray-100">
@@ -70,7 +81,7 @@ const UserRow = (props) => {
         {edit ? (
           <button
             type="button"
-            onClick={() => props.onClickEdit(user.id, state)}
+            onClick={() => onClickEdit(user.id, state)}
             className="mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
           >
             Save
@@ -86,7 +97,7 @@ const UserRow = (props) => {
         )}
         <button
           type="button"
-          onClick={() => props.onClickDelete(user.id)}
+          onClick={() => onClickDelete(user.id)}
           className="text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
         >
           Delete

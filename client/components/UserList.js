@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { editUserThunk, getAllUsersThunk } from "../store/users";
-import { deleteUserThunk } from "../store/users";
+import { getAllUsersThunk } from "../store/users";
 import UserRow from "./UserRow";
 
 const UserList = () => {
@@ -14,14 +13,6 @@ const UserList = () => {
   useEffect(() => {
     dispatch(getAllUsersThunk());
   }, []);
-
-  const onClickEdit = (id, user) => {
-    dispatch(editUserThunk(id, user));
-  };
-
-  const onClickDelete = (id) => {
-    dispatch(deleteUserThunk(id));
-  };
 
   return (
     <div>
@@ -43,14 +34,7 @@ const UserList = () => {
                   <th className="text-left p-3 px-5">Role</th>
                 </tr>
                 {users.map((user) => {
-                  return (
-                    <UserRow
-                      user={user}
-                      key={user.id}
-                      onClickDelete={onClickDelete}
-                      onClickEdit={onClickEdit}
-                    />
-                  );
+                  return <UserRow user={user} key={user.id} />;
                 })}
               </tbody>
             </table>
