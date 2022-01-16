@@ -110,3 +110,14 @@ router.get("/:orderId/productIds", async (req, res, next) => {
 		next(err);
 	}
 });
+
+router.post("/", async (req, res, next) => {
+  try {
+    const data = await Order.create(req.body, {
+      include: [{ model: Product }, { model: User }],
+    });
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});

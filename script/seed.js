@@ -19,18 +19,21 @@ async function seed() {
   const users = await Promise.all([
     User.create({
       username: "cody",
+      email: "randomemail123@gmail.com",
       password: "123",
       firstName: "cody",
       lastName: "Chan",
     }),
     User.create({
       username: "murphy",
+      email: "newemail123@gmail.com",
       password: "123",
       firstName: "Murphy",
       lastName: "Sod",
     }),
     User.create({
       username: "zehn",
+      email: "bigtimeemail123@gmail.com",
       password: "123",
       firstName: "Brandon",
       lastName: "Cohen",
@@ -42,6 +45,11 @@ async function seed() {
     users.map((user) => {
       return Order.create({
         userId: user.id,
+        email: "myemail123@gmail.com",
+        address: "My Address",
+        city: "NYC",
+        state: "NY",
+        zip: "33221",
       });
     })
   );
