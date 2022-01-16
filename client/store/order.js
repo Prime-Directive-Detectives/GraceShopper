@@ -3,6 +3,7 @@ import axios from "axios";
 const TOKEN = "token";
 const GOT_ORDERID_PRODUCTS = "GOT_ORDERID_PRODUCTS";
 const DELETE_ORDER_PRODUCT = "DELETE_ORDER_PRODUCT";
+const UPDATE_ORDER_PRODUCT_QTY = "UPDATE_ORDER_PRODUCT_QTY";
 
 const gotOrderIdAndProducts = (data) => ({
   type: GOT_ORDERID_PRODUCTS,
@@ -12,6 +13,11 @@ const gotOrderIdAndProducts = (data) => ({
 const _deleteOrderProduct = (deletedProduct) => ({
   type: DELETE_ORDER_PRODUCT,
   deletedProduct,
+});
+
+const _updateOrderProductQty = (updatedProduct) => ({
+  type: UPDATE_ORDER_PRODUCT_QTY,
+  updatedProduct,
 });
 
 // fetch orderid and all products in that order
@@ -26,13 +32,11 @@ export const fetchOrderIdAndProducts = (userId) => {
           },
         });
         orderId = orderId.data.id;
-        let products = await axios.get(`/api/order/${orderId}/products`, {
-          headers: {
-            authorization: token,
-          },
-        });
+        let products = await axios.get(`/api/order/${orderId}/products`);
         products = products.data;
-        const data = { orderId, products };
+        let quantity = await axios.get(`api/order/${orderId}/productIds`);
+        quantity = quantity.data;
+        const data = { orderId, products, quantity };
         dispatch(gotOrderIdAndProducts(data));
       }
     } catch (error) {
@@ -62,7 +66,20 @@ export const deleteOrderProduct = (orderId, productId) => {
   };
 };
 
-const initialState = { orderId: null, products: [] };
+export const updateCartProductQty = (orderId, productId, quantity) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`/api/order/${orderId}/${productId}`, {
+        quantity,
+      });
+      dispatch(_updateOrderProductQty(data));
+    } catch (err) {
+      console.log("Error from updateCartProductQty thunk", err);
+    }
+  };
+};
+
+const initialState = { orderId: null, products: [], quantity: [] };
 
 export default function orderReducer(state = initialState, action) {
   switch (action.type) {
@@ -73,7 +90,19 @@ export default function orderReducer(state = initialState, action) {
       const updatedProducts = state.products.filter(
         (product) => product.id !== action.deletedProduct.productId
       );
-      return { ...state, products: updatedProducts };
+      const updatedQuantity = state.quantity.filter(
+        (product) => product.id !== action.deletedProduct.productId
+      );
+      return { ...state, products: updatedProducts, quantity: updatedQuantity };
+
+    case UPDATE_ORDER_PRODUCT_QTY:
+      const newQty = state.quantity.map((product) => {
+        if (product.productId === action.updatedProduct.productId) {
+          return { ...product, quantity: action.updatedProduct.quantity };
+        }
+        return product;
+      });
+      return { ...state, quantity: newQty };
 
     default:
       return state;

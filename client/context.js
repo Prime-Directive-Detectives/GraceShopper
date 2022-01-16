@@ -4,6 +4,7 @@ const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
 	const [isCartOpen, setIsCartOpen] = useState(false);
+	const [cartQty, setCartQty] = useState(0);
 
 	const openCart = () => {
 		setIsCartOpen(true);
@@ -13,12 +14,18 @@ const AppProvider = ({ children }) => {
 		setIsCartOpen(false);
 	};
 
+	const _setCartQty = (amount) => {
+		setCartQty(amount);
+	};
+
 	return (
 		<AppContext.Provider
 			value={{
 				isCartOpen,
+				cartQty,
 				openCart,
 				closeCart,
+				_setCartQty,
 			}}
 		>
 			{children}
