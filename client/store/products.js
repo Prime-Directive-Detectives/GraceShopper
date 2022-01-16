@@ -52,40 +52,68 @@ const deleteProduct = (product) => {
  * THUNK CREATORS
  */
 export const getAllProducts = () => {
+  const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("/api/allProducts");
-      dispatch(setAllProducts(data));
+      if (token) {
+        const { data } = await axios.get("/api/allProducts", {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(setAllProducts(data));
+      }
     } catch (error) {
       console.log("Error at getAllProducts Thunk", error);
     }
   };
 };
 export const getMaleProducts = () => {
+  const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("/api/allProducts/male");
-      dispatch(setMaleProducts(data));
+      if (token) {
+        const { data } = await axios.get("/api/allProducts/male", {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(setMaleProducts(data));
+      }
     } catch (error) {
       console.log("Error at getMaleProducts Thunk", error);
     }
   };
 };
 export const getFemaleProducts = () => {
+  const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("/api/allProducts/female");
-      dispatch(setFemaleProducts(data));
+      if (token) {
+        const { data } = await axios.get("/api/allProducts/female", {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(setFemaleProducts(data));
+      }
     } catch (error) {
       console.log("Error at getFemaleProducts Thunk", error);
     }
   };
 };
 export const getAccessories = () => {
+  const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("/api/allProducts/accessories");
-      dispatch(setAccessories(data));
+      if (token) {
+        const { data } = await axios.get("/api/allProducts/accessories", {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(setAccessories(data));
+      }
     } catch (error) {
       console.log("Error at getAccessories Thunk", error);
     }
