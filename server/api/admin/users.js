@@ -10,6 +10,7 @@ router.get("/", async (req, res, next) => {
       attributes: [
         "id",
         "username",
+        "email",
         "password",
         "firstName",
         "lastName",
@@ -17,6 +18,27 @@ router.get("/", async (req, res, next) => {
       ],
     });
     res.json(users);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put("/:id", async (req, res, next) => {
+  try {
+    const editUser = await User.findByPk(req.params.id);
+    await editUser.update(req.body);
+    console.log(editUser);
+    res.send(editUser);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const deleteUser = await User.findByPk(req.params.id);
+    await deleteUser.destroy();
+    res.send(deleteUser);
   } catch (err) {
     next(err);
   }

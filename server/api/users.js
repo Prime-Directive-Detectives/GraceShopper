@@ -17,3 +17,12 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 });
+
+router.post("/add", async (req, res, next) => {
+  try {
+    const addUser = await User.create(req.body);
+    res.status(201).json(addUser);
+  } catch (err) {
+    next(err);
+  }
+});

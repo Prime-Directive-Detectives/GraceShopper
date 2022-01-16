@@ -31,7 +31,7 @@ const AddProduct = () => {
     e.preventDefault();
 
     dispatch(addProductThunk(state));
-    history.push("/allProducts");
+    history.goBack();
   };
 
   return (

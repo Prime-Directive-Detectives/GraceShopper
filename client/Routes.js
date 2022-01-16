@@ -12,12 +12,11 @@ import Accessories from "./components/Accessories";
 import AddProduct from "./components/AddProduct";
 import EditProduct from "./components/EditProduct";
 import SingleProduct from "./components/SingleProduct";
-<<<<<<< Updated upstream
-=======
 import AddUser from "./components/AddUser";
 import UserList from "./components/UserList";
 import Checkout from "./components/Checkout";
->>>>>>> Stashed changes
+import AddUser from "./components/AddUser";
+import UserList from "./components/UserList";
 
 const Routes = () => {
   const { isLoggedIn, adminStatus } = useSelector((state) => {
@@ -46,16 +45,19 @@ const Routes = () => {
         <Switch>
           <Route path="/home" component={Home} />
           {adminStatus && <Route path="/addProduct" component={AddProduct} />}
-          {adminStatus && <Route path="/editProduct" component={EditProduct} />}
+          {adminStatus && (
+            <Route path="/editProduct/" component={EditProduct} />
+          )}
+          {adminStatus && <Route exact path="/userList" component={UserList} />}
         </Switch>
       ) : (
         <Switch>
           <Route path="/login">
             <AuthForm formName="login" />{" "}
           </Route>
-          <Route path="/signup">
+          {/* <Route path="/signup">
             <AuthForm formName="signup" />
-          </Route>
+          </Route> */}
         </Switch>
       )}
     </div>

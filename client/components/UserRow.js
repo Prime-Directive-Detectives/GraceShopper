@@ -13,7 +13,7 @@ const UserRow = (props) => {
   };
 
   return (
-    <tr className="border-b hover:bg-blue-200 text-gray-700">
+    <tr className="border-b hover:bg-blue-100 bg-gray-100">
       <td className="p-3 px-5">
         <input
           onChange={handleChange}

@@ -54,10 +54,20 @@ export const fetchOrderIdAndProducts = (userId) => {
 };
 
 export const deleteOrderProduct = (orderId, productId) => {
+  const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/order/${orderId}/${productId}`);
-      dispatch(_deleteOrderProduct(data));
+      if (token) {
+        const { data } = await axios.delete(
+          `/api/order/${orderId}/${productId}`,
+          {
+            headers: {
+              authorization: token,
+            },
+          }
+        );
+        dispatch(_deleteOrderProduct(data));
+      }
     } catch (err) {
       console.log("Error from deleteOrderProduct thunk", err);
     }
@@ -65,23 +75,12 @@ export const deleteOrderProduct = (orderId, productId) => {
 };
 
 export const updateCartProductQty = (orderId, productId, quantity) => {
-  const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
     try {
-      if (token) {
-        const { data } = await axios.put(
-          `/api/order/${orderId}/${productId}`,
-          {
-            quantity,
-          },
-          {
-            headers: {
-              authorization: token,
-            },
-          }
-        );
-        dispatch(_updateOrderProductQty(data));
-      }
+      const { data } = await axios.put(`/api/order/${orderId}/${productId}`, {
+        quantity,
+      });
+      dispatch(_updateOrderProductQty(data));
     } catch (err) {
       console.log("Error from updateCartProductQty thunk", err);
     }
