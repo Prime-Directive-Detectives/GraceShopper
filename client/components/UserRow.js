@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { useCallback } from "react";
-import { editUserThunk } from "../store/users";
-import { deleteUserThunk } from "../store/users";
+import { editUserThunk, deleteUserThunk } from "../store/users";
 
 const UserRow = (props) => {
   const user = props.user;
