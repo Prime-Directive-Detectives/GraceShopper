@@ -38,6 +38,7 @@ const UserRow = (props) => {
           onChange={handleChange}
           name="username"
           type="text"
+          disabled={!edit}
           value={state.username}
           className="bg-transparent"
         />
@@ -47,6 +48,7 @@ const UserRow = (props) => {
           onChange={handleChange}
           name="email"
           type="text"
+          disabled={!edit}
           value={state.email}
           className="bg-transparent"
         />
@@ -57,6 +59,7 @@ const UserRow = (props) => {
           onChange={handleChange}
           name="firstName"
           type="text"
+          disabled={!edit}
           value={state.firstName}
           className="bg-transparent"
         />
@@ -66,6 +69,7 @@ const UserRow = (props) => {
           onChange={handleChange}
           name="lastName"
           type="text"
+          disabled={!edit}
           value={state.lastName}
           className="bg-transparent"
         />
