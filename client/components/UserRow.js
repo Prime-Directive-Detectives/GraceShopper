@@ -75,9 +75,13 @@ const UserRow = (props) => {
         />
       </td>
       {state.adminStatus ? (
-        <td className="p-3 px-5">Admin</td>
+        <td className="p-3 px-5">
+          <input disabled={true} value="Admin" className="bg-transparent" />
+        </td>
       ) : (
-        <td className="p-3 px-5">User</td>
+        <td className="p-3 px-5">
+          <input disabled={true} value="User" className="bg-transparent" />
+        </td>
       )}
       <td className="p-3 px-5 flex justify-end">
         {edit ? (
