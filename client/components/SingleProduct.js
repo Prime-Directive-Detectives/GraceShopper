@@ -14,8 +14,11 @@ const SingleProduct = () => {
 	const { allProducts } = useSelector((state) => {
 		return { allProducts: state.products.allProducts };
 	});
-	const { user } = useSelector((state) => {
-		return { user: state.auth };
+	const { user, isLoggedIn } = useSelector((state) => {
+		return {
+			user: state.auth,
+			isLoggedIn: !!state.auth.id,
+		};
 	});
 
 	const { id } = useParams();
@@ -31,6 +34,29 @@ const SingleProduct = () => {
 	}, [singleProduct]);
 
 	let similarProducts = allProducts.filter((product) => product.type === singleProduct.type);
+
+	const guestAddToCart = (productId) => {
+		const guestCart = window.localStorage.getItem("cart");
+		if (!guestCart) {
+			window.localStorage.setItem("cart", JSON.stringify([{ productId, qty: 1 }]));
+		} else {
+			let tempCart = JSON.parse(guestCart);
+
+			let item = tempCart.find((item) => item.productId === productId);
+			if (!item) {
+				tempCart.push({ productId, qty: 1 });
+				window.localStorage.setItem("cart", JSON.stringify(tempCart));
+			} else {
+				tempCart = tempCart.map((item) => {
+					if (item.productId === productId) {
+						item.qty < 10 && item.qty++;
+					}
+					return item;
+				});
+				window.localStorage.setItem("cart", JSON.stringify(tempCart));
+			}
+		}
+	};
 
 	return (
 		<div className="container mx-auto px-6">
@@ -84,7 +110,9 @@ const SingleProduct = () => {
 							<h6 className="text-gray-700  ">{loadedProduct.description}</h6>
 							<div className="flex items-center mt-6 space-x-3">
 								<button
-									onClick={() => dispatch(addToCart(user.id, loadedProduct.id))}
+									onClick={() => {
+										isLoggedIn ? dispatch(addToCart(user.id, loadedProduct.id)) : guestAddToCart(loadedProduct.id);
+									}}
 									className="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500"
 								>
 									Add to Cart
