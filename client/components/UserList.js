@@ -24,7 +24,7 @@ const UserList = () => {
             <h1 className="text-3xl">Users</h1>
           </div>
           <div className="px-3 py-4 flex justify-center">
-            <table className="text-md  shadow-md rounded mb-4">
+            <table className="text-md shadow-md rounded mb-4">
               <tbody>
                 <tr className="border-b">
                   <th className="text-left p-3 px-5">Username</th>

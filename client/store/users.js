@@ -91,13 +91,11 @@ export default function (state = initialState, action) {
     case GET_ALL_USERS:
       return { ...state, users: action.users };
     case EDIT_USER:
+      const index = state.users.findIndex((user) => user.id === action.user.id);
+      const users = state.users;
+      users[index] = action.user;
       return {
-        users: state.users
-          ? [
-              ...state.users.filter((user) => user.id !== action.user.id),
-              action.user,
-            ]
-          : [],
+        users,
       };
     case DELETE_USER:
       return {

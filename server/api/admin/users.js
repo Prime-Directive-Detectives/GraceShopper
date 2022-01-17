@@ -27,7 +27,6 @@ router.put("/:id", async (req, res, next) => {
   try {
     const editUser = await User.findByPk(req.params.id);
     await editUser.update(req.body);
-    console.log(editUser);
     res.send(editUser);
   } catch (err) {
     next(err);

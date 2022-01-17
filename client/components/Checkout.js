@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addOrderThunk } from "../store/order";
-import { useHistory } from "react-router-dom";
+import {
+  PaymentElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
 
 const Checkout = () => {
-  let history = useHistory();
-
   const { order } = useSelector((state) => {
     return { order: state.order };
   });
 
   const dispatch = useDispatch();
 
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const [message, setMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [cartTotal, setCartTotal] = useState(0);
   const [state, setState] = useState({
     email: "",
@@ -21,6 +28,37 @@ const Checkout = () => {
     zip: "",
     cost: 0,
   });
+
+  useEffect(() => {
+    if (!stripe) {
+      return;
+    }
+
+    const clientSecret = new URLSearchParams(window.location.search).get(
+      "payment_intent_client_secret"
+    );
+
+    if (!clientSecret) {
+      return;
+    }
+
+    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+      switch (paymentIntent.status) {
+        case "succeeded":
+          setMessage("Payment succeeded!");
+          break;
+        case "processing":
+          setMessage("Your payment is processing.");
+          break;
+        case "requires_payment_method":
+          setMessage("Your payment was not successful, please try again.");
+          break;
+        default:
+          setMessage("Something went wrong.");
+          break;
+      }
+    });
+  }, [stripe]);
 
   useEffect(() => {
     let cartTotal = order.products.reduce((total, product) => {
@@ -42,17 +80,37 @@ const Checkout = () => {
     setState((state) => ({ ...state, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     dispatch(addOrderThunk(state));
-    history.goBack();
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: "http://localhost:8080",
+      },
+    });
+
+    if (error.type === "card_error" || error.type === "validation_error") {
+      setMessage(error.message);
+    } else {
+      setMessage("An unexpected error occured.");
+    }
+
+    setIsLoading(false);
   };
 
   return (
-    <div className="leading-loose flex justify-center">
+    <div className="mt-4 leading-loose flex justify-center">
       <form
-        className="max-w-xl m-4 p-10  rounded shadow-md"
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
         onSubmit={handleSubmit}
       >
         <h2 className="text-gray-800 text-center text-2xl font-bold">
@@ -64,7 +122,7 @@ const Checkout = () => {
           </label>
           <input
             onChange={handleChange}
-            className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
+            className="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             name="email"
             value={state.email}
             required
@@ -72,12 +130,10 @@ const Checkout = () => {
           />
         </div>
         <div className="mt-2">
-          <label className=" block text-sm text-gray-600" htmlFor="address">
-            Address
-          </label>
+          <label className="block text-sm text-gray-600">Address</label>
           <input
             onChange={handleChange}
-            className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
+            className="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             name="address"
             value={state.address}
             required
@@ -90,7 +146,7 @@ const Checkout = () => {
           </label>
           <input
             onChange={handleChange}
-            className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
+            className="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             name="city"
             value={state.city}
             required
@@ -103,7 +159,7 @@ const Checkout = () => {
           </label>
           <input
             onChange={handleChange}
-            className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
+            className="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             name="state"
             value={state.state}
             required
@@ -116,7 +172,7 @@ const Checkout = () => {
           </label>
           <input
             onChange={handleChange}
-            className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
+            className="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             name="zip"
             value={state.zip}
             required
@@ -124,27 +180,29 @@ const Checkout = () => {
           />
         </div>
         <p className="mt-4 text-gray-800 font-medium">Payment information</p>
-        <div>
-          <label className="block text-sm text-gray-600" htmlFor="cardinfo">
-            Card
-          </label>
-          <input
-            onChange={handleChange}
-            className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
-            name="cardinfo"
-            placeholder="Card Number MM/YY CVC"
-          />
-        </div>
+        <PaymentElement className="mb-4" />
         <div className="mt-4">
           <p className="mt-4 text-gray-800 font-medium">
             Order total: ${(cartTotal / 100).toFixed(2)}
           </p>
           <button
-            className="px-4 py-1 text-white font-light tracking-wider bg-red-400 rounded"
+            className="px-4 py-1 text-white font-light tracking-wider bg-red-400 rounded w-full"
             type="submit"
+            disabled={isLoading || !stripe || !elements}
           >
-            Checkout
+            <span id="button-text">
+              {isLoading ? (
+                <div className="spinner" id="spinner"></div>
+              ) : (
+                "Pay now"
+              )}
+            </span>
           </button>
+          {message && (
+            <div className="bg-red-700 text-lg leading-relaxed pt-4 text-center">
+              {message}
+            </div>
+          )}
         </div>
       </form>
     </div>
