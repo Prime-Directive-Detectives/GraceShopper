@@ -49,7 +49,7 @@ function ShoppingCart() {
 				className="fixed inset-0 overflow-hidden"
 				onClose={closeCart}
 			>
-				<div className="absolute inset-0 overflow-hidden">
+				<div className="absolute inset-0 overflow-hidden z-10">
 					<Transition.Child
 						as={Fragment}
 						enter="ease-in-out duration-500"

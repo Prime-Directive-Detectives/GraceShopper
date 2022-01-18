@@ -33,10 +33,10 @@ const Routes = () => {
       <Route exact path="/maleProducts" component={MaleProducts} />
       <Route exact path="/femaleProducts" component={FemaleProducts} />
       <Route exact path="/accessories" component={Accessories} />
-      <Route path="/allProducts/:productId" component={SingleProduct} />
+      <Route path="/allProducts/:id" component={SingleProduct} />
+      <Route path="/home" component={Home} />
       {isLoggedIn ? (
         <Switch>
-          <Route path="/home" component={Home} />
           {adminStatus && <Route path="/addProduct" component={AddProduct} />}
           {adminStatus && <Route path="/editProduct" component={EditProduct} />}
         </Switch>
