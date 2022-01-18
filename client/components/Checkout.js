@@ -59,12 +59,8 @@ const Checkout = (props) => {
     if (!stripe || !elements) {
       return;
     }
-    if (error.type === "card_error" || error.type === "validation_error") {
-      dispatch(addOrderThunk(state));
-      dispatch(deleteOrderItems(order.orderId));
-    }
-    setIsLoading(true);
-
+    dispatch(addOrderThunk(state));
+    dispatch(deleteOrderItems(order.orderId));
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
