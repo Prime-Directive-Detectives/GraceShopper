@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getSingleProduct } from "../store/singleProduct";
-import { getAllProducts } from "../store/products";
-import { useParams } from "react-router-dom";
+import { getAllProducts, deleteProductThunk } from "../store/products";
+import { Link } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
-const loadedProduct = () => {
+const SingleProduct = () => {
+  let history = useHistory();
+  const { singleProduct, adminStatus, allProducts } = useSelector((state) => {
+    return {
+      singleProduct: state.singleProduct.singleProduct,
+      adminStatus: state.auth.adminStatus,
+      allProducts: state.products.allProducts,
+    };
+  });
+
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(4);
 
   const [loadedProduct, setLoadedProduct] = useState({});
-
-  const { singleProduct } = useSelector((state) => {
-    return { singleProduct: state.singleProduct.singleProduct };
-  });
-
-  const { allProducts } = useSelector((state) => {
-    return { allProducts: state.products.allProducts };
-  });
 
   const { id } = useParams();
 
@@ -41,6 +43,11 @@ const loadedProduct = () => {
     indexOfFirstProduct,
     indexOfLastProduct
   );
+
+  const onClickDelete = (id) => {
+    dispatch(deleteProductThunk(id));
+    history.goBack();
+  };
 
   return (
     <div className="container mx-auto px-6">
@@ -106,6 +113,25 @@ const loadedProduct = () => {
                 <button className="px-8 py-2 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-400 focus:outline-none focus:bg-red-400">
                   Add to Wishlist
                 </button>
+                {adminStatus && (
+                  <Link to="/editProduct">
+                    <button
+                      className="px-8 py-2 bg-yellow-500 text-white text-sm font-medium rounded hover:bg-yellow-400 focus:outline-none focus:bg-yellow-400"
+                      type="button"
+                    >
+                      Edit Product
+                    </button>
+                  </Link>
+                )}
+                {adminStatus && (
+                  <button
+                    className="px-8 py-2 bg-orange-700 text-white text-sm font-medium rounded hover:bg-orange-400 focus:outline-none focus:bg-orange-400"
+                    onClick={() => onClickDelete(id)}
+                    type="button"
+                  >
+                    Delete Product
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -169,4 +195,4 @@ const loadedProduct = () => {
   );
 };
 
-export default loadedProduct;
+export default SingleProduct;
