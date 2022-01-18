@@ -72,7 +72,10 @@ const Checkout = (props) => {
   }, [stripe]);
 
   useEffect(() => {
-    setState((state) => ({ ...state, cost: props.cartTotal }));
+    setState((state) => ({
+      ...state,
+      cost: props.cartTotal / 100,
+    }));
   }, [props.cartTotal]);
 
   const handleChange = (event) => {
