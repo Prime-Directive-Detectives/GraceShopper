@@ -41,37 +41,6 @@ const Checkout = (props) => {
   }, [user.id, isLoggedIn]);
 
   useEffect(() => {
-    if (!stripe) {
-      return;
-    }
-
-    const clientSecret = new URLSearchParams(window.location.search).get(
-      "payment_intent_client_secret"
-    );
-
-    if (!clientSecret) {
-      return;
-    }
-
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent.status) {
-        case "succeeded":
-          setMessage("Payment succeeded!");
-          break;
-        case "processing":
-          setMessage("Your payment is processing.");
-          break;
-        case "requires_payment_method":
-          setMessage("Your payment was not successful, please try again.");
-          break;
-        default:
-          setMessage("Something went wrong.");
-          break;
-      }
-    });
-  }, [stripe]);
-
-  useEffect(() => {
     setState((state) => ({
       ...state,
       cost: props.cartTotal / 100,
@@ -87,13 +56,13 @@ const Checkout = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    dispatch(addOrderThunk(state));
-    dispatch(deleteOrderItems(order.orderId));
-
     if (!stripe || !elements) {
       return;
     }
-
+    if (error.type === "card_error" || error.type === "validation_error") {
+      dispatch(addOrderThunk(state));
+      dispatch(deleteOrderItems(order.orderId));
+    }
     setIsLoading(true);
 
     const { error } = await stripe.confirmPayment({

@@ -18,7 +18,9 @@ import Checkout from "./components/Checkout";
 import AddUser from "./components/AddUser";
 import Success from "./components/Success";
 
-const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
+const stripePromise = loadStripe(
+  "pk_test_51KJIf9HyurgsZRtgqUqJhFKDiDnNMM3UUWn0dlC6ziB6ohxQGYvWMufl228hr0RM4E9kzMlrJsmTnHJt2NXvZ2gu00HAgwL2qj"
+);
 
 const Routes = () => {
   const { isLoggedIn, adminStatus, order } = useSelector((state) => {
@@ -40,10 +42,11 @@ const Routes = () => {
   }, [order.quantity]);
 
   useEffect(() => {
+    // Create PaymentIntent as soon as the page loads
     fetch("/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: cartTotal }),
+      body: JSON.stringify({ items: [{ id: order.products.name }] }),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));

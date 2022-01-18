@@ -2,10 +2,13 @@ const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
 const res = require("express/lib/response");
+const e = require("express");
 const app = express();
 module.exports = app;
 
-const stripe = require("stripe")("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
+const stripe = require("stripe")(
+  "sk_test_51KJIf9HyurgsZRtgKUjxAzxZ4jX2LDGsscvinoDvRRI85JLogkI5EeoFZizrN0rKEPxlV73vEBxv4IxXRGQUbDNr0033CIMzmQ"
+);
 
 // logging middleware
 app.use(morgan("dev"));
@@ -24,27 +27,26 @@ app.get("/", (req, res) =>
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, "..", "public")));
 
-const calculateOrderAmount = (items) => {
-  // Replace this constant with a calculation of the order's amount
-  // Calculate the order total on the server to prevent
-  // people from directly manipulating the amount on the client
-  return 1400;
-};
-
 app.post("/create-payment-intent", async (req, res) => {
-  const { items } = req.body;
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: 1400,
+      currency: "usd",
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
 
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount(items),
-    currency: "usd",
-    automatic_payment_methods: {
-      enabled: true,
-    },
-  });
-
-  res.send({
-    clientSecret: paymentIntent.client_secret,
-  });
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (error) {
+    return res.status(400).send({
+      error: {
+        message: e.message,
+      },
+    });
+  }
 });
 
 // any remaining requests with an extension (.js, .css, etc.) send 404
