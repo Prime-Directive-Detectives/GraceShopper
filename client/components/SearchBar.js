@@ -43,7 +43,6 @@ function SearchBar({ placeholder }) {
         <input
           onChange={handleFilter}
           value={wordEntered}
-          type="text"
           name="name"
           placeholder={placeholder}
           className="w-22 py-2 border-b-2 border-red-300 outline-none focus:border-red-500 focus:bg-slate-100 bg-slate-200 text-red-500"

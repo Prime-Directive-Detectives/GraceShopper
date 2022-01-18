@@ -17,3 +17,21 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 });
+
+router.get("/:id", async (req, res, next) => {
+  try {
+    const singleUser = await User.findByPk(req.params.id);
+    res.json(singleUser);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/add", async (req, res, next) => {
+  try {
+    const addUser = await User.create(req.body);
+    res.status(201).json(addUser);
+  } catch (err) {
+    next(err);
+  }
+});

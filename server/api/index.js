@@ -2,14 +2,7 @@ const router = require("express").Router();
 const {
   models: { User },
 } = require("../db");
-
-const adminCheck = (req, res, next) => {
-  if (req.user && req.user.adminStatus) {
-    next();
-  } else {
-    res.sendStatus(403);
-  }
-};
+const { adminCheck } = require("./middleware");
 
 router.use("*", async (req, res, next) => {
   if (req.headers.authorization) {

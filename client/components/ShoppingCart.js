@@ -4,6 +4,7 @@ import { fetchOrderIdAndProducts, deleteOrderProduct, updateOrderProductQty } fr
 import { useGlobalContext } from "../context";
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 
 function ShoppingCart() {
 	const { isCartOpen, closeCart, _setCartQty, _setGuestCartQty } = useGlobalContext();
@@ -20,7 +21,7 @@ function ShoppingCart() {
 	});
 
 	useEffect(() => {
-		user.id && dispatch(fetchOrderIdAndProducts(user.id));
+		user.id && !order.isComplete && dispatch(fetchOrderIdAndProducts(user.id));
 	}, [user.id, isLoggedIn]);
 
 	useEffect(() => {
@@ -203,6 +204,7 @@ function ShoppingCart() {
 																			<p className="text-gray-500">
 																				Qty
 																				<select
+																					className="border-none text-sm"
 																					value={product.quantity}
 																					onChange={(e) => guestQtyChange(product.id, Number(e.target.value))}
 																				>
@@ -244,12 +246,13 @@ function ShoppingCart() {
 										</div>
 										<p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
 										<div className="mt-6">
-											<a
-												href="#"
+											<Link
+												to="/checkout"
+												onClick={() => closeCart()}
 												className="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
 											>
 												Checkout
-											</a>
+											</Link>
 										</div>
 										<div className="mt-6 flex justify-center text-sm text-center text-gray-500">
 											<p>

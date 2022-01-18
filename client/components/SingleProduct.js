@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getSingleProduct } from "../store/singleProduct";
-import { useParams } from "react-router-dom";
-import { getAllProducts } from "../store/products";
+import { useHistory, useParams, Link } from "react-router-dom";
+import { getAllProducts, deleteProductThunk } from "../store/products";
 import { addToCart } from "../store/order";
 import { useGlobalContext } from "../context";
 
 const SingleProduct = () => {
+	let history = useHistory();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [productsPerPage, setProductsPerPage] = useState(4);
 	const { _setGuestCartQty } = useGlobalContext();
 	const [loadedProduct, setLoadedProduct] = useState({});
 
-	const { singleProduct } = useSelector((state) => {
-		return { singleProduct: state.singleProduct.singleProduct };
-	});
-	const { allProducts } = useSelector((state) => {
-		return { allProducts: state.products.allProducts };
+	const { singleProduct, adminStatus, allProducts } = useSelector((state) => {
+		return {
+			singleProduct: state.singleProduct.singleProduct,
+			adminStatus: state.auth.adminStatus,
+			allProducts: state.products.allProducts,
+		};
 	});
 	const { user, isLoggedIn } = useSelector((state) => {
 		return {
@@ -37,7 +39,10 @@ const SingleProduct = () => {
 		setLoadedProduct(singleProduct);
 	}, [singleProduct]);
 
-	let similarProducts = allProducts.filter((product) => product.type === singleProduct.type);
+	let similarProducts = allProducts.filter((product) => product.type === loadedProduct.type);
+	const indexOfLastProduct = currentPage * productsPerPage;
+	const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+	const someSimilarProducts = similarProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
 	const guestAddToCart = (id, color, imageUrl, price, name) => {
 		const guestCart = window.localStorage.getItem("cart");
@@ -71,6 +76,11 @@ const SingleProduct = () => {
 		}
 	};
 
+	const onClickDelete = (id) => {
+		dispatch(deleteProductThunk(id));
+		history.goBack();
+	};
+
 	return (
 		<div className="container mx-auto px-6">
 			{!loadedProduct ? (
@@ -83,7 +93,7 @@ const SingleProduct = () => {
 						</div>
 						<div className="w-full max-w-lg mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2  content-center items-center">
 							<h3 className="text-gray-700 uppercase text-lg">{loadedProduct.name}</h3>
-							<span className="text-gray-500 mt-3">${loadedProduct.price}</span>
+							<span className="text-gray-500 mt-3">${(loadedProduct.price / 100).toFixed(2)}</span>
 							<br />
 							<hr className="my-3"></hr>
 							<div className="mt-2">
@@ -141,16 +151,35 @@ const SingleProduct = () => {
 								<button className="px-8 py-2 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-400 focus:outline-none focus:bg-red-400">
 									Add to Wishlist
 								</button>
+								{adminStatus && (
+									<Link to="/editProduct">
+										<button
+											className="px-8 py-2 bg-yellow-500 text-white text-sm font-medium rounded hover:bg-yellow-400 focus:outline-none focus:bg-yellow-400"
+											type="button"
+										>
+											Edit Product
+										</button>
+									</Link>
+								)}
+								{adminStatus && (
+									<button
+										className="px-8 py-2 bg-orange-700 text-white text-sm font-medium rounded hover:bg-orange-400 focus:outline-none focus:bg-orange-400"
+										onClick={() => onClickDelete(id)}
+										type="button"
+									>
+										Delete Product
+									</button>
+								)}
 							</div>
 						</div>
 					</div>
 					<div className="mt-2">
 						<h3 className="text-gray-600 text-2xl font-medium">Similar Products</h3>
-						{!similarProducts.length === 0 ? (
+						{!someSimilarProducts.length === 0 ? (
 							<div>Loading...</div>
 						) : (
 							<div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-								{similarProducts.map((product) => {
+								{someSimilarProducts.map((product) => {
 									return (
 										<div key={product.id} onClick={() => setLoadedProduct(product)}>
 											<div className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
@@ -159,7 +188,7 @@ const SingleProduct = () => {
 												</div>
 												<div className="px-5 py-3">
 													<h3 className="text-gray-700 uppercase">{product.name}</h3>
-													<span className="text-gray-500 mt-2">${product.price}</span>
+													<span className="text-gray-500 mt-2">${(product.price / 100).toFixed(2)}</span>
 												</div>
 											</div>
 										</div>

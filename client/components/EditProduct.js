@@ -6,22 +6,15 @@ import { useHistory } from "react-router-dom";
 const EditProduct = () => {
   let history = useHistory();
 
-  const { allProducts } = useSelector((state) => {
+  const { singleProduct } = useSelector((state) => {
     return {
-      allProducts: state.products.allProducts,
+      singleProduct: state.singleProduct.singleProduct,
     };
   });
 
   const dispatch = useDispatch();
 
-  const [state, setState] = useState({
-    name: "",
-    price: 0,
-    type: "",
-    gender: "",
-    image: "",
-    description: "",
-  });
+  const [state, setState] = useState(singleProduct);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -32,8 +25,8 @@ const EditProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(editProductThunk(allProducts.id, state));
-    history.push("/allProducts");
+    dispatch(editProductThunk(singleProduct.id, state));
+    history.goBack();
   };
 
   return (
@@ -49,7 +42,7 @@ const EditProduct = () => {
               <input
                 onChange={handleChange}
                 name="name"
-                value={allProducts.name}
+                value={state.name}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
                 placeholder="Name"
               />
@@ -59,7 +52,7 @@ const EditProduct = () => {
               <input
                 onChange={handleChange}
                 name="price"
-                value={allProducts.price}
+                value={state.price}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
                 placeholder="Price"
               />
@@ -69,7 +62,7 @@ const EditProduct = () => {
               <input
                 onChange={handleChange}
                 name="type"
-                value={allProducts.type}
+                value={state.type}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
                 placeholder="Type"
               />
@@ -79,7 +72,7 @@ const EditProduct = () => {
               <input
                 onChange={handleChange}
                 name="gender"
-                value={allProducts.gender}
+                value={state.gender}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
                 placeholder="Gender"
               />
@@ -89,7 +82,7 @@ const EditProduct = () => {
               <input
                 onChange={handleChange}
                 name="image"
-                value={allProducts.image}
+                value={state.image}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
                 placeholder="Image"
               />
@@ -99,7 +92,7 @@ const EditProduct = () => {
               <input
                 onChange={handleChange}
                 name="description"
-                value={allProducts.description}
+                value={state.description}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
                 placeholder="Description"
               />

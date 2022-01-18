@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const _ = require("lodash");
 const {
 	models: { Order, Product, OrderItem, User },
 } = require("../db");
@@ -37,6 +38,20 @@ router.get("/user/:userId", async (req, res, next) => {
 			},
 		});
 		res.json(userOrder);
+	} catch (err) {
+		next(err);
+	}
+});
+
+router.delete("/:orderId/orderItems", async (req, res, next) => {
+	try {
+		const deleteUserOrder = await OrderItem.destroy({
+			where: {
+				orderId: req.params.orderId,
+			},
+		});
+		console.log("Look here", deleteUserOrder);
+		res.json(deleteUserOrder);
 	} catch (err) {
 		next(err);
 	}
@@ -152,6 +167,20 @@ router.post("/:orderId/:productId", async (req, res, next) => {
 			productId: req.params.productId,
 		});
 		res.status(201).json(newProduct);
+	} catch (err) {
+		next(err);
+	}
+});
+
+router.post("/add", async (req, res, next) => {
+	try {
+		const body = _.pick(req.body, ["email", "address", "city", "state", "zip", "cost"]);
+		const data = await Order.create({
+			...body,
+			userId: req.user.id,
+			isComplete: true,
+		});
+		res.json(data);
 	} catch (err) {
 		next(err);
 	}
