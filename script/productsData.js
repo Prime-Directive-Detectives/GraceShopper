@@ -1,5 +1,3 @@
-const { ModuleFilenameHelpers } = require("webpack");
-
 const products = [
 	{
 		name: "Sportswear Tech Essentials Pullover Hoodie",
