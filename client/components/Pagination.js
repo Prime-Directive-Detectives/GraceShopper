@@ -17,7 +17,7 @@ const Pagination = ({
         <li>
           <button
             onClick={() => paginateBack()}
-            className="h-10 px-5 text-indigo-600 transition-colors duration-150 rounded-l-lg focus:shadow-outline hover:bg-indigo-100"
+            className="h-10 px-5 text-red-400 transition-colors duration-150 rounded-l-lg focus:shadow-outline hover:bg-red-200"
           >
             <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
               <path
@@ -34,7 +34,7 @@ const Pagination = ({
               <button
                 onClick={() => paginate(number)}
                 key={number}
-                className="h-10 px-5 text-indigo-600 transition-colors duration-150 focus:shadow-outline hover:bg-indigo-100"
+                className="h-10 px-5 text-red-400 transition-colors duration-150 focus:shadow-outline hover:bg-red-200"
               >
                 {number}
               </button>
@@ -44,7 +44,7 @@ const Pagination = ({
         <li>
           <button
             onClick={() => paginateFront()}
-            className="h-10 px-5 text-indigo-600 transition-colors duration-150  rounded-r-lg focus:shadow-outline hover:bg-indigo-100"
+            className="h-10 px-5 text-red-400 transition-colors duration-150  rounded-r-lg focus:shadow-outline hover:bg-red-200"
           >
             <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
               <path

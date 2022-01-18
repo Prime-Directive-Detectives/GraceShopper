@@ -12,10 +12,8 @@ const AllProducts = () => {
     return { allProducts: state.products.allProducts };
   });
 
-  // Bring in actions from store
   const dispatch = useDispatch();
 
-  //dispatch from getProducts Thunk
   useEffect(() => {
     dispatch(getAllProducts());
   }, []);
@@ -60,16 +58,18 @@ const AllProducts = () => {
             <div className="animate-spin rounded-full h-52 w-52 border-t-8 border-b-8 border-indigo-300"></div>
           </div>
         ) : (
-          <div className="mx-auto container grid grid-cols-3 gap-2 mt-2">
+          <div className="mx-auto container grid grid-cols-3 gap-2 mt-2 object-fill">
             {someProducts.map((product) => {
               return (
                 <Link key={product.id} to={`/allProducts/${product.id}`}>
-                  <div className="w-full rounded border-2">
-                    <img className="w-35 h-35" src={product.imageUrl} />
-                    <div className="flex self-center justify-between mt-2  mb-2">
-                      <div className="bold">{product.name}</div>
+                  <div className=" rounded border-2 h-full object-center">
+                    <img className="max-w-full " src={product.imageUrl} />
+                    <div className="flex place-self-end justify-between mt-2  mb-2">
+                      <div className="text-gray-700 uppercase text-md">
+                        {product.name}
+                      </div>
 
-                      <div className="text-right content-center">
+                      <div className="text-right content-center text-gray-700 uppercase text-md">
                         $ {(product.price / 100).toFixed(2)}
                       </div>
                     </div>

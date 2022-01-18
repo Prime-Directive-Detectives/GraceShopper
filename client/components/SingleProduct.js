@@ -2,16 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getSingleProduct } from "../store/singleProduct";
 import { getAllProducts } from "../store/products";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const loadedProduct = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(4);
+
   const [loadedProduct, setLoadedProduct] = useState({});
 
   const { singleProduct } = useSelector((state) => {
     return { singleProduct: state.singleProduct.singleProduct };
   });
+
   const { allProducts } = useSelector((state) => {
     return { allProducts: state.products.allProducts };
   });
@@ -39,8 +41,6 @@ const loadedProduct = () => {
     indexOfFirstProduct,
     indexOfLastProduct
   );
-
-  console.log("singleProduct.id", singleProduct.id);
 
   return (
     <div className="container mx-auto px-6">
@@ -121,7 +121,7 @@ const loadedProduct = () => {
                   return (
                     <div
                       key={product.id}
-                      className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden flex-col w-80 h-80 justify-evenly"
+                      className=" max-w-sm mx-auto rounded-md shadow-md overflow-hidden flex-col w-80 h-80 justify-evenly"
                     >
                       <div
                         className="h-64"
@@ -130,21 +130,17 @@ const loadedProduct = () => {
                         }}
                       >
                         <div className="mx-auto">
-                          {/* <div className="flex-wrap "> */}
                           <img
-                            className="flex items-end h-full w-full object-cover h-48 "
+                            className="flex items-end  w-full object-cover h-48 object-center"
                             src={product.imageUrl}
                           />
-                          {/* </div> */}
-                          {/* <div className="px-5 py-3"> */}
-                          <h3 className="text-gray-700 uppercase mt-3">
-                            {product.name}
-                          </h3>
-                          <span className="text-gray-500 mt-2">
-                            ${(product.price / 100).toFixed(2)}
-                          </span>
-                          {/* </div> */}
                         </div>
+                        <h3 className="text-gray-700 uppercase mt-3">
+                          {product.name}
+                        </h3>
+                        <span className="text-gray-500 mt-2">
+                          ${(product.price / 100).toFixed(2)}
+                        </span>
                       </div>
                       <div className="flex justify-end">
                         <button className="p-2 rounded-full bg-indigo-600 text-white  hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500 mr-4 mb-4 relative">
