@@ -31,7 +31,7 @@ const UserList = () => {
                   <th className="text-left p-3 px-5">Email</th>
                   <th className="text-left p-3 px-5">First Name</th>
                   <th className="text-left p-3 px-5">Last Name</th>
-                  <th className="text-left p-3 px-5">Role</th>
+                  <th className="text-left p-3 px-5">Admin</th>
                 </tr>
                 {users.map((user) => {
                   return <UserRow user={user} key={user.id} />;

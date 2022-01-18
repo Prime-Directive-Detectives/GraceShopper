@@ -18,6 +18,12 @@ const UserRow = (props) => {
     }
   };
 
+  const handleAdminChange = () => {
+    if (edit) {
+      setState((state) => ({ ...state, adminStatus: !state.adminStatus }));
+    }
+  };
+
   const onClickChange = useCallback(() => {
     setEdit(!edit), [edit, setEdit];
   });
@@ -32,12 +38,11 @@ const UserRow = (props) => {
   };
 
   return (
-    <tr className="border-b hover:bg-blue-100 bg-gray-100">
+    <tr className="border-b hover:bg-blue-100 bg-white">
       <td className="p-3 px-5">
         <input
           onChange={handleChange}
           name="username"
-          type="text"
           disabled={!edit}
           value={state.username}
           className="bg-transparent"
@@ -47,7 +52,6 @@ const UserRow = (props) => {
         <input
           onChange={handleChange}
           name="email"
-          type="text"
           disabled={!edit}
           value={state.email}
           className="bg-transparent"
@@ -58,7 +62,6 @@ const UserRow = (props) => {
         <input
           onChange={handleChange}
           name="firstName"
-          type="text"
           disabled={!edit}
           value={state.firstName}
           className="bg-transparent"
@@ -68,7 +71,6 @@ const UserRow = (props) => {
         <input
           onChange={handleChange}
           name="lastName"
-          type="text"
           disabled={!edit}
           value={state.lastName}
           className="bg-transparent"
@@ -76,11 +78,31 @@ const UserRow = (props) => {
       </td>
       {state.adminStatus ? (
         <td className="p-3 px-5">
-          <input disabled={true} value="Admin" className="bg-transparent" />
+          <div className="form-check">
+            <input
+              onChange={handleAdminChange}
+              className="form-checkbox appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+              type="checkbox"
+              name="adminStatus"
+              disabled={!edit}
+              value={state.adminStatus}
+              defaultChecked={state.adminStatus}
+            />
+          </div>
         </td>
       ) : (
         <td className="p-3 px-5">
-          <input disabled={true} value="User" className="bg-transparent" />
+          <div className="form-check">
+            <input
+              onChange={handleAdminChange}
+              className="form-checkbox appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+              type="checkbox"
+              name="adminStatus"
+              disabled={!edit}
+              value={state.adminStatus}
+              defaultChecked={state.adminStatus}
+            />
+          </div>
         </td>
       )}
       <td className="p-3 px-5 flex justify-end">
