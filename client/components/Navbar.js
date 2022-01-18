@@ -15,7 +15,7 @@ const Navbar = () => {
 
 	const dispatch = useDispatch();
 
-	const { openCart, cartQty } = useGlobalContext();
+	const { openCart, cartQty, guestCartQty } = useGlobalContext();
 
 	return (
 		<nav className="bg-slate-200 shadow-lg">
@@ -66,9 +66,7 @@ const Navbar = () => {
 							<div className="hidden md:flex items-center space-x-1">
 								<Link to="/home" className="flex items-center py-4 px-2">
 									{/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
-									<span className="font-bold text-red-500 text-lg">
-										Clothings R Us
-									</span>
+									<span className="font-bold text-red-500 text-lg">Clothings R Us</span>
 								</Link>
 								<Link
 									to="/maleProducts"
@@ -160,9 +158,7 @@ const Navbar = () => {
 							<div className="hidden md:flex items-center space-x-1">
 								<Link to="/home" className="flex items-center py-4 px-2">
 									{/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
-									<span className="font-bold text-red-500 text-lg">
-										Clothings R Us
-									</span>
+									<span className="font-bold text-red-500 text-lg">Clothings R Us</span>
 								</Link>
 								<Link
 									to="/maleProducts"
@@ -208,7 +204,7 @@ const Navbar = () => {
 									</svg>
 									<span className="absolute inset-0 object-right-top -mr-6">
 										<div className="inline-flex items-center px-1.5 py-0.5 border-2 border-white rounded-full text-xs font-semibold leading-4 bg-red-500 text-white">
-											Guest
+											{guestCartQty ? guestCartQty : 0}
 										</div>
 									</span>
 								</button>

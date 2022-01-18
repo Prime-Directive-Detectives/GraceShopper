@@ -4,8 +4,10 @@ import { getSingleProduct } from "../store/singleProduct";
 import { useParams } from "react-router-dom";
 import { getAllProducts } from "../store/products";
 import { addToCart } from "../store/order";
+import { useGlobalContext } from "../context";
 
 const SingleProduct = () => {
+	const { _setGuestCartQty } = useGlobalContext();
 	const [loadedProduct, setLoadedProduct] = useState({});
 
 	const { singleProduct } = useSelector((state) => {
@@ -35,24 +37,33 @@ const SingleProduct = () => {
 
 	let similarProducts = allProducts.filter((product) => product.type === singleProduct.type);
 
-	const guestAddToCart = (productId) => {
+	const guestAddToCart = (id, color, imageUrl, price, name) => {
 		const guestCart = window.localStorage.getItem("cart");
 		if (!guestCart) {
-			window.localStorage.setItem("cart", JSON.stringify([{ productId, qty: 1 }]));
+			window.localStorage.setItem("cart", JSON.stringify([{ id, quantity: 1, color, imageUrl, price, name }]));
+			_setGuestCartQty(1);
 		} else {
 			let tempCart = JSON.parse(guestCart);
 
-			let item = tempCart.find((item) => item.productId === productId);
+			let item = tempCart.find((item) => item.id === id);
 			if (!item) {
-				tempCart.push({ productId, qty: 1 });
+				tempCart.push({ id, quantity: 1, color, imageUrl, price, name });
+				const amount = tempCart.reduce((total, item) => {
+					return (total += item.quantity);
+				}, 0);
+				_setGuestCartQty(amount);
 				window.localStorage.setItem("cart", JSON.stringify(tempCart));
 			} else {
 				tempCart = tempCart.map((item) => {
-					if (item.productId === productId) {
-						item.qty < 10 && item.qty++;
+					if (item.id === id) {
+						item.quantity < 10 && item.quantity++;
 					}
 					return item;
 				});
+				const amount = tempCart.reduce((total, item) => {
+					return (total += item.quantity);
+				}, 0);
+				_setGuestCartQty(amount);
 				window.localStorage.setItem("cart", JSON.stringify(tempCart));
 			}
 		}
@@ -111,7 +122,15 @@ const SingleProduct = () => {
 							<div className="flex items-center mt-6 space-x-3">
 								<button
 									onClick={() => {
-										isLoggedIn ? dispatch(addToCart(user.id, loadedProduct.id)) : guestAddToCart(loadedProduct.id);
+										isLoggedIn
+											? dispatch(addToCart(user.id, loadedProduct.id))
+											: guestAddToCart(
+													loadedProduct.id,
+													loadedProduct.color,
+													loadedProduct.imageUrl,
+													loadedProduct.price,
+													loadedProduct.name
+											  );
 									}}
 									className="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500"
 								>
