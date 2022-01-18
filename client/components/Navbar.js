@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store";
 import { useGlobalContext } from "../context";
+import SearchBar from "./SearchBar";
 
 const Navbar = () => {
   const { isLoggedIn, adminStatus, username } = useSelector((state) => {
@@ -102,6 +103,7 @@ const Navbar = () => {
                 >
                   All Clothing
                 </Link>
+                <SearchBar placeholder="Search" />
               </div>
               <div>
                 <button
@@ -196,6 +198,7 @@ const Navbar = () => {
                 >
                   All Clothing
                 </Link>
+                <SearchBar placeholder="Search" />
               </div>
               <div>
                 <button

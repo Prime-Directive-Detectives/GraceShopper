@@ -85,10 +85,10 @@ const Routes = () => {
         </Elements>
       )}
       <Route exact path="/success" component={Success} />
-      <Route path="/allProducts/:productId" component={SingleProduct} />
+      <Route path="/allProducts/:id" component={SingleProduct} />
+      <Route path="/home" component={Home} />
       {isLoggedIn ? (
         <Switch>
-          <Route path="/home" component={Home} />
           {adminStatus && <Route path="/addProduct" component={AddProduct} />}
           {adminStatus && (
             <Route path="/editProduct/" component={EditProduct} />

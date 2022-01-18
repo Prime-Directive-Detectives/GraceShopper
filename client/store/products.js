@@ -52,7 +52,6 @@ const deleteProduct = (product) => {
  * THUNK CREATORS
  */
 export const getAllProducts = () => {
-  const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
     try {
       const { data } = await axios.get("/api/allProducts");
@@ -63,7 +62,6 @@ export const getAllProducts = () => {
   };
 };
 export const getMaleProducts = () => {
-  const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
     try {
       const { data } = await axios.get("/api/allProducts/male");

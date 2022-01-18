@@ -24,7 +24,7 @@ const AuthForm = ({ formName }) => {
   };
 
   return (
-    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 pt-20">
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 pt-20 pb-96 mb-32">
       <div className="w-full max-w-md">
         <form
           className="bg-white shadow-lg rounded px-12 pt-6 pb-8 mb-4"

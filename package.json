@@ -43,7 +43,8 @@
     "react-confetti": "^6.0.1",
     "sequelize": "^6.3.5",
     "stripe": "^8.197.0",
-    "style-loader": "^3.3.1"
+    "style-loader": "^3.3.1",
+    "swiper": "^7.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

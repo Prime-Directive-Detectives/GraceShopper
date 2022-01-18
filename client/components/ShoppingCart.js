@@ -47,7 +47,7 @@ function ShoppingCart() {
     <Transition.Root show={isCartOpen} as={Fragment}>
       <Dialog
         as="div"
-        className="fixed inset-0 overflow-hidden"
+        className="fixed inset-0 overflow-hidden z-10"
         onClose={closeCart}
       >
         <div className="absolute inset-0 overflow-hidden">
