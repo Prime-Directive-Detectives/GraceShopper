@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addOrderThunk } from "../store/order";
 import {
   PaymentElement,
@@ -7,11 +7,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 
-const Checkout = () => {
-  const { order } = useSelector((state) => {
-    return { order: state.order };
-  });
-
+const Checkout = (props) => {
   const dispatch = useDispatch();
 
   const stripe = useStripe();
@@ -19,7 +15,6 @@ const Checkout = () => {
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [cartTotal, setCartTotal] = useState(0);
   const [state, setState] = useState({
     email: "",
     address: "",
@@ -61,18 +56,8 @@ const Checkout = () => {
   }, [stripe]);
 
   useEffect(() => {
-    let cartTotal = order.products.reduce((total, product) => {
-      const qty = order.quantity.find(
-        (item) => item.productId === product.id
-      )?.quantity;
-      return (total += product.price * qty);
-    }, 0);
-    setCartTotal(cartTotal);
-  }, [order.quantity]);
-
-  useEffect(() => {
-    setState((state) => ({ ...state, cost: cartTotal }));
-  }, [cartTotal]);
+    setState((state) => ({ ...state, cost: props.cartTotal }));
+  }, [props.cartTotal]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -94,7 +79,7 @@ const Checkout = () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:8080",
+        return_url: "http://localhost:8080/success",
       },
     });
 
@@ -183,7 +168,7 @@ const Checkout = () => {
         <PaymentElement className="mb-4" />
         <div className="mt-4">
           <p className="mt-4 text-gray-800 font-medium">
-            Order total: ${(cartTotal / 100).toFixed(2)}
+            Order total: ${(props.cartTotal / 100).toFixed(2)}
           </p>
           <button
             className="px-4 py-1 text-white font-light tracking-wider bg-red-400 rounded w-full"
@@ -192,15 +177,24 @@ const Checkout = () => {
           >
             <span id="button-text">
               {isLoading ? (
-                <div className="spinner" id="spinner"></div>
+                <div className="flex justify-center items-center space-x-2">
+                  <div
+                    className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-red-600"
+                    role="status"
+                  ></div>
+                </div>
               ) : (
                 "Pay now"
               )}
             </span>
           </button>
           {message && (
-            <div className="bg-red-700 text-lg leading-relaxed pt-4 text-center">
-              {message}
+            <div
+              class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-2"
+              role="alert"
+            >
+              <span class="block sm:inline">{message}</span>
+              <span class="absolute top-0 bottom-0 right-0 px-4 py-3"></span>
             </div>
           )}
         </div>

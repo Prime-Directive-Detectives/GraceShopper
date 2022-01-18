@@ -39,6 +39,7 @@
     "morgan": "^1.9.1",
     "pg": "^8.5.1",
     "postcss-loader": "^6.2.1",
+    "react-confetti": "^6.0.1",
     "sequelize": "^6.3.5",
     "stripe": "^8.197.0",
     "style-loader": "^3.3.1"
