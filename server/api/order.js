@@ -43,6 +43,20 @@ router.get("/user/:userId", async (req, res, next) => {
   }
 });
 
+router.delete("/:orderId/orderItems", async (req, res, next) => {
+  try {
+    const deleteUserOrder = await OrderItem.destroy({
+      where: {
+        orderId: req.params.orderId,
+      },
+    });
+    console.log("Look here", deleteUserOrder);
+    res.json(deleteUserOrder);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // get all products in one cart by orderId
 router.get("/:id/products", async (req, res, next) => {
   try {

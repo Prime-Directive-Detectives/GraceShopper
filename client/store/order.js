@@ -3,6 +3,7 @@ import axios from "axios";
 const TOKEN = "token";
 const GOT_ORDERID_PRODUCTS = "GOT_ORDERID_PRODUCTS";
 const DELETE_ORDER_PRODUCT = "DELETE_ORDER_PRODUCT";
+const DELETE_ORDER_ITEMS = "DELETE_ORDER_ITEMS";
 const UPDATE_ORDER_PRODUCT_QTY = "UPDATE_ORDER_PRODUCT_QTY";
 const ADD_ORDER = "ADD_ORDER";
 
@@ -10,6 +11,13 @@ const gotOrderIdAndProducts = (data) => ({
   type: GOT_ORDERID_PRODUCTS,
   data,
 });
+
+const _deleteOrderItems = (deleteOrderItems) => {
+  return {
+    type: DELETE_ORDER_ITEMS,
+    deleteOrderItems,
+  };
+};
 
 const _deleteOrderProduct = (deletedProduct) => ({
   type: DELETE_ORDER_PRODUCT,
@@ -49,6 +57,17 @@ export const fetchOrderIdAndProducts = (userId) => {
       }
     } catch (error) {
       console.log("Error from fetchOrder thunk", error);
+    }
+  };
+};
+
+export const deleteOrderItems = (orderId) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(`/api/order/${orderId}/orderItems`);
+      dispatch(_deleteOrderItems(data));
+    } catch (err) {
+      console.log("Error from deleteOrderItems thunk", err);
     }
   };
 };
@@ -105,12 +124,21 @@ export const addOrderThunk = (order) => {
   };
 };
 
-const initialState = { orderId: null, products: [], quantity: [], order: {} };
+const initialState = {
+  orderId: null,
+  products: [],
+  quantity: [],
+  order: {},
+  orderItems: [],
+};
 
 export default function orderReducer(state = initialState, action) {
   switch (action.type) {
     case GOT_ORDERID_PRODUCTS:
       return action.data;
+
+    case DELETE_ORDER_ITEMS:
+      return { ...state, orderItems: action.deleteOrderItems };
 
     case DELETE_ORDER_PRODUCT:
       const updatedProducts = state.products.filter(

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { addOrderThunk } from "../store/order";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addOrderThunk,
+  deleteOrderItems,
+  fetchOrderIdAndProducts,
+} from "../store/order";
 import {
   PaymentElement,
   useStripe,
@@ -8,6 +12,14 @@ import {
 } from "@stripe/react-stripe-js";
 
 const Checkout = (props) => {
+  const { order, user, isLoggedIn } = useSelector((state) => {
+    return {
+      order: state.order,
+      user: state.auth,
+      isLoggedIn: !!state.auth.id,
+    };
+  });
+
   const dispatch = useDispatch();
 
   const stripe = useStripe();
@@ -23,6 +35,10 @@ const Checkout = (props) => {
     zip: "",
     cost: 0,
   });
+
+  useEffect(() => {
+    user.id && !order.isComplete && dispatch(fetchOrderIdAndProducts(user.id));
+  }, [user.id, isLoggedIn]);
 
   useEffect(() => {
     if (!stripe) {
@@ -69,6 +85,7 @@ const Checkout = (props) => {
     e.preventDefault();
 
     dispatch(addOrderThunk(state));
+    dispatch(deleteOrderItems(order.orderId));
 
     if (!stripe || !elements) {
       return;
