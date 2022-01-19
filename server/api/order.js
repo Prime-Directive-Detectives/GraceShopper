@@ -172,6 +172,20 @@ router.post("/:orderId/:productId", async (req, res, next) => {
 	}
 });
 
+//add product to order by orderId and productId with qty
+router.post("/:orderId/:productId/:qty", async (req, res, next) => {
+	try {
+		const newProduct = await OrderItem.create({
+			orderId: req.params.orderId,
+			productId: req.params.productId,
+			quantity: req.params.qty,
+		});
+		res.status(201).json(newProduct);
+	} catch (err) {
+		next(err);
+	}
+});
+
 router.post("/add", async (req, res, next) => {
 	try {
 		const body = _.pick(req.body, ["email", "address", "city", "state", "zip", "cost"]);
