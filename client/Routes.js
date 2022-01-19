@@ -17,6 +17,7 @@ import UserList from "./components/UserList";
 import Checkout from "./components/Checkout";
 import AddUser from "./components/AddUser";
 import Success from "./components/Success";
+import GuestCheckout from "./components/GuestCheckout";
 
 const stripePromise = loadStripe(
 	"pk_test_51KJIf9HyurgsZRtgqUqJhFKDiDnNMM3UUWn0dlC6ziB6ohxQGYvWMufl228hr0RM4E9kzMlrJsmTnHJt2NXvZ2gu00HAgwL2qj"
@@ -32,14 +33,6 @@ const Routes = () => {
 	});
 
 	useEffect(() => {
-		let cartTotal = order.products.reduce((total, product) => {
-			const qty = order.quantity.find((item) => item.productId === product.id)?.quantity;
-			return (total += product.price * qty);
-		}, 0);
-		setCartTotal(cartTotal);
-	}, [order.quantity]);
-
-	useEffect(() => {
 		// Create PaymentIntent as soon as the page loads
 		fetch("/create-payment-intent", {
 			method: "POST",
@@ -49,8 +42,6 @@ const Routes = () => {
 			.then((res) => res.json())
 			.then((data) => setClientSecret(data.clientSecret));
 	}, []);
-
-	const [cartTotal, setCartTotal] = useState(0);
 	const [clientSecret, setClientSecret] = useState("");
 	const appearance = {
 		theme: "stripe",
@@ -73,9 +64,10 @@ const Routes = () => {
 			<Route exact path="/femaleProducts" component={FemaleProducts} />
 			<Route exact path="/accessories" component={Accessories} />
 			<Route exact path="/signup" component={AddUser} />
+			{!isLoggedIn && <Route exact path="/guestUser" component={GuestCheckout} />}
 			{clientSecret && (
 				<Elements options={options} stripe={stripePromise}>
-					<Route exact path="/checkout" render={() => <Checkout cartTotal={cartTotal} />} />
+					<Route exact path="/checkout" component={Checkout} />
 				</Elements>
 			)}
 			<Route exact path="/success" component={Success} />
@@ -90,7 +82,7 @@ const Routes = () => {
 			) : (
 				<Switch>
 					<Route path="/login">
-						<AuthForm formName="login" />{" "}
+						<AuthForm formName="login" />
 					</Route>
 				</Switch>
 			)}

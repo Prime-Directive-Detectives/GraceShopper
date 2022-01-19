@@ -8,18 +8,18 @@ import singleProduct from "./singleProduct";
 import order from "./order";
 import singleUser from "./singleUser";
 import users from "./users";
+import guestCheckout from "./guestCheckout";
 
 const reducer = combineReducers({
-  auth,
-  products,
-  singleProduct,
-  order,
-  singleUser,
-  users,
+	auth,
+	products,
+	singleProduct,
+	order,
+	singleUser,
+	users,
+	guestCheckout,
 });
-const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
-);
+const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware, createLogger({ collapsed: true })));
 const store = createStore(reducer, middleware);
 
 export default store;
