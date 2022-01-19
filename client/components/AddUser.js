@@ -1,19 +1,15 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addUserThunk } from "../store/singleUser";
+import { useDispatch } from "react-redux";
+import { signup } from "../store/auth";
 import { useHistory } from "react-router-dom";
 
 const AddUser = () => {
-  let history = useHistory();
-
-  const { singleUser } = useSelector((state) => {
-    return { singleUser: state.singleUser };
-  });
-
   const dispatch = useDispatch();
+  let history = useHistory();
 
   const [state, setState] = useState({
     username: "",
+    email: "",
     password: "",
     firstName: "",
     lastName: "",
@@ -28,8 +24,8 @@ const AddUser = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(addUserThunk(state));
-    history.goBack();
+    dispatch(signup(state));
+    history.push("/home");
   };
 
   return (
@@ -47,7 +43,7 @@ const AddUser = () => {
             <input
               onChange={handleChange}
               name="username"
-              value={singleUser.username}
+              value={state.username}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
               placeholder="Username"
             />
@@ -57,7 +53,7 @@ const AddUser = () => {
             <input
               onChange={handleChange}
               name="email"
-              value={singleUser.email}
+              value={state.email}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
               placeholder="Email Address"
             />
@@ -67,7 +63,7 @@ const AddUser = () => {
             <input
               onChange={handleChange}
               name="password"
-              value={singleUser.password}
+              value={state.password}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
               placeholder="Password"
             />
@@ -77,7 +73,7 @@ const AddUser = () => {
             <input
               onChange={handleChange}
               name="firstName"
-              value={singleUser.firstName}
+              value={state.firstName}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
               placeholder="First Name"
             />
@@ -87,7 +83,7 @@ const AddUser = () => {
             <input
               onChange={handleChange}
               name="lastName"
-              value={singleUser.lastName}
+              value={state.lastName}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
               placeholder="Last Name"
             />

@@ -76,7 +76,7 @@ const Navbar = () => {
                 <Link to="/home" className="flex items-center py-4 px-2">
                   {/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
                   <span className="font-bold text-red-500 text-lg">
-                    Clothing R Us
+                    Clothes R Us
                   </span>
                 </Link>
                 <Link
@@ -171,7 +171,7 @@ const Navbar = () => {
                 <Link to="/home" className="flex items-center py-4 px-2">
                   {/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
                   <span className="font-bold text-red-500 text-lg">
-                    Clothing R Us
+                    Clothes R Us
                   </span>
                 </Link>
                 <Link

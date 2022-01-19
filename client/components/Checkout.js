@@ -21,6 +21,7 @@ const Checkout = (props) => {
   const stripe = useStripe();
   const elements = useElements();
 
+  const [cartTotal, setCartTotal] = useState(0);
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [state, setState] = useState({
@@ -37,11 +38,21 @@ const Checkout = (props) => {
   }, [user.id, isLoggedIn]);
 
   useEffect(() => {
+    const cartTotal = order.products.reduce((total, product) => {
+      const qty = order.quantity.find(
+        (item) => item.productId === product.id
+      )?.quantity;
+      return (total += product.price * qty);
+    }, 0);
+    setCartTotal(cartTotal);
+  }, [order.quantity]);
+
+  useEffect(() => {
     setState((state) => ({
       ...state,
-      cost: props.cartTotal / 100,
+      cost: cartTotal / 100,
     }));
-  }, [props.cartTotal]);
+  }, [cartTotal]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -150,7 +161,7 @@ const Checkout = (props) => {
         <PaymentElement className="mb-4" />
         <div className="mt-4">
           <p className="mt-4 text-gray-800 font-medium">
-            Order total: ${(props.cartTotal / 100).toFixed(2)}
+            Order total: ${(cartTotal / 100).toFixed(2)}
           </p>
           <button
             className="px-4 py-1 text-white font-light tracking-wider bg-red-400 rounded w-full"

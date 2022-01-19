@@ -54,7 +54,6 @@ export const editUserThunk = (id, user) => {
             authorization: token,
           },
         });
-
         dispatch(editUser(data));
       }
     } catch (error) {
