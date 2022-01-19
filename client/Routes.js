@@ -62,7 +62,7 @@ const Routes = () => {
           <Route path="/login" component={AuthForm}></Route>
         </Switch>
       )}
-      <Route path="/" component={Home} />
+      <Route exact path="/" component={Home} />
     </div>
   );
 };
