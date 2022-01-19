@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authenticate } from "../store";
-
+// import { useHistory } from "react-router-dom";
 const AuthForm = ({ formName }) => {
   //the only thing we need from the store is the error so we get that using useSelector
   const { error } = useSelector((state) => {
@@ -12,7 +12,7 @@ const AuthForm = ({ formName }) => {
 
   //getting the actions from the store
   const dispatch = useDispatch();
-
+  // const history = useHistory();
   //local state for editing
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +20,8 @@ const AuthForm = ({ formName }) => {
   //we need a handle submit function to handle the form submission because of what happens when you submit a form, we need to stop the default behavior of the form which is to refresh the page
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // history.push("/home");
     dispatch(authenticate(username, password, formName));
   };
 
