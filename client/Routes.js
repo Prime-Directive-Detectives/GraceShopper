@@ -19,47 +19,52 @@ import UserProfile from "./components/UserProfile";
 import GuestCheckout from "./components/GuestCheckout";
 
 const Routes = () => {
-	const { isLoggedIn, adminStatus } = useSelector((state) => {
-		return {
-			isLoggedIn: !!state.auth.id,
-			adminStatus: state.auth.adminStatus,
-		};
-	});
+  const { isLoggedIn, adminStatus } = useSelector((state) => {
+    return {
+      isLoggedIn: !!state.auth.id,
+      adminStatus: state.auth.adminStatus,
+    };
+  });
 
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-	useEffect(() => {
-		dispatch(me());
-	}, []);
+  useEffect(() => {
+    dispatch(me());
+  }, []);
 
-	return (
-		<div>
-			<Route exact path="/allProducts" component={AllProducts} />
-			<Route exact path="/maleProducts" component={MaleProducts} />
-			<Route exact path="/femaleProducts" component={FemaleProducts} />
-			<Route exact path="/accessories" component={Accessories} />
-			<Route exact path="/signup" component={AddUser} />
-			{!isLoggedIn && <Route exact path="/guestUser" component={GuestCheckout} />}
-			<Route exact path="/checkout" component={Checkout} />
-			<Route exact path="/success" component={Success} />
-			<Route path="/allProducts/:id" component={SingleProduct} />
-			<Route path="/home" component={Home} />
-			<Route path="/" component={Home} />
-			{isLoggedIn ? (
-				<Switch>
-					<Route path="/userProfile" component={UserProfile} />
+  return (
+    <div>
+      <Route exact path="/allProducts" component={AllProducts} />
+      <Route exact path="/maleProducts" component={MaleProducts} />
+      <Route exact path="/femaleProducts" component={FemaleProducts} />
+      <Route exact path="/accessories" component={Accessories} />
+      <Route exact path="/signup" component={AddUser} />
+      {!isLoggedIn && (
+        <Route exact path="/guestUser" component={GuestCheckout} />
+      )}
+      <Route exact path="/checkout" component={Checkout} />
+      <Route exact path="/success" component={Success} />
+      <Route path="/allProducts/:id" component={SingleProduct} />
+      <Route path="/home" component={Home} />
 
-					{adminStatus && <Route path="/addProduct" component={AddProduct} />}
-					{adminStatus && <Route path="/editProduct/" component={EditProduct} />}
-					{adminStatus && <Route exact path="/userList" component={UserList} />}
-				</Switch>
-			) : (
-				<Switch>
-					<Route path="/login" component={AuthForm}></Route>
-				</Switch>
-			)}
-		</div>
-	);
+      {isLoggedIn ? (
+        <Switch>
+          <Route path="/userProfile" component={UserProfile} />
+
+          {adminStatus && <Route path="/addProduct" component={AddProduct} />}
+          {adminStatus && (
+            <Route path="/editProduct/" component={EditProduct} />
+          )}
+          {adminStatus && <Route exact path="/userList" component={UserList} />}
+        </Switch>
+      ) : (
+        <Switch>
+          <Route path="/login" component={AuthForm}></Route>
+        </Switch>
+      )}
+      <Route path="/" component={Home} />
+    </div>
+  );
 };
 
 export default Routes;
