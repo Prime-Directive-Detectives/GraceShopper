@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store";
 import { useGlobalContext } from "../context";
+import SearchBar from "./SearchBar";
 
 const Navbar = () => {
   const { isLoggedIn, adminStatus, username } = useSelector((state) => {
@@ -15,7 +16,7 @@ const Navbar = () => {
 
   const dispatch = useDispatch();
 
-  const { openCart } = useGlobalContext();
+  const { openCart, cartQty, guestCartQty } = useGlobalContext();
 
   return (
     <nav className="bg-slate-200 shadow-lg">
@@ -25,10 +26,10 @@ const Navbar = () => {
             <div className="flex space-x-7">
               <div>
                 <Link
-                  to="#"
-                  className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
+                  to="/userProfile"
+                  className="py-4 px-2 text-red-500 font-semibold hover:text-red-600 transition duration-300"
                 >
-                  {username}
+                  Welcome, {username}
                 </Link>
                 <Link
                   to="/home"
@@ -45,18 +46,14 @@ const Navbar = () => {
                     Add Product
                   </Link>
                 )}
-                <Link
-                  to="#"
-                  className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
-                >
-                  Wish List
-                </Link>
-                <Link
-                  to="#"
-                  className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
-                >
-                  Coupon
-                </Link>
+                {adminStatus && (
+                  <Link
+                    to="/userList"
+                    className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
+                  >
+                    User List
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -67,7 +64,7 @@ const Navbar = () => {
                 <Link to="/home" className="flex items-center py-4 px-2">
                   {/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
                   <span className="font-bold text-red-500 text-lg">
-                    Clothings R Us
+                    Clothes R Us
                   </span>
                 </Link>
                 <Link
@@ -94,6 +91,7 @@ const Navbar = () => {
                 >
                   All Clothing
                 </Link>
+                <SearchBar placeholder="Search" />
               </div>
               <div>
                 <button
@@ -114,7 +112,7 @@ const Navbar = () => {
                   </svg>
                   <span className="absolute inset-0 object-right-top -mr-6">
                     <div className="inline-flex items-center px-1.5 py-0.5 border-2 border-white rounded-full text-xs font-semibold leading-4 bg-red-500 text-white">
-                      6
+                      {cartQty}
                     </div>
                   </span>
                 </button>
@@ -139,18 +137,6 @@ const Navbar = () => {
                 >
                   Sign Up
                 </Link>
-                <Link
-                  to="#"
-                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
-                >
-                  Wish List
-                </Link>
-                <Link
-                  to="#"
-                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
-                >
-                  Coupon
-                </Link>
               </div>
             </div>
           </div>
@@ -159,9 +145,8 @@ const Navbar = () => {
             <div className="flex justify-between">
               <div className="hidden md:flex items-center space-x-1">
                 <Link to="/home" className="flex items-center py-4 px-2">
-                  {/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
                   <span className="font-bold text-red-500 text-lg">
-                    Clothings R Us
+                    Clothes R Us
                   </span>
                 </Link>
                 <Link
@@ -188,6 +173,7 @@ const Navbar = () => {
                 >
                   All Clothing
                 </Link>
+                <SearchBar placeholder="Search" />
               </div>
               <div>
                 <button
@@ -208,7 +194,7 @@ const Navbar = () => {
                   </svg>
                   <span className="absolute inset-0 object-right-top -mr-6">
                     <div className="inline-flex items-center px-1.5 py-0.5 border-2 border-white rounded-full text-xs font-semibold leading-4 bg-red-500 text-white">
-                      6
+                      {guestCartQty ? guestCartQty : 0}
                     </div>
                   </span>
                 </button>

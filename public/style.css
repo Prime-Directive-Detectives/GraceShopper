@@ -9,7 +9,11 @@
       env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
 
+  main {
+    @apply flex-grow;
+  }
+
   body {
-    @apply bg-slate-50;
+    @apply bg-slate-50 flex flex-col min-h-screen;
   }
 }
