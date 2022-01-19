@@ -55,7 +55,7 @@ const Checkout = (props) => {
     if (!stripe || !elements) {
       return;
     }
-    dispatch(addOrderThunk(order.orderId, state));
+
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -68,6 +68,8 @@ const Checkout = (props) => {
     } else {
       setMessage("An unexpected error occured.");
     }
+
+    dispatch(addOrderThunk(order.orderId, state));
 
     setIsLoading(false);
   };
