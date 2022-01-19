@@ -77,7 +77,7 @@ const Checkout = () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:8080/success",
+        return_url: "https://clothes-r-us.herokuapp.com/success",
       },
     });
 
