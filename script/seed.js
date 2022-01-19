@@ -41,18 +41,18 @@ async function seed() {
 		}),
 	]);
 
-	await Promise.all(
-		users.map((user) => {
-			return Order.create({
-				userId: user.id,
-				email: "myemail123@gmail.com",
-				address: "My Address",
-				city: "NYC",
-				state: "NY",
-				zip: "33221",
-			});
-		})
-	);
+	// await Promise.all(
+	// 	users.map((user) => {
+	// 		return Order.create({
+	// 			userId: user.id,
+	// 			email: "myemail123@gmail.com",
+	// 			address: "My Address",
+	// 			city: "NYC",
+	// 			state: "NY",
+	// 			zip: "33221",
+	// 		});
+	// 	})
+	// );
 
 	await User.create({
 		username: "bob",
@@ -77,58 +77,58 @@ async function seed() {
 		})
 	);
 
-	await Promise.all([
-		OrderItem.create({
-			quantity: 2,
-			orderId: 2,
-			productId: 1,
-		}),
-		OrderItem.create({
-			quantity: 1,
-			orderId: 2,
-			productId: 3,
-		}),
-		OrderItem.create({
-			quantity: 3,
-			orderId: 2,
-			productId: 5,
-		}),
-		OrderItem.create({
-			quantity: 1,
-			orderId: 2,
-			productId: 7,
-		}),
-		OrderItem.create({
-			quantity: 1,
-			orderId: 2,
-			productId: 9,
-		}),
-		OrderItem.create({
-			quantity: 1,
-			orderId: 1,
-			productId: 12,
-		}),
-		OrderItem.create({
-			quantity: 1,
-			orderId: 1,
-			productId: 16,
-		}),
-		OrderItem.create({
-			quantity: 1,
-			orderId: 1,
-			productId: 14,
-		}),
-		OrderItem.create({
-			quantity: 1,
-			orderId: 1,
-			productId: 18,
-		}),
-		OrderItem.create({
-			quantity: 1,
-			orderId: 1,
-			productId: 20,
-		}),
-	]);
+	// await Promise.all([
+	// 	OrderItem.create({
+	// 		quantity: 2,
+	// 		orderId: 2,
+	// 		productId: 1,
+	// 	}),
+	// 	OrderItem.create({
+	// 		quantity: 1,
+	// 		orderId: 2,
+	// 		productId: 3,
+	// 	}),
+	// 	OrderItem.create({
+	// 		quantity: 3,
+	// 		orderId: 2,
+	// 		productId: 5,
+	// 	}),
+	// 	OrderItem.create({
+	// 		quantity: 1,
+	// 		orderId: 2,
+	// 		productId: 7,
+	// 	}),
+	// 	OrderItem.create({
+	// 		quantity: 1,
+	// 		orderId: 2,
+	// 		productId: 9,
+	// 	}),
+	// 	OrderItem.create({
+	// 		quantity: 1,
+	// 		orderId: 1,
+	// 		productId: 12,
+	// 	}),
+	// 	OrderItem.create({
+	// 		quantity: 1,
+	// 		orderId: 1,
+	// 		productId: 16,
+	// 	}),
+	// 	OrderItem.create({
+	// 		quantity: 1,
+	// 		orderId: 1,
+	// 		productId: 14,
+	// 	}),
+	// 	OrderItem.create({
+	// 		quantity: 1,
+	// 		orderId: 1,
+	// 		productId: 18,
+	// 	}),
+	// 	OrderItem.create({
+	// 		quantity: 1,
+	// 		orderId: 1,
+	// 		productId: 20,
+	// 	}),
+	// ]);
 
 	console.log(`seeded ${users.length} users`);
 	console.log(`seeded successfully`);

@@ -18,6 +18,7 @@ import Checkout from "./components/Checkout";
 import AddUser from "./components/AddUser";
 import Success from "./components/Success";
 import UserProfile from "./components/UserProfile";
+import GuestCheckout from "./components/GuestCheckout";
 
 const stripePromise = loadStripe(
   "pk_test_51KJIf9HyurgsZRtgqUqJhFKDiDnNMM3UUWn0dlC6ziB6ohxQGYvWMufl228hr0RM4E9kzMlrJsmTnHJt2NXvZ2gu00HAgwL2qj"

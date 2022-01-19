@@ -246,13 +246,23 @@ function ShoppingCart() {
 										</div>
 										<p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
 										<div className="mt-6">
-											<Link
-												to="/checkout"
-												onClick={() => closeCart()}
-												className="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-											>
-												Checkout
-											</Link>
+											{isLoggedIn ? (
+												<Link
+													to="/checkout"
+													onClick={() => closeCart()}
+													className="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+												>
+													Checkout
+												</Link>
+											) : (
+												<Link
+													to="/guestUser"
+													onClick={() => closeCart()}
+													className="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+												>
+													Checkout
+												</Link>
+											)}
 										</div>
 										<div className="mt-6 flex justify-center text-sm text-center text-gray-500">
 											<p>
