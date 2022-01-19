@@ -1,7 +1,7 @@
 {
   "name": "GraceShopper",
   "version": "2.0.0",
-  "description": "GraceShopper eCommerce App",
+  "description": "Clothes R US",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
