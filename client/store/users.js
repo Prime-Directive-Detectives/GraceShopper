@@ -4,6 +4,7 @@ const TOKEN = "token";
 const GET_ALL_USERS = "GET_ALL_USERS";
 const EDIT_USER = "EDIT_USER";
 const DELETE_USER = "DELETE_USER";
+const GET_USER = "GET_USER";
 
 const setAllUsers = (users) => {
   return {
@@ -19,10 +20,35 @@ const editUser = (user) => {
   };
 };
 
+const getUser = (user) => {
+  return {
+    type: GET_USER,
+    user,
+  };
+};
+
 const deleteUser = (user) => {
   return {
     type: DELETE_USER,
     user,
+  };
+};
+
+export const getUserThunk = (id) => {
+  const token = window.localStorage.getItem(TOKEN);
+  return async (dispatch) => {
+    try {
+      if (token) {
+        const { data } = await axios.get(`/api/admin/users/${id}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(getUser(data));
+      }
+    } catch (err) {
+      console.log("Error at getUserThunk", err);
+    }
   };
 };
 
@@ -83,6 +109,7 @@ export const deleteUserThunk = (user) => {
 
 const initialState = {
   users: [],
+  user: {},
 };
 
 export default function (state = initialState, action) {
@@ -93,13 +120,15 @@ export default function (state = initialState, action) {
       const index = state.users.findIndex((user) => user.id === action.user.id);
       const users = state.users;
       users[index] = action.user;
-      return {
-        users,
-      };
+      return { ...state, users };
     case DELETE_USER:
       return {
+        ...state,
         users: state.users.filter((user) => user.id !== action.user.id),
       };
+    case GET_USER:
+      return { ...state, user: action.user };
+
     default:
       return state;
   }

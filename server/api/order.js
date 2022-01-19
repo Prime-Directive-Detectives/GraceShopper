@@ -193,3 +193,16 @@ router.put("/:id", async (req, res, next) => {
     next(err);
   }
 });
+//add product to order by orderId and productId with qty
+router.post("/:orderId/:productId/:qty", async (req, res, next) => {
+  try {
+    const newProduct = await OrderItem.create({
+      orderId: req.params.orderId,
+      productId: req.params.productId,
+      quantity: req.params.qty,
+    });
+    res.status(201).json(newProduct);
+  } catch (err) {
+    next(err);
+  }
+});

@@ -7,12 +7,13 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 
-const Checkout = (props) => {
-  const { order, user, isLoggedIn } = useSelector((state) => {
+const Checkout = () => {
+  const { order, user, isLoggedIn, guest } = useSelector((state) => {
     return {
       order: state.order,
       user: state.auth,
       isLoggedIn: !!state.auth.id,
+      guest: state.guestCheckout,
     };
   });
 
@@ -34,7 +35,13 @@ const Checkout = (props) => {
   });
 
   useEffect(() => {
-    user.id && !order.isComplete && dispatch(fetchOrderIdAndProducts(user.id));
+    if (guest) {
+      dispatch(fetchOrderIdAndProducts(guest));
+    } else {
+      user.id &&
+        !order.isComplete &&
+        dispatch(fetchOrderIdAndProducts(user.id));
+    }
   }, [user.id, isLoggedIn]);
 
   useEffect(() => {
@@ -86,7 +93,7 @@ const Checkout = (props) => {
   };
 
   return (
-    <div className="mt-4 leading-loose flex justify-center">
+    <div className="mt-4 leading-loose flex justify-center pb-20 pt-10">
       <form
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
         onSubmit={handleSubmit}

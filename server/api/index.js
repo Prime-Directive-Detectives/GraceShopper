@@ -2,7 +2,7 @@ const router = require("express").Router();
 const {
   models: { User },
 } = require("../db");
-const { adminCheck, userOrAdminCheck } = require("./middleware");
+const { userOrAdminCheck } = require("./middleware");
 
 router.use("*", async (req, res, next) => {
   if (req.headers.authorization) {
@@ -12,10 +12,9 @@ router.use("*", async (req, res, next) => {
   next();
 });
 
-router.use("/users", require("./users"));
 router.use("/order", userOrAdminCheck, require("./order.js"));
 router.use("/allProducts", require("./products"));
-router.use("/admin", adminCheck, require("./admin"));
+router.use("/admin", require("./admin"));
 
 router.use((req, res, next) => {
   const error = new Error("Not Found");

@@ -26,10 +26,10 @@ const Navbar = () => {
             <div className="flex space-x-7">
               <div>
                 <Link
-                  to="#"
+                  to="/userProfile"
                   className="py-4 px-2 text-red-500 font-semibold hover:text-red-600 transition duration-300"
                 >
-                  {username}
+                  Welcome, {username}
                 </Link>
                 <Link
                   to="/home"
@@ -54,18 +54,6 @@ const Navbar = () => {
                     User List
                   </Link>
                 )}
-                <Link
-                  to="#"
-                  className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
-                >
-                  Wish List
-                </Link>
-                <Link
-                  to="#"
-                  className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
-                >
-                  Coupon
-                </Link>
               </div>
             </div>
           </div>
@@ -149,18 +137,6 @@ const Navbar = () => {
                 >
                   Sign Up
                 </Link>
-                <Link
-                  to="#"
-                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
-                >
-                  Wish List
-                </Link>
-                <Link
-                  to="#"
-                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
-                >
-                  Coupon
-                </Link>
               </div>
             </div>
           </div>
@@ -169,7 +145,6 @@ const Navbar = () => {
             <div className="flex justify-between">
               <div className="hidden md:flex items-center space-x-1">
                 <Link to="/home" className="flex items-center py-4 px-2">
-                  {/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
                   <span className="font-bold text-red-500 text-lg">
                     Clothes R Us
                   </span>

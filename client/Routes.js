@@ -15,6 +15,8 @@ import UserList from "./components/UserList";
 import Checkout from "./components/Checkout";
 import AddUser from "./components/AddUser";
 import Success from "./components/Success";
+import UserProfile from "./components/UserProfile";
+import GuestCheckout from "./components/GuestCheckout";
 
 const Routes = () => {
   const { isLoggedIn, adminStatus } = useSelector((state) => {
@@ -37,12 +39,17 @@ const Routes = () => {
       <Route exact path="/femaleProducts" component={FemaleProducts} />
       <Route exact path="/accessories" component={Accessories} />
       <Route exact path="/signup" component={AddUser} />
+      {!isLoggedIn && (
+        <Route exact path="/guestUser" component={GuestCheckout} />
+      )}
       <Route exact path="/checkout" component={Checkout} />
       <Route exact path="/success" component={Success} />
       <Route path="/allProducts/:id" component={SingleProduct} />
       <Route path="/home" component={Home} />
       {isLoggedIn ? (
         <Switch>
+          <Route path="/userProfile" component={UserProfile} />
+
           {adminStatus && <Route path="/addProduct" component={AddProduct} />}
           {adminStatus && (
             <Route path="/editProduct/" component={EditProduct} />

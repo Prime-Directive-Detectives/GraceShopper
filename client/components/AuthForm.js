@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { login } from "../store";
 import { useHistory } from "react-router-dom";
 
-const AuthForm = ({ formName }) => {
+const AuthForm = () => {
   //the only thing we need from the store is the error so we get that using useSelector
   const { error } = useSelector((state) => {
     return {
@@ -13,7 +13,7 @@ const AuthForm = ({ formName }) => {
   let history = useHistory();
   //getting the actions from the store
   const dispatch = useDispatch();
-
+  // const history = useHistory();
   //local state for editing
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -43,6 +43,7 @@ const AuthForm = ({ formName }) => {
               type="text"
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
               placeholder="Username"
+              required
             />
           </div>
           <div className="mb-4">
@@ -53,6 +54,7 @@ const AuthForm = ({ formName }) => {
               type="password"
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
               placeholder="Password"
+              required
             />
           </div>
           <div>

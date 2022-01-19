@@ -15,7 +15,7 @@ const UserList = () => {
   }, []);
 
   return (
-    <div>
+    <div className="pb-96">
       {users.length === 0 ? (
         <img src="https://upload.wikimedia.org/wikipedia/commons/5/54/Ajux_loader.gif" />
       ) : (

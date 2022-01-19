@@ -26,7 +26,7 @@ const EditProduct = () => {
     e.preventDefault();
 
     dispatch(editProductThunk(singleProduct.id, state));
-    history.goBack();
+    history.push(`/allProducts/${singleProduct.id}`);
   };
 
   return (

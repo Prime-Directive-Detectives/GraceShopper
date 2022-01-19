@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { signup } from "../store/auth";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { createOrderAndUser } from "../store/guestCheckout";
 
-const AddUser = () => {
+const GuestCheckout = () => {
   const dispatch = useDispatch();
-  let history = useHistory();
-
+  const [completed, setCompleted] = useState(false);
   const [state, setState] = useState({
     username: "",
     email: "",
@@ -15,28 +14,52 @@ const AddUser = () => {
     lastName: "",
   });
 
+  const { guest } = useSelector((state) => {
+    return { guest: state.guestCheckout };
+  });
+
+  useEffect(() => {
+    if (state.username.length) {
+      setCompleted(true);
+      // we have the guest orders at this point -> pass the data in to redirect as props?
+    }
+  }, [guest]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const localStorage = JSON.parse(window.localStorage.cart);
+    const productIDsAndQty = localStorage.map((item) => {
+      return { productId: item.id, qty: item.quantity };
+    });
+
+    dispatch(createOrderAndUser(state, productIDsAndQty));
+  };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-
     setState((state) => ({ ...state, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    dispatch(signup(state));
-    history.push("/home");
-  };
+  if (completed) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/checkout",
+          state: { id: guest },
+        }}
+      />
+    );
+  }
 
   return (
-    <div className="flex items-center justify-center py-12 pb-96 px-4 sm:px-6 lg:px-8 pt-20">
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 pt-20 pb-96">
       <div className="w-full max-w-md">
         <form
           className="bg-white shadow-lg rounded px-12 pt-6 pb-8 mb-4"
           onSubmit={handleSubmit}
         >
           <h2 className="flex justify-center text-center text-2xl font-extrabold py-2 mb-4 text-red-600">
-            Sign Up
+            Guest Checkout
           </h2>
           <div className="mb-4">
             <label htmlFor="username"></label>
@@ -98,7 +121,7 @@ const AddUser = () => {
               className="group relative w-full flex justify-center mt-4 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
               type="submit"
             >
-              Register
+              Checkout
             </button>
           </div>
         </form>
@@ -107,4 +130,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default GuestCheckout;
