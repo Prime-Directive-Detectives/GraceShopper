@@ -64,7 +64,7 @@ const Navbar = () => {
                 <Link to="/home" className="flex items-center py-4 px-2">
                   {/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
                   <span className="font-bold text-red-500 text-lg">
-                    Clothings R Us
+                    Clothes R Us
                   </span>
                 </Link>
                 <Link
@@ -145,9 +145,8 @@ const Navbar = () => {
             <div className="flex justify-between">
               <div className="hidden md:flex items-center space-x-1">
                 <Link to="/home" className="flex items-center py-4 px-2">
-                  {/* <img src="#" alt="Logo" className="h-8 w-8 mr-2" /> */}
                   <span className="font-bold text-red-500 text-lg">
-                    Clothings R Us
+                    Clothes R Us
                   </span>
                 </Link>
                 <Link

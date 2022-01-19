@@ -40,7 +40,7 @@ const SingleProduct = () => {
   }, [singleProduct]);
 
   let similarProducts = allProducts.filter(
-    (product) => product.type === loadedProduct.type
+    (product) => product.gender === loadedProduct.gender
   );
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -90,7 +90,7 @@ const SingleProduct = () => {
   };
 
   return (
-    <div className="container mx-auto px-6">
+    <div className="container mx-auto px-6 pb-10">
       {!loadedProduct ? (
         <img src="https://upload.wikimedia.org/wikipedia/commons/5/54/Ajux_loader.gif" />
       ) : (
@@ -98,7 +98,7 @@ const SingleProduct = () => {
           <div className="md:flex md:items-center">
             <div className="w-full h-64 md:w-1/2 lg:h-96">
               <img
-                className="h-full w-full rounded-md object-cover max-w-lg mx-auto"
+                className="h-full w-full rounded-md max-w-lg mx-auto object-contain"
                 src={loadedProduct.imageUrl}
               />
             </div>
@@ -132,9 +132,6 @@ const SingleProduct = () => {
                   className="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500"
                 >
                   Add to Cart
-                </button>
-                <button className="px-8 py-2 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-400 focus:outline-none focus:bg-red-400">
-                  Add to Wishlist
                 </button>
                 {adminStatus && (
                   <Link to="/editProduct">
@@ -175,13 +172,13 @@ const SingleProduct = () => {
                       <div className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
                         <div className="flex-wrap">
                           <img
-                            className="flex items-end justify-end h-56 w-full bg-cover"
+                            className="flex items-end justify-end h-56 w-full bg-cover object-contain"
                             src={product.imageUrl}
                           />
                         </div>
                         <div className="px-5 py-3">
                           <h3 className="text-gray-700 uppercase">
-                            {product.name}
+                            {product.name.split(" ").slice(0, 3).join(" ")}
                           </h3>
                           <span className="text-gray-500 mt-2">
                             ${(product.price / 100).toFixed(2)}

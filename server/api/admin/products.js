@@ -1,9 +1,10 @@
 const router = require("express").Router();
+const { adminCheck } = require("../middleware");
 const {
   models: { Product },
 } = require("../../db");
 
-router.post("/add", async (req, res, next) => {
+router.post("/add", adminCheck, async (req, res, next) => {
   try {
     const addProduct = await Product.create(req.body);
     res.status(201).json(addProduct);
@@ -12,7 +13,7 @@ router.post("/add", async (req, res, next) => {
   }
 });
 
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", adminCheck, async (req, res, next) => {
   try {
     const editProduct = await Product.findByPk(req.params.id);
     res.send(await editProduct.update(req.body));
@@ -21,7 +22,7 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", adminCheck, async (req, res, next) => {
   try {
     const deleteProduct = await Product.findByPk(req.params.id);
     await deleteProduct.destroy();

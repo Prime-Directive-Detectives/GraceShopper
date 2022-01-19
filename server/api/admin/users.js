@@ -1,17 +1,16 @@
 const router = require("express").Router();
-
+const { adminCheck, userOrAdminCheck } = require("../middleware");
 const {
   models: { User },
 } = require("../../db");
 
-router.get("/", async (req, res, next) => {
+router.get("/", adminCheck, async (req, res, next) => {
   try {
     const users = await User.findAll({
       attributes: [
         "id",
         "username",
         "email",
-        "password",
         "firstName",
         "lastName",
         "adminStatus",
@@ -23,7 +22,16 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.put("/:id", async (req, res, next) => {
+router.get("/:id", userOrAdminCheck, async (req, res, next) => {
+  try {
+    const findUser = await User.findByPk(req.params.id);
+    res.send(findUser);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put("/:id", adminCheck, async (req, res, next) => {
   try {
     const editUser = await User.findByPk(req.params.id);
     await editUser.update(req.body);
@@ -33,7 +41,7 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", adminCheck, async (req, res, next) => {
   try {
     const deleteUser = await User.findByPk(req.params.id);
     await deleteUser.destroy();

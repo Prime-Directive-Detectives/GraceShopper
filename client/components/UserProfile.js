@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserThunk } from "../store/singleUser";
+import { getUserThunk } from "../store/users";
 
 export default function UserProfile() {
   const { user, isLoggedIn } = useSelector((state) => {
@@ -9,7 +9,6 @@ export default function UserProfile() {
       isLoggedIn: !!state.auth.id,
     };
   });
-  console.log(user);
   const dispatch = useDispatch();
 
   useEffect(() => {

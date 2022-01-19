@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, Switch } from "react-router-dom";
 import AuthForm from "./components/AuthForm";
 import Home from "./components/Home";
 import { me } from "./store";
 import { useSelector, useDispatch } from "react-redux";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
 import AllProducts from "./components/AllProducts";
 import MaleProducts from "./components/MaleProducts";
 import FemaleProducts from "./components/FemaleProducts";
@@ -20,49 +18,13 @@ import Success from "./components/Success";
 import UserProfile from "./components/UserProfile";
 import GuestCheckout from "./components/GuestCheckout";
 
-const stripePromise = loadStripe(
-  "pk_test_51KJIf9HyurgsZRtgqUqJhFKDiDnNMM3UUWn0dlC6ziB6ohxQGYvWMufl228hr0RM4E9kzMlrJsmTnHJt2NXvZ2gu00HAgwL2qj"
-);
-
 const Routes = () => {
-  const { isLoggedIn, adminStatus, order } = useSelector((state) => {
+  const { isLoggedIn, adminStatus } = useSelector((state) => {
     return {
       isLoggedIn: !!state.auth.id,
       adminStatus: state.auth.adminStatus,
-      order: state.order,
     };
   });
-
-  useEffect(() => {
-    let cartTotal = order.products.reduce((total, product) => {
-      const qty = order.quantity.find(
-        (item) => item.productId === product.id
-      )?.quantity;
-      return (total += product.price * qty);
-    }, 0);
-    setCartTotal(cartTotal);
-  }, [order.quantity]);
-
-  useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    fetch("/create-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: [{ id: order.products.name }] }),
-    })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret));
-  }, []);
-
-  const [cartTotal, setCartTotal] = useState(0);
-  const [clientSecret, setClientSecret] = useState("");
-  const appearance = {
-    theme: "stripe",
-  };
-  const options = {
-    clientSecret,
-    appearance,
-  };
 
   const dispatch = useDispatch();
 
@@ -77,15 +39,10 @@ const Routes = () => {
       <Route exact path="/femaleProducts" component={FemaleProducts} />
       <Route exact path="/accessories" component={Accessories} />
       <Route exact path="/signup" component={AddUser} />
-      {clientSecret && (
-        <Elements options={options} stripe={stripePromise}>
-          <Route
-            exact
-            path="/checkout"
-            render={() => <Checkout cartTotal={cartTotal} />}
-          />
-        </Elements>
+      {!isLoggedIn && (
+        <Route exact path="/guestUser" component={GuestCheckout} />
       )}
+      <Route exact path="/checkout" component={Checkout} />
       <Route exact path="/success" component={Success} />
       <Route path="/allProducts/:id" component={SingleProduct} />
       <Route path="/home" component={Home} />
@@ -101,9 +58,7 @@ const Routes = () => {
         </Switch>
       ) : (
         <Switch>
-          <Route path="/login">
-            <AuthForm formName="login" />
-          </Route>
+          <Route path="/login" component={AuthForm}></Route>
         </Switch>
       )}
     </div>

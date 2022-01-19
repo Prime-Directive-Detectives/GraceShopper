@@ -1,19 +1,15 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addUserThunk } from "../store/singleUser";
+import { useDispatch } from "react-redux";
+import { signup } from "../store/auth";
 import { useHistory } from "react-router-dom";
 
 const AddUser = () => {
-  let history = useHistory();
-
-  const { singleUser } = useSelector((state) => {
-    return { singleUser: state.singleUser };
-  });
-
   const dispatch = useDispatch();
+  let history = useHistory();
 
   const [state, setState] = useState({
     username: "",
+    email: "",
     password: "",
     firstName: "",
     lastName: "",
@@ -28,12 +24,12 @@ const AddUser = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(addUserThunk(state));
-    history.goBack();
+    dispatch(signup(state));
+    history.push("/home");
   };
 
   return (
-    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 pt-20">
+    <div className="flex items-center justify-center py-12 pb-96 px-4 sm:px-6 lg:px-8 pt-20">
       <div className="w-full max-w-md">
         <form
           className="bg-white shadow-lg rounded px-12 pt-6 pb-8 mb-4"
@@ -47,9 +43,10 @@ const AddUser = () => {
             <input
               onChange={handleChange}
               name="username"
-              value={singleUser.username}
+              value={state.username}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
               placeholder="Username"
+              required
             />
           </div>
           <div className="mb-4">
@@ -57,9 +54,10 @@ const AddUser = () => {
             <input
               onChange={handleChange}
               name="email"
-              value={singleUser.email}
+              value={state.email}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
               placeholder="Email Address"
+              required
             />
           </div>
           <div className="mb-4">
@@ -67,9 +65,10 @@ const AddUser = () => {
             <input
               onChange={handleChange}
               name="password"
-              value={singleUser.password}
+              value={state.password}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
               placeholder="Password"
+              required
             />
           </div>
           <div className="mb-4">
@@ -77,9 +76,10 @@ const AddUser = () => {
             <input
               onChange={handleChange}
               name="firstName"
-              value={singleUser.firstName}
+              value={state.firstName}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
               placeholder="First Name"
+              required
             />
           </div>
           <div className="mb-4">
@@ -87,9 +87,10 @@ const AddUser = () => {
             <input
               onChange={handleChange}
               name="lastName"
-              value={singleUser.lastName}
+              value={state.lastName}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
               placeholder="Last Name"
+              required
             />
           </div>
           <div>
