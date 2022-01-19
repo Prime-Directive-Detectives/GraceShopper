@@ -6,7 +6,6 @@ const Order = db.define("order", {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
-    allowNull: false,
   },
   isComplete: {
     type: Sequelize.BOOLEAN,
@@ -14,40 +13,34 @@ const Order = db.define("order", {
   },
   email: {
     type: Sequelize.STRING,
-    allowNull: false,
     validate: {
       isEmail: true,
     },
   },
   address: {
     type: Sequelize.STRING,
-    allowNull: false,
     validate: {
       notEmpty: true,
     },
   },
   city: {
     type: Sequelize.STRING,
-    allowNull: false,
   },
   state: {
     type: Sequelize.STRING,
-    allowNull: false,
     validate: {
       len: [2],
     },
   },
   zip: {
     type: Sequelize.STRING,
-    allowNull: false,
     validate: {
-      len: [2],
+      len: [5],
       isNumeric: true,
     },
   },
   cost: {
     type: Sequelize.INTEGER,
-    allowNull: false,
     defaultValue: 0,
   },
 });

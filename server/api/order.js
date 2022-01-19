@@ -66,6 +66,7 @@ router.get("/:id/products", async (req, res, next) => {
           model: Order,
           where: {
             id: req.params.id,
+            isComplete: false,
           },
           through: {
             attributes: [],
@@ -172,7 +173,7 @@ router.post("/:orderId/:productId", async (req, res, next) => {
   }
 });
 
-router.post("/add", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const body = _.pick(req.body, [
       "email",
@@ -182,12 +183,12 @@ router.post("/add", async (req, res, next) => {
       "zip",
       "cost",
     ]);
-    const data = await Order.create({
+    const newData = await Order.findByPk(req.params.id);
+    await newData.update({
       ...body,
-      userId: req.user.id,
       isComplete: true,
     });
-    res.json(data);
+    res.json(newData);
   } catch (err) {
     next(err);
   }

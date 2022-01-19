@@ -3,7 +3,6 @@ import axios from "axios";
 const TOKEN = "token";
 const GOT_ORDERID_PRODUCTS = "GOT_ORDERID_PRODUCTS";
 const DELETE_ORDER_PRODUCT = "DELETE_ORDER_PRODUCT";
-const DELETE_ORDER_ITEMS = "DELETE_ORDER_ITEMS";
 const UPDATE_ORDER_PRODUCT_QTY = "UPDATE_ORDER_PRODUCT_QTY";
 const ADD_TO_CART = "ADD_TO_CART";
 const ADD_ORDER = "ADD_ORDER";
@@ -12,13 +11,6 @@ const gotOrderIdAndProducts = (data) => ({
   type: GOT_ORDERID_PRODUCTS,
   data,
 });
-
-const _deleteOrderItems = (deleteOrderItems) => {
-  return {
-    type: DELETE_ORDER_ITEMS,
-    deleteOrderItems,
-  };
-};
 
 const _deleteOrderProduct = (data) => ({
   type: DELETE_ORDER_PRODUCT,
@@ -76,27 +68,6 @@ export const fetchOrderIdAndProducts = (userId) => {
         "Error from fetchOrderIdAndProducts thunk(no order for this user)",
         err
       );
-    }
-  };
-};
-
-export const deleteOrderItems = (orderId) => {
-  const token = window.localStorage.getItem(TOKEN);
-  return async (dispatch) => {
-    try {
-      if (token) {
-        const { data } = await axios.delete(
-          `/api/order/${orderId}/orderItems`,
-          {
-            headers: {
-              authorization: token,
-            },
-          }
-        );
-        dispatch(_deleteOrderItems(data));
-      }
-    } catch (err) {
-      console.log("Error from deleteOrderItems thunk", err);
     }
   };
 };
@@ -234,12 +205,12 @@ export const addToCart = (userId, productId) => {
   };
 };
 
-export const addOrderThunk = (order) => {
+export const addOrderThunk = (orderId, order) => {
   const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
     try {
       if (token) {
-        const { data } = await axios.post("/api/order/add", order, {
+        const { data } = await axios.put(`/api/order/${orderId}`, order, {
           headers: {
             authorization: token,
           },
@@ -258,7 +229,6 @@ const initialState = {
   products: [],
   quantity: [],
   order: {},
-  orderItems: [],
 };
 
 export default function orderReducer(state = initialState, action) {
@@ -273,9 +243,6 @@ export default function orderReducer(state = initialState, action) {
     }
     case UPDATE_ORDER_PRODUCT_QTY:
       return { ...state, quantity: action.updatedQty };
-
-    case DELETE_ORDER_ITEMS:
-      return { ...state, orderItems: action.deleteOrderItems };
 
     case ADD_TO_CART: {
       const { orderId, product, products, quantity } = action.data;

@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addOrderThunk,
-  deleteOrderItems,
-  fetchOrderIdAndProducts,
-} from "../store/order";
+import { addOrderThunk, fetchOrderIdAndProducts } from "../store/order";
 import {
   PaymentElement,
   useStripe,
@@ -59,8 +55,7 @@ const Checkout = (props) => {
     if (!stripe || !elements) {
       return;
     }
-    dispatch(addOrderThunk(state));
-    dispatch(deleteOrderItems(order.orderId));
+    dispatch(addOrderThunk(order.orderId, state));
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
