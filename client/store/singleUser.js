@@ -30,10 +30,17 @@ export const addUserThunk = (user) => {
 };
 
 export const getUserThunk = (id) => {
+  const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/users/${id}`);
-      dispatch(getUser(data));
+      if (token) {
+        const { data } = await axios.get(`/api/users/${id}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(getUser(data));
+      }
     } catch (error) {
       console.log("Error at getUserThunk", error);
     }

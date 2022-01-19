@@ -3,8 +3,9 @@ const {
   models: { User },
 } = require("../db");
 module.exports = router;
+const { adminCheck, userOrAdminCheck } = require("./middleware");
 
-router.get("/", async (req, res, next) => {
+router.get("/", adminCheck, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and username fields - even though
@@ -18,7 +19,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", userOrAdminCheck, async (req, res, next) => {
   try {
     const singleUser = await User.findByPk(req.params.id);
     res.json(singleUser);

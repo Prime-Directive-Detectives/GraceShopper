@@ -2,7 +2,7 @@ const router = require("express").Router();
 const {
   models: { User },
 } = require("../db");
-const { adminCheck } = require("./middleware");
+const { adminCheck, userOrAdminCheck } = require("./middleware");
 
 router.use("*", async (req, res, next) => {
   if (req.headers.authorization) {
@@ -13,7 +13,7 @@ router.use("*", async (req, res, next) => {
 });
 
 router.use("/users", require("./users"));
-router.use("/order", require("./order.js"));
+router.use("/order", userOrAdminCheck, require("./order.js"));
 router.use("/allProducts", require("./products"));
 router.use("/admin", adminCheck, require("./admin"));
 

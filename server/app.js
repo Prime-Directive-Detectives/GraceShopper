@@ -4,13 +4,12 @@ const morgan = require("morgan");
 const res = require("express/lib/response");
 const e = require("express");
 const app = express();
+const { resolve } = require("path");
+const env = require("dotenv").config({
+  path: path.resolve(__dirname, "./.env"),
+});
 module.exports = app;
 
-const stripe = require("stripe")(
-  "sk_test_51KJIf9HyurgsZRtgKUjxAzxZ4jX2LDGsscvinoDvRRI85JLogkI5EeoFZizrN0rKEPxlV73vEBxv4IxXRGQUbDNr0033CIMzmQ"
-);
-
-// logging middleware
 app.use(morgan("dev"));
 
 // body parsing middleware
@@ -27,10 +26,46 @@ app.get("/", (req, res) =>
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, "..", "public")));
 
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2020-08-27",
+});
+
+app.use(express.static(process.env.STATIC_DIR));
+app.use(
+  express.json({
+    // We need the raw body to verify webhook signatures.
+    // Let's compute it only when hitting the Stripe webhook endpoint.
+    verify: function (req, res, buf) {
+      if (req.originalUrl.startsWith("/webhook")) {
+        req.rawBody = buf.toString();
+      }
+    },
+  })
+);
+
+app.get("/", (req, res) => {
+  const path = resolve(process.env.STATIC_DIR + "public/index.html");
+  res.sendFile(path);
+});
+
+app.get("/config", (req, res) => {
+  res.send({
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+  });
+});
+
+const calculateOrderAmount = (items) => {
+  // Replace this constant with a calculation of the order's amount
+  // Calculate the order total on the server to prevent
+  // people from directly manipulating the amount on the client
+  return 1400;
+};
+
 app.post("/create-payment-intent", async (req, res) => {
+  const { items } = req.body;
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: 1400,
+      amount: calculateOrderAmount(items),
       currency: "usd",
       automatic_payment_methods: {
         enabled: true,

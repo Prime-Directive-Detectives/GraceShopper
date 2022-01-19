@@ -11,7 +11,6 @@ router.get("/", async (req, res, next) => {
         "id",
         "username",
         "email",
-        "password",
         "firstName",
         "lastName",
         "adminStatus",
