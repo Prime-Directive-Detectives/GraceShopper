@@ -22,7 +22,7 @@ export default function UserProfile() {
       {!user.id ? (
         <div>Loading...</div>
       ) : (
-        <div className="w-full mt-20 h-64 justify-center items-center mb-96">
+        <div className="w-full mt-14 h-64 justify-center items-center mb-96">
           <div className="bg-slate p-3  justify-center ">
             <div
               className="flex items-center  justify-center

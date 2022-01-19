@@ -54,18 +54,6 @@ const Navbar = () => {
                     User List
                   </Link>
                 )}
-                <Link
-                  to="#"
-                  className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
-                >
-                  Wish List
-                </Link>
-                <Link
-                  to="#"
-                  className="py-4 px-2 text-gray-500 font-semibold hover:text-red-500 transition duration-300"
-                >
-                  Coupon
-                </Link>
               </div>
             </div>
           </div>
@@ -148,18 +136,6 @@ const Navbar = () => {
                   className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
                 >
                   Sign Up
-                </Link>
-                <Link
-                  to="#"
-                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
-                >
-                  Wish List
-                </Link>
-                <Link
-                  to="#"
-                  className="py-4 px-2 text-gray-900 font-semibold hover:text-red-500 transition duration-300"
-                >
-                  Coupon
                 </Link>
               </div>
             </div>
