@@ -28,31 +28,19 @@ const Home = () => {
           clickable: true,
         }}
         navigation={true}
-        className="mySwiper text-center rounded-3xl "
+        className="mySwiper text-center  "
       >
         <SwiperSlide>
-          <img
-            src="https://initiate.alphacoders.com/images/203/stretched-1920-1080-203616.jpg?9646"
-            className="w-full"
-          />
+          <img src="1.jpg" className="w-full" />
         </SwiperSlide>
         <SwiperSlide>
-          <img
-            src="https://initiate.alphacoders.com/images/205/stretched-1920-1080-205916.jpg?5421"
-            className="w-full"
-          />
+          <img src="2.jpg" className="w-full" />
         </SwiperSlide>
         <SwiperSlide>
-          <img
-            src="https://initiate.alphacoders.com/images/153/stretched-1920-1080-153508.jpg?5607"
-            className="w-full"
-          />
+          <img src="3.jpg" className="w-full" />
         </SwiperSlide>
         <SwiperSlide>
-          <img
-            src="https://initiate.alphacoders.com/images/632/stretched-1920-1080-632667.jpg?3851"
-            className="w-full"
-          />
+          <img src="4.jpg" className="w-full" />
         </SwiperSlide>
       </Swiper>
       <div className="text-gray-700 uppercase mt-6 text-center text-2xl mb-6">

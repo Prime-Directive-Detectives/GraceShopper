@@ -49,7 +49,9 @@ const FemaleProducts = () => {
         />
       </div>
       {someFemaleProducts.length === 0 ? (
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/54/Ajux_loader.gif" />
+        <div className="fixed top-0 right-0 h-screen w-screen z-50 flex justify-center items-center">
+          <div className="animate-spin rounded-full h-52 w-52 border-t-8 border-b-8 border-indigo-300"></div>
+        </div>
       ) : (
         <div className="mx-auto container grid grid-cols-3 gap-2 ">
           {someFemaleProducts.map((product) => {
