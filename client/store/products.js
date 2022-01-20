@@ -9,8 +9,6 @@ const GET_MALE_PRODUCTS = "GET_MALE_PRODUCTS";
 const GET_FEMALE_PRODUCTS = "GET_FEMALE_PRODUCTS";
 const GET_ACCESSORIES = "GET_ACCESSORIES";
 const ADD_PRODUCT = "ADD_PRODUCT";
-const EDIT_PRODUCT = "EDIT_PRODUCT";
-const DELETE_PRODUCT = "DELETE_PRODUCT";
 /**
  * ACTION TYPES
  */
@@ -30,20 +28,6 @@ const setAccessories = (accessories) => {
 const addProduct = (product) => {
   return {
     type: ADD_PRODUCT,
-    product,
-  };
-};
-
-const editProduct = (product) => {
-  return {
-    type: EDIT_PRODUCT,
-    product,
-  };
-};
-
-const deleteProduct = (product) => {
-  return {
-    type: DELETE_PRODUCT,
     product,
   };
 };
@@ -114,50 +98,6 @@ export const addProductThunk = (product) => {
   };
 };
 
-export const editProductThunk = (id, product) => {
-  const token = window.localStorage.getItem(TOKEN);
-  return async (dispatch) => {
-    try {
-      if (token) {
-        const { data } = await axios.put(
-          `/api/admin/allProducts/${id}`,
-          product,
-          {
-            headers: {
-              authorization: token,
-            },
-          }
-        );
-
-        dispatch(editProduct(data));
-      }
-    } catch (error) {
-      console.log("Error at editProductThunk", error);
-    }
-  };
-};
-
-export const deleteProductThunk = (product) => {
-  const token = window.localStorage.getItem(TOKEN);
-  return async (dispatch) => {
-    try {
-      if (token) {
-        const { data } = await axios.delete(
-          `/api/admin/allProducts/${product}`,
-          {
-            headers: {
-              authorization: token,
-            },
-          }
-        );
-        dispatch(deleteProduct(data));
-      }
-    } catch (error) {
-      console.log("Error at deleteProductThunk", error);
-    }
-  };
-};
-
 const initialState = {
   allProducts: [],
   maleProducts: [],
@@ -177,10 +117,6 @@ export default function (state = initialState, action) {
     case GET_ACCESSORIES:
       return { ...state, accessories: action.accessories };
     case ADD_PRODUCT:
-      return { ...state, product: action.product };
-    case EDIT_PRODUCT:
-      return { ...state, product: action.product };
-    case DELETE_PRODUCT:
       return { ...state, product: action.product };
     default:
       return state;

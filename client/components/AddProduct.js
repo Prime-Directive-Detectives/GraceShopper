@@ -1,23 +1,19 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addProductThunk } from "../store/products";
 import { useHistory } from "react-router-dom";
 
 const AddProduct = () => {
   let history = useHistory();
 
-  const { allProducts } = useSelector((state) => {
-    return { allProducts: state.products.allProducts };
-  });
-
   const dispatch = useDispatch();
 
   const [state, setState] = useState({
     name: "",
-    price: 0,
+    price: "",
     type: "",
     gender: "",
-    image: "",
+    imageUrl: undefined,
     description: "",
   });
 
@@ -31,7 +27,7 @@ const AddProduct = () => {
     e.preventDefault();
 
     dispatch(addProductThunk(state));
-    history.goBack();
+    history.go(-1);
   };
 
   return (
@@ -49,7 +45,7 @@ const AddProduct = () => {
             <input
               onChange={handleChange}
               name="name"
-              value={allProducts.name}
+              value={state.name}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Name"
               required
@@ -60,7 +56,7 @@ const AddProduct = () => {
             <input
               onChange={handleChange}
               name="price"
-              value={allProducts.price}
+              value={state.price}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Price"
               required
@@ -71,7 +67,7 @@ const AddProduct = () => {
             <input
               onChange={handleChange}
               name="type"
-              value={allProducts.type}
+              value={state.type}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Type"
               required
@@ -82,7 +78,7 @@ const AddProduct = () => {
             <input
               onChange={handleChange}
               name="gender"
-              value={allProducts.gender}
+              value={state.gender}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Gender"
               required
@@ -92,11 +88,10 @@ const AddProduct = () => {
             <label htmlFor="image"></label>
             <input
               onChange={handleChange}
-              name="image"
-              value={allProducts.image}
+              name="imageUrl"
+              value={state.imageUrl}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Image"
-              required
             />
           </div>
           <div className="mb-4">
@@ -104,7 +99,7 @@ const AddProduct = () => {
             <input
               onChange={handleChange}
               name="description"
-              value={allProducts.description}
+              value={state.description}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Description"
               required

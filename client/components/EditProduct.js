@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editProductThunk } from "../store/products";
+import { editProductThunk } from "../store/singleProduct";
 import { useHistory } from "react-router-dom";
 
 const EditProduct = () => {
