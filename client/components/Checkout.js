@@ -42,7 +42,7 @@ const Checkout = () => {
         !order.isComplete &&
         dispatch(fetchOrderIdAndProducts(user.id));
     }
-  }, [user.id, isLoggedIn]);
+  }, [guest, user.id, isLoggedIn]);
 
   useEffect(() => {
     const cartTotal = order.products.reduce((total, product) => {
@@ -74,6 +74,8 @@ const Checkout = () => {
       return;
     }
 
+    dispatch(addOrderThunk(order.orderId, state));
+
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -86,8 +88,6 @@ const Checkout = () => {
     } else {
       setMessage("An unexpected error occured.");
     }
-
-    dispatch(addOrderThunk(order.orderId, state));
 
     setIsLoading(false);
   };

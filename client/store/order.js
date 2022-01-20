@@ -42,24 +42,29 @@ export const fetchOrderIdAndProducts = (userId) => {
         let { data: order } = await axios.get(`/api/order/user/${userId}`, {
           headers: { authorization: token },
         });
-        let { data: products } = await axios.get(
-          `/api/order/${order.id}/products`,
-          {
-            headers: {
-              authorization: token,
-            },
-          }
-        );
-        let { data: quantity } = await axios.get(
-          `/api/order/${order.id}/productIds`,
-          {
-            headers: {
-              authorization: token,
-            },
-          }
-        );
-        const data = { orderId: order.id, products, quantity };
-        dispatch(gotOrderIdAndProducts(data));
+        if (!order) {
+          const data = { orderId: null, products: [], quantity: [] };
+          dispatch(gotOrderIdAndProducts(data));
+        } else {
+          let { data: products } = await axios.get(
+            `/api/order/${order.id}/products`,
+            {
+              headers: {
+                authorization: token,
+              },
+            }
+          );
+          let { data: quantity } = await axios.get(
+            `/api/order/${order.id}/productIds`,
+            {
+              headers: {
+                authorization: token,
+              },
+            }
+          );
+          const data = { orderId: order.id, products, quantity };
+          dispatch(gotOrderIdAndProducts(data));
+        }
       }
     } catch (err) {
       console.log(
