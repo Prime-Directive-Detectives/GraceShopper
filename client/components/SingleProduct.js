@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getSingleProduct } from "../store/singleProduct";
+import { getSingleProduct, deleteProductThunk } from "../store/singleProduct";
 import { useHistory, useParams, Link } from "react-router-dom";
-import { getAllProducts, deleteProductThunk } from "../store/products";
+import { getAllProducts } from "../store/products";
 import { addToCart } from "../store/order";
 import { useGlobalContext } from "../context";
 

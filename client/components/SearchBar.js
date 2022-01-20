@@ -58,7 +58,7 @@ function SearchBar({ placeholder }) {
                   }}
                   key={value.id}
                   href={`/allProducts/${value.id}`}
-                  className=" text-red-100 hover:text-red-400 visited:text-red-600"
+                  className=" text-red-400 hover:text-red-600 visited:text-red-800"
                 >
                   <p>
                     {value.name} ${(value.price / 100).toFixed(2)}
