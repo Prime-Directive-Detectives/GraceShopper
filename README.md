@@ -1,5 +1,13 @@
-# brainstorm
+# CLOTHES R US
 
-name: clothing r us
+List of technologies:
 
-reference : nike, h&m, zara, lululemon
+Tailwind.css
+Swiper.js
+Stripe
+React confetti
+
+Website link:
+
+https://clothes-r-us.herokuapp.com/
+

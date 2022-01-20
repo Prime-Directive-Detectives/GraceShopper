@@ -16,12 +16,11 @@ export default function UserProfile() {
   }, []);
 
   return (
-    <div>
-      {" "}
+    <div className="pb-96">
       {!user.id ? (
         <div>Loading...</div>
       ) : (
-        <div className="w-full mt-14 h-64 justify-center items-center mb-96">
+        <div className="w-full mt-14 h-64 justify-center items-center ">
           <div className="bg-slate p-3  justify-center ">
             <div
               className="flex items-center  justify-center
@@ -51,8 +50,8 @@ export default function UserProfile() {
               <div>Member since: {user.createdAt.slice(0, 10)}</div>
             </div>
             <hr />
-            <div className="text-gray-700 justify-items-center mb-80">
-              <div className="grid lg:grid-cols-2 text-lg w-full">
+            <div className="text-gray-700 justify-items-center pb-48">
+              <div className="grid lg:grid-cols-2 text-lg w-full pb-48">
                 <div className="grid grid-cols-2">
                   <div className="px-4 py-2 font-semibold">First Name</div>
                   <div className="px-4 py-2">
@@ -77,7 +76,7 @@ export default function UserProfile() {
                 </div>
                 <div className="grid grid-cols-2">
                   <div className="px-4 py-2 font-semibold">
-                    Permanant Address
+                    Permanent Address
                   </div>
                   <div className="px-4 py-2">N/A</div>
                 </div>

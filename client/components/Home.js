@@ -16,7 +16,7 @@ const Home = () => {
   let popularProducts = shuffleAllProducts.slice(0, 3);
 
   return (
-    <div className="mr-56 ml-56 mt-6 z-0">
+    <div className="mr-56 ml-56 mt-10 z-0 rounded-b">
       <Swiper
         spaceBetween={30}
         centeredSlides={true}
@@ -28,7 +28,7 @@ const Home = () => {
           clickable: true,
         }}
         navigation={true}
-        className="mySwiper text-center  "
+        className="mySwiper text-center w-5/6 "
       >
         <SwiperSlide>
           <img src="1.jpg" className="w-full" />
@@ -48,7 +48,7 @@ const Home = () => {
       </div>
       {popularProducts.length === 0 ? (
         <div className="fixed top-0 right-0 h-screen w-screen z-50 flex justify-center items-center">
-          <div className="animate-spin rounded-full h-52 w-52 border-t-8 border-b-8 border-indigo-300"></div>
+          <div className="animate-spin rounded-full h-28 w-28 border-t-8 border-b-8 border-indigo-300"></div>
         </div>
       ) : (
         <div className="mx-auto container grid grid-cols-3 gap-2 mt-2 object-fill">
@@ -66,7 +66,7 @@ const Home = () => {
                   />
                   <div className="flex place-self-end justify-between mt-2  mb-2">
                     <div className="text-gray-700 uppercase ">
-                      {product.name}
+                      {product.name.split(" ").slice(0, 3).join(" ")}
                     </div>
 
                     <div className="text-right content-center text-gray-700 uppercase ">
